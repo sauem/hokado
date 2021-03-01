@@ -31,9 +31,6 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
         'as access' => [
             'class' => 'mdm\admin\components\AccessControl',
             'allowActions' => [

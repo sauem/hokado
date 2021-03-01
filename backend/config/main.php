@@ -35,21 +35,21 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
+        'errorHandler' => [
+            'errorAction' => 'site/error',
+        ],
 
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            //'site/*',
+            'site/*',
             'rbac/*',
         ]
     ],
