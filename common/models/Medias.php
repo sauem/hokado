@@ -13,8 +13,12 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class Medias extends \yii\db\ActiveRecord
+class Medias extends BaseModel
 {
+    public const STT_TEMP = 0;
+    public const STT_ACTIVE = 1;
+
+
     /**
      * {@inheritdoc}
      */
@@ -30,8 +34,8 @@ class Medias extends \yii\db\ActiveRecord
     {
         return [
             [['path'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
-            [['type'], 'string', 'max' => 50],
+            [['created_at', 'updated_at','type'], 'integer'],
+            #[['type'], 'string', 'max' => 50],
         ];
     }
 
@@ -47,5 +51,11 @@ class Medias extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getData($uploadForm)
+    {
+        $this->path = $uploadForm->url;
+        $this->type = $uploadForm->fileType;
     }
 }

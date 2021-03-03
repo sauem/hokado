@@ -9,7 +9,8 @@ return [
     'modules' => [
         'rbac' => [
             'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu'
+            'layout' => 'left-menu',
+            'mainLayout' => '@backend/views/layouts/main.blade'
         ],
         'settings' => [
             'class' => 'yii2mod\settings\Module',

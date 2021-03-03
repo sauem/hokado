@@ -387,7 +387,7 @@ var clickEventExcuted = false;
     var $themeStylesheet = document.createElement('link');
     $themeStylesheet.rel = 'stylesheet';
     $themeStylesheet.href = '';
-    $('head').append($themeStylesheet);
+    //$('head').append($themeStylesheet);
 
     $('#theme-style-chooser').find('[data-style=' + $currentThemeStyle + ']').addClass('active');
     $('#layout-chooser').find('[data-layout=' + $currentLayout + ']').parent().addClass('active');

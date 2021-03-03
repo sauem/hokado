@@ -1,10 +1,11 @@
 <?php
 
 
-namespace api\controllers;
+namespace backend\modules\controllers;
 
 
 use mdm\admin\components\AccessControl;
+use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\Cors;
 use yii\rest\ActiveController;
@@ -28,7 +29,7 @@ class BaseActiveController extends ActiveController
         ];
 
 //        $behaviors['authenticator'] = [
-//            'class' => HttpBearerAuth::class
+//            'class' => CompositeAuth::className()
 //        ];
 //        $behaviors['authenticator']['except'] = $this->unRequiredAuthAction();
         $behaviors['access'] = [

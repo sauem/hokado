@@ -1,6 +1,6 @@
 <?php
 
-/* @var $this \yii\web\View */
+/* @var $view \yii\web\View */
 
 /* @var $content string */
 
@@ -11,21 +11,22 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
-AppAsset::register($this);
+AppAsset::register($view);
 ?>
-<?php $this->beginPage() ?>
-<!DOCTYPE html>
+<?php $view->beginPage() ?>
+        <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php $view->registerCsrfMetaTags() ?>
+    <title><?= Html::encode($view->title) ?></title>
+    <?php $view->head() ?>
+    @yield('js_head')
 </head>
 <body class="dt-sidebar--fixed dt-header--fixed">
-<?php $this->beginBody() ?>
+<?php $view->beginBody() ?>
 <div class="dt-loader-container">
     <div class="dt-loader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -35,19 +36,20 @@ AppAsset::register($this);
 </div>
 
 <div class="dt-root">
-    <?= $this->render('../inc/header') ?>
+<?= $view->render('../inc/header.blade') ?>
 
-    <!-- Site Main -->
+<!-- Site Main -->
     <main class="dt-main">
         <!-- Sidebar -->
         <!-- /sidebar -->
-        <?= $this->render('../inc/sidebar') ?>
-        <!-- Site Content Wrapper -->
+    <?= $view->render('../inc/sidebar.blade') ?>
+    <!-- Site Content Wrapper -->
         <div class="dt-content-wrapper">
 
             <!-- Site Content -->
             <div class="dt-content" id="root">
-                <?= $content ?>
+                @yield('content')
+                <?= isset($content) ? $content : ''?>
             </div>
             <!-- /site content -->
             <!-- Footer -->
@@ -63,7 +65,14 @@ AppAsset::register($this);
     <!-- /site main -->
 </div>
 
-<?php $this->endBody() ?>
+<?php $view->endBody() ?>
 </body>
+
+@yield('js_pos')
+<script type="text/babel">
+    if (typeof App !== "undefined") {
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    }
+</script>
 </html>
-<?php $this->endPage() ?>
+<?php $view->endPage() ?>

@@ -15,7 +15,7 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class Archives extends \yii\db\ActiveRecord
+class Archives extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -35,6 +35,7 @@ class Archives extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['name', 'slug'], 'string', 'max' => 255],
             [['slug'], 'unique'],
+            [['name', 'slug'], 'required'],
         ];
     }
 
@@ -54,12 +55,9 @@ class Archives extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     * @return ArchivesSearch the active query used by this AR class.
-     */
-    public static function find()
+    public function getMedia()
     {
-        return new ArchivesSearch(get_called_class());
+
     }
+
 }

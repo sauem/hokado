@@ -1,13 +1,184 @@
 <?php
-$this->title = 'Danh mục sản phẩm';
+$view->title = 'Danh mục sản phẩm';
 ?>
-<div class="card">
-    <div class="card-header">
-        <div class="action-tools">
-            <button class="btn btn-sm btn-primary"><i class="icon icon-add"></i> Thêm danh mục</button>
-            <button class="btn btn-sm btn-secondary"><i class="icon icon-files"></i> Nhập file</button>
-        </div>
-        <h4 class="card-title">Danh mục sản phẩm</h4>
-    </div>
-    <div class="card-body"></div>
-</div>
+@section('js_pos')
+    <script type="text/babel">
+        const {useState, useEffect, useRef, useForceUpdate} = React;
+        const {
+            Modal, Skeleton, Input, Divider, Spin, Row,
+            Upload,
+            Select, Col, Card, Form, Popconfirm, Table, Button
+        } = antd;
+
+        const App = () => {
+            const initialState = {
+                modalTitle: '',
+                modalVisible: false,
+                categories: [],
+                loading: false
+            }
+            const [state, setState] = useState(initialState);
+            const inputFileRef = useRef();
+            const [form] = Form.useForm();
+            const onSubmit = async (data) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true
+                    }
+                });
+                if (typeof data.id !== "undefined") {
+                    await Archives.update(data);
+                } else {
+                    await Archives.create(data);
+                }
+                await updateState({loading: false});
+                form.resetFields();
+            }
+            const onUpdate = async (archive) => {
+                form.setFieldsValue(archive);
+            }
+            const onUpload = e => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    onUploadMedia(file);
+                }
+            }
+            const onClickSelectImage = () => {
+                inputFileRef.current.click();
+            };
+            const handleSlug = evt => {
+                form.setFieldsValue({
+                    slug: toSlug(evt.target.value)
+                })
+            }
+
+            const updateState = async (obj = {}) => {
+                const res = await Archives.fetch(null);
+                setState({
+                    ...state,
+                    ...Object.assign({
+                        categories: res
+                    }, obj)
+                });
+            }
+            const onDelete = async (id) => {
+                Archives.delete(id).then(() => updateState());
+            }
+            useEffect(async () => {
+                await updateState();
+            }, []);
+            return (
+                <Row gutter={[8, 0]}>
+                    <Col md={8}>
+                        <Card title="Thêm danh mục">
+                            <Form layout={`vertical`} onFinish={onSubmit} form={form} id={'categoryForm'}>
+                                <Form.Item
+                                    name={'id'}
+                                    hidden
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'name'}
+                                    label={`Tên danh mục`}
+                                    onChange={handleSlug}
+                                    rules={[{required: true, message: 'Danh mục bắt buộc!'}]}
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'slug'}
+                                    label={`Slug`}
+                                    defaultValue={`HELLLO`}
+                                    rules={[{required: true, message: 'Slug bắt buộc!'}]}
+                                >
+                                    <Input disabled/>
+                                </Form.Item>
+                                <Form.Item
+                                    initialValue={1}
+                                    name={'active'}
+                                    label={`Trạng thái`}
+                                >
+                                    <Select>
+                                        <Select.Option value={1}>Kích hoạt</Select.Option>
+                                        <Select.Option value={0}>Ẩn</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'description'}
+                                    label={`Ghi chú`}
+                                >
+                                    <Input.TextArea/>
+                                </Form.Item>
+                                <Form.Item>
+                                    <div className="upload-area">
+                                        <Button
+                                            type={'dashed'}
+                                            onClick={onClickSelectImage}
+                                        >
+                                            Chọn ảnh
+                                        </Button>
+                                        <input
+                                            ref={inputFileRef}
+                                            accept="image/x-png,image/jpeg"
+                                            className="gx-d-none"
+                                            type="file"
+                                            name="file"
+                                            onChange={onUpload}
+                                        />
+                                    </div>
+                                </Form.Item>
+                                <Divider/>
+                                <div className="text-right">
+                                    <small className="text-danger mr-2">* thông tin bắt buộc</small>
+                                    <Button htmlType={`submit`}>Lưu</Button>
+                                </div>
+                            </Form>
+                        </Card>
+                    </Col>
+                    <Col md={16}>
+                        <Card title={`Danh mục sản phẩm`}>
+                            <Spin tip="Loading..." spinning={state.loading}>
+                                <Table
+                                    dataSource={state.categories}
+                                    columns={[
+                                        {title: 'Tên danh mục', dataIndex: 'name', key: 'name'},
+                                        {
+                                            title: 'Trạng thái',
+                                            dataIndex: 'active', key: 'active',
+                                            render: status => <span
+                                                className={`badge badge-pill badge-${status == 1 ? 'success' : 'secondary'}`}>
+                                                {status == 1 ? 'Kích hoạt' : 'Ản'} </span>
+                                        },
+                                        {title: 'Số lượng sản phẩm', dataIndex: 'description', key: 'description'},
+                                        {
+                                            title: '', dataIndex: 'action', key: 'action', render: (text, raw) => {
+                                                return (
+                                                    <div>
+                                                        <Button onClick={() => onUpdate(raw)} type="primary"
+                                                                className={`mr-1`} size={`small`}><i
+                                                            className="icon icon-edit"/></Button>
+                                                        <Popconfirm
+                                                            title="Xóa danh mục hiện tại"
+                                                            onConfirm={() => onDelete(raw.id)}
+                                                            okText="Xóa"
+                                                            cancelText="Hủy"
+                                                        >
+                                                            <Button type="dashed" danger size={`small`}><i
+                                                                className="icon icon-trash"/></Button>
+                                                        </Popconfirm>
+                                                    </div>
+                                                )
+                                            }
+                                        },
+                                    ]}
+                                />
+                            </Spin>
+                        </Card>
+                    </Col>
+                </Row>
+            )
+        }
+    </script>
+@stop

@@ -4,7 +4,7 @@
 namespace backend\controllers;
 
 
-class ProductsController extends BaseController
+class ProductController extends BaseController
 {
 
 }

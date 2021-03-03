@@ -4,7 +4,7 @@
 namespace backend\controllers;
 
 
-class AjaxController
+class AjaxController extends BaseController
 {
 
 }

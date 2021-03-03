@@ -1,12 +1,12 @@
 <?php
 
-namespace api\controllers\api;
+namespace backend\modules\controllers;
 
-use api\controllers\BaseActiveController;
+use backend\modules\controllers\BaseActiveController;
 use common\models\Archives;
 use yii\rest\ActiveController;
 
-class ArchiveController extends ActiveController
+class ArchiveController extends BaseActiveController
 {
     public $modelClass = Archives::class;
 }

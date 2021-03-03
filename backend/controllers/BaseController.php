@@ -4,9 +4,11 @@
 namespace backend\controllers;
 
 
+use cyneek\yii2\blade\BladeBehavior;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\Response;
 
 class BaseController extends Controller
 {
@@ -16,6 +18,9 @@ class BaseController extends Controller
     public function behaviors()
     {
         return [
+            'blade' => [
+                'class' => BladeBehavior::class
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -57,11 +62,20 @@ class BaseController extends Controller
         $exception = \Yii::$app->errorHandler->exception;
         if ($exception !== null) {
             return $this->render(
-                '@backend/views/site/error.php',
+                '@backend/views/site/error.blade',
                 [
                     'message' => $exception->getMessage()
                 ]
             );
         }
+    }
+
+    public function responseAjax($params = [], $view = '')
+    {
+        if (\Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return $params;
+        }
+        return $this->render($view, $params);
     }
 }

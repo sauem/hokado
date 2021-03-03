@@ -9,13 +9,33 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+        ],
+        'api' => [
+            'class' => 'backend\modules\Api',
+        ],
+    ],
+    'layout' => 'main.blade',
     'components' => [
+        'view' => [
+            'class' => 'yii\web\View',
+            'renderers' => [
+                'blade' => [
+                    'class' => '\cyneek\yii2\blade\ViewRenderer',
+                    'cachePath' => '@runtime/blade_cache',
+                ],
+            ],
+        ],
         'request' => [
             'enableCookieValidation' => true,
             'enableCsrfValidation' => true,
             'cookieValidationKey' => '88i-pzkud4b8eSW8jCa8bkx1C3WablQ8',
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -49,7 +69,7 @@ return [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/*',
+            '*',
             'rbac/*',
         ]
     ],
