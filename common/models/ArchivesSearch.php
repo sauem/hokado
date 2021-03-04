@@ -38,7 +38,7 @@ class ArchivesSearch extends Archives
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $filter = null)
     {
         $query = Archives::find();
 
@@ -48,14 +48,16 @@ class ArchivesSearch extends Archives
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $this->load($params, '');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        if (!empty($filter)) {
+            $query->andWhere($filter);
+        }
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

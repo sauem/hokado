@@ -6,27 +6,26 @@ $view->title = 'Danh mục sản phẩm';
         const {useState, useEffect, useRef, useForceUpdate} = React;
         const {
             Modal, Skeleton, Input, Divider, Spin, Row,
-            Upload,
+            Upload, Progress,
             Select, Col, Card, Form, Popconfirm, Table, Button
         } = antd;
+
 
         const App = () => {
             const initialState = {
                 modalTitle: '',
                 modalVisible: false,
                 categories: [],
-                loading: false
+                pagination: {},
+                uploading: false,
+                loading: false,
+                searchValue: ''
             }
             const [state, setState] = useState(initialState);
-            const inputFileRef = useRef();
+            const [defaultFileList, setDefaultFileList] = useState([]);
+            const [progress, setProgress] = useState(0);
             const [form] = Form.useForm();
             const onSubmit = async (data) => {
-                setState({
-                    ...state,
-                    ...{
-                        loading: true
-                    }
-                });
                 if (typeof data.id !== "undefined") {
                     await Archives.update(data);
                 } else {
@@ -37,48 +36,92 @@ $view->title = 'Danh mục sản phẩm';
             }
             const onUpdate = async (archive) => {
                 form.setFieldsValue(archive);
+
+                archive.avatar ? setDefaultFileList([{
+                    uid: '-1',
+                    name: archive.name,
+                    status: 'done',
+                    url: archive.avatar
+                }]) : setDefaultFileList([]);
+
             }
-            const onUpload = e => {
-                if (e.target.files.length > 0) {
-                    const file = e.target.files[0];
-                    onUploadMedia(file);
-                }
+            const onUpload = options => {
+                const {onSuccess, onError, file, onProgress} = options;
+                setState({
+                    ...state,
+                    ...{
+                        uploading: true
+                    }
+                });
+                onUploadMedia(file, data => {
+                    form.setFieldsValue({
+                        media_id: data.id
+                    })
+                    onSuccess();
+                }, onError, (event) => {
+                    const percent = Math.floor((event.loaded / event.total) * 100);
+                    setProgress(percent);
+                    if (percent === 100) {
+                        setTimeout(() => setProgress(0), 1000);
+                    }
+                    onProgress({percent: (event.loaded / event.total) * 100});
+                });
             }
-            const onClickSelectImage = () => {
-                inputFileRef.current.click();
+            const handleOnChange = ({file, fileList, event}) => {
+                setDefaultFileList(fileList);
             };
             const handleSlug = evt => {
                 form.setFieldsValue({
                     slug: toSlug(evt.target.value)
                 })
             }
-
-            const updateState = async (obj = {}) => {
-                const res = await Archives.fetch(null);
+            const changePage = async ({current}) => {
+                await updateState({}, current);
+            }
+            const updateState = async (obj = {}, page = 1) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true
+                    }
+                });
+                const {pagination, data} = await Archives.fetch(Object.assign({page}, obj));
                 setState({
                     ...state,
                     ...Object.assign({
-                        categories: res
+                        categories: data,
+                        pagination: pagination,
+                        loading: false
                     }, obj)
                 });
             }
             const onDelete = async (id) => {
                 Archives.delete(id).then(() => updateState());
             }
+            const setSearchValue = e => {
+                setState({
+                    ...state,
+                    ...{
+                        searchValue: e.target.value
+                    }
+                })
+            }
+            const searchArchive = async () => {
+                await updateState({
+                    name: state.searchValue
+                });
+            }
             useEffect(async () => {
                 await updateState();
             }, []);
+
             return (
                 <Row gutter={[8, 0]}>
                     <Col md={8}>
                         <Card title="Thêm danh mục">
                             <Form layout={`vertical`} onFinish={onSubmit} form={form} id={'categoryForm'}>
-                                <Form.Item
-                                    name={'id'}
-                                    hidden
-                                >
-                                    <Input/>
-                                </Form.Item>
+                                <Form.Item name={'id'} hidden><Input/></Form.Item>
+                                <Form.Item name={'media_id'} hidden><Input/></Form.Item>
                                 <Form.Item
                                     name={'name'}
                                     label={`Tên danh mục`}
@@ -112,22 +155,18 @@ $view->title = 'Danh mục sản phẩm';
                                     <Input.TextArea/>
                                 </Form.Item>
                                 <Form.Item>
-                                    <div className="upload-area">
-                                        <Button
-                                            type={'dashed'}
-                                            onClick={onClickSelectImage}
-                                        >
-                                            Chọn ảnh
-                                        </Button>
-                                        <input
-                                            ref={inputFileRef}
-                                            accept="image/x-png,image/jpeg"
-                                            className="gx-d-none"
-                                            type="file"
-                                            name="file"
-                                            onChange={onUpload}
-                                        />
-                                    </div>
+
+                                    <Upload
+                                        accept="image/*"
+                                        customRequest={onUpload}
+                                        onChange={handleOnChange}
+                                        listType="picture-card"
+                                        fileList={defaultFileList}
+                                        className="avatar-uploader single"
+                                    >
+                                        {defaultFileList.length >= 1 ? null : <div>Chọn ảnh</div>}
+                                    </Upload>
+                                    {progress > 0 ? <Progress percent={progress}/> : null}
                                 </Form.Item>
                                 <Divider/>
                                 <div className="text-right">
@@ -138,17 +177,28 @@ $view->title = 'Danh mục sản phẩm';
                         </Card>
                     </Col>
                     <Col md={16}>
-                        <Card title={`Danh mục sản phẩm`}>
+                        <Card title={`Danh mục sản phẩm`}
+                              extra={
+                                  <div className="d-flex">
+                                      <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
+                                      <Button onClick={searchArchive} className="ml-2"><i
+                                          className="icon-search"/></Button>
+                                  </div>
+                              }
+                        >
                             <Spin tip="Loading..." spinning={state.loading}>
                                 <Table
+                                    size={`small`}
                                     dataSource={state.categories}
+                                    pagination={state.pagination}
+                                    onChange={changePage}
                                     columns={[
                                         {title: 'Tên danh mục', dataIndex: 'name', key: 'name'},
                                         {
                                             title: 'Trạng thái',
                                             dataIndex: 'active', key: 'active',
                                             render: status => <span
-                                                className={`badge badge-pill badge-${status == 1 ? 'success' : 'secondary'}`}>
+                                                className={`badge badge-pill badge-sm badge-${status == 1 ? 'success' : 'secondary'}`}>
                                                 {status == 1 ? 'Kích hoạt' : 'Ản'} </span>
                                         },
                                         {title: 'Số lượng sản phẩm', dataIndex: 'description', key: 'description'},

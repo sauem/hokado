@@ -21,26 +21,6 @@ class ArchiveController extends BaseController
         return $this->render('index.blade');
     }
 
-    public function actionCreate()
-    {
-
-    }
-
-    /**
-     * @param $id
-     * @return bool|Archives|false|int
-     * @throws NotFoundHttpException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public function actionDelete($id)
-    {
-        if ($model = $this->findModel($id)) {
-            return $model->delete();
-        }
-        return $model;
-    }
-
     /**
      * @param $id
      * @return Archives

@@ -17,9 +17,11 @@ class UploadForm extends Model
     public $fileType;
     public $url;
     public $alt;
-    const TYPE_IMAGE = 0;
-    const TYPE_VIDEO = 1;
-    const TYPE_IMAGE_BASE64 = 2;
+    public $type;
+
+    const TYPE_IMAGE = 'image';
+    const TYPE_VIDEO = 'video';
+    const TYPE_IMAGE_BASE64 = 'base64';
     const FILE_TYPES = [
         self::TYPE_IMAGE => "Image",
         self::TYPE_VIDEO => "Video",
@@ -30,9 +32,8 @@ class UploadForm extends Model
     {
         return [
             [['fileType'], 'required'],
-            [['fileType'], 'number'],
-            [['url', 'alt'], 'string'],
-            ['fileType', 'validateFileType'],
+            [['url', 'alt','type','fileType'], 'safe'],
+           # ['fileType', 'validateFileType'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpeg, jpg, mp4'],
         ];
     }
@@ -77,7 +78,7 @@ class UploadForm extends Model
         $media = new Medias();
         $media->getData($this);
         if (!$media->save()) {
-            throw new BadRequestHttpException('Invalid save: ' .HelperFunction::firstError($media));
+            throw new BadRequestHttpException('Invalid save: ' . HelperFunction::firstError($media));
         }
 
         return $media;

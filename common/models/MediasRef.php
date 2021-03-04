@@ -14,7 +14,7 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class MediasRef extends \yii\db\ActiveRecord
+class MediasRef extends BaseModel
 {
     /**
      * {@inheritdoc}

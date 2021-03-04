@@ -4,6 +4,7 @@
 namespace backend\modules\controllers;
 
 
+use common\models\ArchivesSearch;
 use mdm\admin\components\AccessControl;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -43,16 +44,7 @@ class BaseActiveController extends ActiveController
         return $behaviors;
     }
 
-    public function actions()
-    {
-        $actions = parent::actions();
-        $actions['index']['dataFilter'] = [
-            'class' => \yii\data\ActiveDataFilter::class,
-            'searchModel' => $this->modelClass,
-        ];
 
-        return $actions;
-    }
 
     /**
      * @throws BadRequestHttpException

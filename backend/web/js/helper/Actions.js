@@ -28,27 +28,43 @@ const Archives = {
     },
     fetch: async (params) => {
         try {
-            const {data} = await Server.get(ROUTE.ARCHIVE.INDEX, {params: params}).catch(axiosCatch);
-            return data;
+            const res = await Server.get(ROUTE.ARCHIVE.INDEX, {
+                params: {
+                    ...params,
+                    sort: '-created_at',
+                    expand: 'avatar',
+                    "per-page": 6
+                }
+            }).catch(axiosCatch);
+            const {data, headers} = res;
+            const current = headers['x-pagination-current-page'],
+                totalPage = headers['x-pagination-page-count'],
+                pageSize = headers['x-pagination-per-page'],
+                total = headers['x-pagination-total-count'],
+                pagination = {
+                    total, current, pageSize, totalPage
+                };
+            return {data, pagination};
         } catch (e) {
             message.error(e.message);
         }
     }
 }
 
-const onUploadMedia = (file, successCallback, errorCallBack) => {
+const onUploadMedia = (file, successCallback, errorCallBack, onUploadProgress) => {
     let formData = new FormData();
     formData.append('imageFile', file);
-    formData.append('fileType', 1);
+    formData.append('fileType', FILE_TYPE_IMAGE);
+    formData.append('type', MEDIA_TYPE_ARCHIVE);
     axios.create({
         baseURL: BASE_URL,
         headers: {
             'Content-Type': 'multipart/form-data',
-        }
+        },
+        onUploadProgress: event => onUploadProgress(event)
     }).post(ROUTE.UPLOAD, formData)
         .then((res) => {
             if (successCallback) {
-                console.log(res);
                 successCallback(res.data);
             }
         })

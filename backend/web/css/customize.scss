@@ -2,9 +2,14 @@
   top: 38% !important;
   left: 32% !important;
 }
-
-.upload-area {
-  input[type='file'] {
-    display: none;
+.badge-sm{
+  font-size: 10px;
+  padding: 4px 6px;
+}
+.ant-upload-picture-card-wrapper {
+  &.single {
+    .ant-upload{
+      width: 100%;
+    }
   }
 }
