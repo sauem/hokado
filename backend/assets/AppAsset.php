@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
         '/js/lib/flag-icon-css/css/flag-icon.min.css',
         '/js/lib/gaxon-icon/style.css',
         '/js/lib/perfect-scrollbar/css/perfect-scrollbar.css',
+        '/js/lib/summernote/dist/summernote-bs4.css',
         '/css/lite-style-1.min.css',
         '/css/customize.css?v=1.2',
     ];
@@ -24,6 +25,7 @@ class AppAsset extends AssetBundle
         '/js/lib/dom.js',
         '/js/lib/babel.js',
         'https://cdnjs.cloudflare.com/ajax/libs/antd/4.13.0/antd.min.js',
+        #'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
         '/js/lib/axios.js',
         '/js/helper/Constant.js',
         '/js/helper/Helper.js',
@@ -31,6 +33,7 @@ class AppAsset extends AssetBundle
         '/js/lib/redux.js',
         '/js/lib/moment-with-locales.js',
         '/js/lib/moment/moment.js',
+        '/js/lib/summernote/dist/summernote-bs4.js',
         '/js/lib/bootstrap/dist/js/bootstrap.bundle.min.js',
         '/js/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js',
         '/js/lib/masonry-layout/dist/masonry.pkgd.min.js',

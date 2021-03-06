@@ -2,11 +2,30 @@
   top: 38% !important;
   left: 32% !important; }
 
+.dt-header--fixed .dt-header {
+  z-index: 1000; }
+
 .badge-sm {
   font-size: 10px;
   padding: 4px 6px; }
 
 .ant-upload-picture-card-wrapper.single .ant-upload {
   width: 100%; }
+
+.select-file {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.ant-tabs-nav {
+  margin: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important; }
+
+form label {
+  font-weight: normal; }
 
 /*# sourceMappingURL=customize.css.map */

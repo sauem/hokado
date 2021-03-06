@@ -18,7 +18,7 @@ class ArchivesSearch extends Archives
     {
         return [
             [['id', 'active', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'slug', 'description'], 'safe'],
+            [['name', 'slug', 'description', 'type', 'language'], 'safe'],
         ];
     }
 
@@ -68,6 +68,8 @@ class ArchivesSearch extends Archives
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['=', 'type', $this->type])
+            ->andFilterWhere(['=', 'language', $this->language])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

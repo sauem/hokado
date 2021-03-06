@@ -24,6 +24,7 @@ AppAsset::register($view);
     <title><?= Html::encode($view->title) ?></title>
     <?php $view->head() ?>
     @yield('js_head')
+    <script src="https://cdn.tiny.cloud/1/bwviu44ilqtih5h1vanqtw0bertszzet7egby42u7sp8xh6v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body class="dt-sidebar--fixed dt-header--fixed">
 <?php $view->beginBody() ?>
@@ -70,9 +71,25 @@ AppAsset::register($view);
 
 @yield('js_pos')
 <script type="text/babel">
+    const {useState, useEffect, useRef, useForceUpdate} = React;
+    const {
+        Modal, Skeleton, Input, Divider, Spin, Row,
+        Upload, Progress, Checkbox, TreeSelect, Tabs,
+        Select, Col, Card, Form, Popconfirm, Table, Button
+    } = antd;
+    const {TabPane} = Tabs;
     if (typeof App !== "undefined") {
         ReactDOM.render(<App/>, document.getElementById('root'));
     }
 </script>
+<script>
+
+    tinymce.init({
+        selector: 'textarea.editor',
+        height: 600
+    });
+
+</script>
+
 </html>
 <?php $view->endPage() ?>

@@ -1,0 +1,155 @@
+@section('js_pos')
+    <script type="text/babel">
+
+        const initalState = {
+            categories: [],
+            loading: false,
+
+        }
+        const App = () => {
+            const [state, setState] = useState(initalState);
+            const [form] = Form.useForm();
+
+            useEffect(() => {
+                Archives.fetch({page: -1}).then(({data}) => {
+                    setState({
+                        ...state,
+                        ...{
+                            categories: data
+                        }
+                    })
+                });
+
+            }, []);
+            const changeTab = () => {
+
+            }
+            return (
+                <Form form={form} layout="vertical">
+                    <Row gutter={[8, 0]}>
+                        <Col md={18}>
+                            <Tabs defaultActiveKey="1" type={`card`} onChange={changeTab}>
+                                <TabPane tab="Chi tiết" key="1">
+                                    <Card bordered={false}>
+                                        <Form.Item
+                                            label="Tên sản phẩm"
+                                            name={`name`}
+                                            rules={[{required: true, message: 'Tên sản phẩm bắt buộc!'}]}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Slug"
+                                            name={`slug`}
+                                            rules={[{required: true, message: 'Slug bắt buộc!'}]}
+                                        >
+                                            <Input disabled/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Mô tả"
+                                            name={`description`}
+                                        >
+                                            <Input.TextArea/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Nội dung sản phẩm"
+                                            name="content">
+                                            <Input.TextArea className={`editor`}/>
+                                        </Form.Item>
+                                    </Card>
+                                    <Card title="SEO Meta">
+                                        <Form.Item
+                                            label="Meta title"
+                                            name={`meta_tile`}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Meta keywords"
+                                            name={`meta_keyword`}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Meta description"
+                                            name={`meta_description`}
+                                        >
+                                            <Input.TextArea/>
+                                        </Form.Item>
+                                    </Card>
+                                </TabPane>
+                                <TabPane tab="Thuộc tính" key="2">
+                                    Thuộc tính sản phẩm
+                                </TabPane>
+                            </Tabs>
+
+                        </Col>
+                        <Col md={6}>
+                            <Card title="Danh mục">
+                                <Form.Item>
+                                    <Checkbox.Group>
+                                        {state.categories.length > 0 ? state.categories.map(item => {
+                                            return (
+                                                <Checkbox value={item.id}>{item.name}</Checkbox>
+                                            )
+                                        }) : null}
+                                    </Checkbox.Group>
+                                </Form.Item>
+                            </Card>
+                            <Card title="Thiết lập">
+                                <Form.Item
+                                    label="Trạng thái"
+                                >
+                                    <Select>
+                                        <Select.Option value={`public`}>Công khai</Select.Option>
+                                        <Select.Option value={`draft`}>Nháp</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    initialValue={`vi`}
+                                    label="Ngôn ngữ"
+                                    rules={[{required: true, message: 'Hãy chọn ngôn ngữ!'}]}
+                                >
+                                    <Select>
+                                        <Select.Option value={`vi`}>Tiếng Việt</Select.Option>
+                                        <Select.Option value={`en`}>Tiếng Anh</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Ảnh đại diện"
+                                >
+                                    <Upload
+                                        accept="image/*"
+                                        customRequest={() => {
+                                        }}
+                                        onChange={() => {
+                                        }}
+                                        listType="picture-card"
+                                        fileList={[]}
+                                        className="avatar-uploader single"
+                                    >
+                                    </Upload>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Ảnh thumbnail"
+                                >
+                                    <Upload
+                                        accept="image/*"
+                                        customRequest={() => {
+                                        }}
+                                        onChange={() => {
+                                        }}
+                                        listType="picture-card"
+                                        fileList={[]}
+                                        className="avatar-uploader single"
+                                    >
+                                    </Upload>
+                                </Form.Item>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Form>
+            )
+        }
+    </script>
+@stop

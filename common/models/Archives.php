@@ -15,15 +15,15 @@ use Yii;
  * @property string|null $description
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property int|null $parent_id
+ * @property string|null $language
+ * @property string|null $type
  */
-class Archives extends BaseModel
+class Archives extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public $avatar;
-    public $media_id;
-
     public static function tableName()
     {
         return 'archives';
@@ -35,12 +35,12 @@ class Archives extends BaseModel
     public function rules()
     {
         return [
-            [['active', 'created_at', 'updated_at'], 'integer'],
+            [['active', 'created_at', 'updated_at', 'parent_id'], 'integer'],
             [['description'], 'string'],
-            [['name', 'slug'], 'string', 'max' => 255],
+            [['name', 'slug', 'type'], 'string', 'max' => 255],
+            [['language'], 'string', 'max' => 50],
             [['slug'], 'unique'],
             [['avatar', 'media_id'], 'safe'],
-            [['name', 'slug'], 'required'],
         ];
     }
 
@@ -57,8 +57,21 @@ class Archives extends BaseModel
             'description' => 'Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'parent_id' => 'Parent ID',
+            'language' => 'Language',
+            'type' => 'Type',
         ];
     }
+
+    public $avatar;
+    public $media_id;
+
+    const STYLE_PRODUCT = 'product';
+    const STYLE_BLOG = 'article';
+    const STYLE = [
+        self::STYLE_BLOG => 'Danh mục bài viết',
+        self::STYLE_PRODUCT => 'Danh mục sản phẩm',
+    ];
 
     public function extraFields()
     {
@@ -87,4 +100,8 @@ class Archives extends BaseModel
         ]);
     }
 
+    public function getChildren()
+    {
+        return $this->hasMany(Archives::className(), ['parent_id' => 'id']);
+    }
 }

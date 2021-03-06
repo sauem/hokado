@@ -3,12 +3,6 @@ $view->title = 'Danh mục sản phẩm';
 ?>
 @section('js_pos')
     <script type="text/babel">
-        const {useState, useEffect, useRef, useForceUpdate} = React;
-        const {
-            Modal, Skeleton, Input, Divider, Spin, Row,
-            Upload, Progress,
-            Select, Col, Card, Form, Popconfirm, Table, Button
-        } = antd;
 
 
         const App = () => {
@@ -85,7 +79,9 @@ $view->title = 'Danh mục sản phẩm';
                         loading: true
                     }
                 });
-                const {pagination, data} = await Archives.fetch(Object.assign({page}, obj));
+                const {pagination, data} = await Archives.fetch(
+                    Object.assign({page, type: ARCHIVE_TYPE_PRODUCT}, obj)
+                );
                 setState({
                     ...state,
                     ...Object.assign({
@@ -112,7 +108,8 @@ $view->title = 'Danh mục sản phẩm';
                 });
             }
             useEffect(async () => {
-                await updateState();
+                await updateState({type: ARCHIVE_TYPE_BLOG});
+
             }, []);
 
             return (
@@ -120,6 +117,7 @@ $view->title = 'Danh mục sản phẩm';
                     <Col md={8}>
                         <Card title="Thêm danh mục">
                             <Form layout={`vertical`} onFinish={onSubmit} form={form} id={'categoryForm'}>
+                                <Form.Item name={'type'} initialValue={ARCHIVE_TYPE_BLOG} hidden><Input/></Form.Item>
                                 <Form.Item name={'id'} hidden><Input/></Form.Item>
                                 <Form.Item name={'media_id'} hidden><Input/></Form.Item>
                                 <Form.Item
@@ -137,6 +135,18 @@ $view->title = 'Danh mục sản phẩm';
                                     rules={[{required: true, message: 'Slug bắt buộc!'}]}
                                 >
                                     <Input disabled/>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'parent_id'}
+                                    label={`Danh mục cha`}
+                                >
+                                    <Select>
+                                        {state.categories ? state.categories.map(item => {
+                                            return (
+                                                <Select.Option value={item.id}>{item.name}</Select.Option>
+                                            )
+                                        }) : null}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item
                                     initialValue={1}

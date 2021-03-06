@@ -11,7 +11,6 @@ class ArchiveController extends BaseActiveController
 {
     public $modelClass = Archives::class;
 
-
     public function actions()
     {
         $actions = parent::actions();

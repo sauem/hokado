@@ -64,3 +64,10 @@ const toSlug = (str) => {
     slug = slug.replace(/\@\-|\-\@|\@/gi, '');
     return slug;
 }
+
+function treeLoop(args = []) {
+    if (args.length <= 0) {
+        return null;
+    }
+
+}

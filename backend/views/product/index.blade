@@ -1,0 +1,25 @@
+@section("js_pos")
+    <script type="text/babel">
+
+        const App = () => {
+            return (
+                <Card title={`Sản phẩm`}
+                      extra={<a href="/product/create" className="btn btn-xs btn-primary">
+                          <i className="icon-add"/> Tạo sản phẩm</a>}>
+                    <Table
+                        dataSource={[]}
+                        rowKey={'id'}
+                        columns={[
+                            {title: 'Sản phẩm', dataIndex: 'name'},
+                            {title: 'Danh mục', dataIndex: 'name'},
+                            {title: 'Giá sản phẩm', dataIndex: 'name'},
+                            {title: 'Trạng thái', dataIndex: 'name'},
+                        ]}
+                    >
+
+                    </Table>
+                </Card>
+            );
+        }
+    </script>
+@stop

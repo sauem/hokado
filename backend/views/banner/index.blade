@@ -1,0 +1,224 @@
+@section("js_pos")
+    <script type="text/babel">
+
+        const App = () => {
+            const initalState = {
+                modalTitle: '',
+                modalVisible: '',
+                loading: false,
+                banners: [],
+                uploading: false
+            };
+            const [state, setState] = useState(initalState);
+            const [defaultFileList, setDefaultFileList] = useState([]);
+            const [progress, setProgress] = useState(0);
+            const [form] = Form.useForm();
+            const onCancel = () => {
+                setState(initalState);
+            }
+            const onCreate = () => {
+                setState({
+                    ...state,
+                    ...{modalVisible: true, modalTitle: 'Tạo banner/slider'}
+                })
+            }
+            const onUpdate = banner => {
+
+            }
+            const onDelete = id => {
+
+            }
+            const onUpload = options => {
+                const {onSuccess, onError, file, onProgress} = options;
+                setState({
+                    ...state,
+                    ...{
+                        uploading: true
+                    }
+                });
+                onUploadMedia(file, data => {
+                    form.setFieldsValue({
+                        media_id: data.id
+                    })
+                    onSuccess();
+                }, onError, (event) => {
+                    const percent = Math.floor((event.loaded / event.total) * 100);
+                    setProgress(percent);
+                    if (percent === 100) {
+                        setTimeout(() => setProgress(0), 1000);
+                    }
+                    onProgress({percent: (event.loaded / event.total) * 100});
+                });
+            }
+            const handleOnChange = ({file, fileList, event}) => {
+                setDefaultFileList(fileList);
+            };
+            return (
+                <div>
+                    <Card title={`Slider/Banner`}
+                          extra={<Button onClick={onCreate} size="small" type="primary">
+                              <i className="icon-add"/> Thêm mới</Button>}>
+                        <Table
+                            dataSource={[]}
+                            rowKey={'id'}
+                            columns={[
+                                {title: 'Tiêu đề', dataIndex: 'name'},
+                                {title: 'Mô tả ngắn', dataIndex: 'description'},
+                                {title: 'Loại banner', dataIndex: 'type'},
+                                {title: 'Vị trí', dataIndex: 'position'},
+                                {title: 'Trang hiển thị', dataIndex: 'page'},
+                                {title: 'Thiết bị', dataIndex: 'device'},
+                                {title: 'Trạng thái', dataIndex: 'status'},
+                                {
+                                    title: 'Hành động', key: 'action', render: raw => {
+                                        return (
+                                            <div>
+                                                <Button onClick={() => onUpdate(raw)} type="primary"
+                                                        className={`mr-1`} size={`small`}><i
+                                                    className="icon icon-edit"/></Button>
+                                                <Popconfirm
+                                                    title="Xóa danh mục hiện tại"
+                                                    onConfirm={() => onDelete(raw.id)}
+                                                    okText="Xóa"
+                                                    cancelText="Hủy"
+                                                >
+                                                    <Button type="dashed" danger size={`small`}><i
+                                                        className="icon icon-trash"/></Button>
+                                                </Popconfirm>
+                                            </div>
+                                        );
+                                    }
+                                },
+                            ]}
+                        >
+
+                        </Table>
+                    </Card>
+                    <Modal
+                        visible={state.modalVisible}
+                        title={state.modalTitle}
+                        onCancel={onCancel}
+                    >
+                        <Form layout="vertical">
+                            <Row gutter={[8, 0]}>
+                                <Col sm={24}>
+                                    <Form.Item
+                                        name="media_id"
+                                        label="Ảnh"
+                                        rules={[{required: true, message: 'Ảnh trống!'}]}
+                                    >
+                                        <Upload
+                                            accept="image/*"
+                                            customRequest={onUpload}
+                                            onChange={handleOnChange}
+                                            listType="picture"
+                                            fileList={defaultFileList}
+                                            className="avatar-uploader single"
+                                        >
+                                            {defaultFileList.length >= 1 ? null :
+                                                <div className="select-file">Chọn ảnh</div>}
+                                        </Upload>
+                                        {progress > 0 ? <Progress percent={progress}/> : null}
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Tiêu đề"
+                                        name="name"
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Mô tả"
+                                        name="description"
+                                    >
+                                        <Input.TextArea/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Trang hiển thị"
+                                        name="page[]"
+                                        rules={[{required: true,message:'Trang hiển thị trống!'}]}
+                                    >
+                                        <Select
+                                            mode="multiple"
+                                            placeholder="Chọn trang hiển thị..."
+                                        >
+                                            {BANNER_PAGES.map(item => {
+                                                return <Select.Option value={item.slug}>{item.name}</Select.Option>;
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col md={12}>
+                                    <Form.Item
+                                        label="Link đến"
+                                        name="href"
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Loại banner"
+                                        name="type"
+                                        initialValue={FILE_TYPE_IMAGE}
+                                    >
+                                        <Select>
+                                            {BANNER_TYPES.map(item => {
+                                                return <Select.Option value={item.slug}>{item.name}</Select.Option>;
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Trạng thái"
+                                        name="satus"
+                                        initialValue={`active`}
+                                    >
+                                        <Select>
+                                            <Select.Option value={`active`}>Hiển thị</Select.Option>
+                                            <Select.Option value={`deactive`}>Ẩn</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col md={12}>
+                                    <Form.Item
+                                        label="Ngôn ngữ"
+                                        name="language"
+                                        initialValue={LANG_VI}
+                                    >
+                                        <Select>
+                                            {LANGUAGES.map(item => {
+                                                return <Select.Option value={item.lang}>{item.name}</Select.Option>;
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Vị trí"
+                                        name="position"
+                                        initialValue={POSITION_HOME_SLIDER}
+                                    >
+                                        <Select>
+                                            {BANNER_POSITIONS.map(item => {
+                                                return <Select.Option value={item.slug}>{item.name}</Select.Option>;
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Thiết bị"
+                                        name="device"
+                                        initialValue={DEVICE_DESKTOP}
+                                    >
+                                        <Select>
+                                            {BANNER_DEVICES.map(item => {
+                                                return <Select.Option value={item.slug}>{item.name}</Select.Option>;
+                                            })}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+
+                            </Row>
+                        </Form>
+
+                    </Modal>
+                </div>
+
+            );
+        }
+    </script>
+@stop
