@@ -3,6 +3,7 @@ const FILE_TYPE_VIDEO = 'video';
 const FILE_TYPE_BASE64 = 'base64';
 const MEDIA_TYPE_ARCHIVE = 'archive';
 const MEDIA_TYPE_PRODUCT = 'product';
+const MEDIA_TYPE_BANNER = 'banner';
 // Loại danh mục
 const ARCHIVE_TYPE_BLOG = 'article';
 const ARCHIVE_TYPE_PRODUCT = 'product';
@@ -94,6 +95,9 @@ const LANGUAGES = [
 // Router API
 const BASE_URL = '/';
 const ROUTE = {
+    AJAX: {
+        REMOVE_MEDIA: 'default/remove-media'
+    },
     ARCHIVE: {
         INDEX: 'archive/index',
         CREATE: 'archive/create',

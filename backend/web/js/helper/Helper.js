@@ -71,3 +71,8 @@ function treeLoop(args = []) {
     }
 
 }
+
+function getObjectValue(val, obj) {
+    let key = obj.findIndex(item => item.value === val || item.slug === val);
+    return obj[key];
+}

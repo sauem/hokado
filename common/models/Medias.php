@@ -24,6 +24,8 @@ class Medias extends BaseModel
     const STATUS_USING = 1;
     const ARCHIVE_TYPE = 'archive';
     const PRODUCT_TYPE = 'product';
+    const BANNER_TYPE = 'banner';
+    const BLOG_TYPE = 'blog';
 
     /**
      * {@inheritdoc}

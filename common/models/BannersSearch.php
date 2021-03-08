@@ -17,8 +17,8 @@ class BannersSearch extends Banners
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'en_name', 'description', 'en_description', 'href', 'en_href', 'active'], 'safe'],
+            [['id', 'created_at', 'updated_at', 'media_id'], 'integer'],
+            [['name', 'description', 'href', 'active', 'language', 'page_show', 'type', 'position', 'device'], 'safe'],
         ];
     }
 
@@ -38,7 +38,7 @@ class BannersSearch extends Banners
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $filter = null)
+    public function search($params)
     {
         $query = Banners::find();
 
@@ -48,10 +48,8 @@ class BannersSearch extends Banners
             'query' => $query,
         ]);
 
-        $this->load($params, '');
-        if (!empty($filter)) {
-            $query->andWhere($filter);
-        }
+        $this->load($params);
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -63,15 +61,18 @@ class BannersSearch extends Banners
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'media_id' => $this->media_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'en_name', $this->en_name])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'en_description', $this->en_description])
             ->andFilterWhere(['like', 'href', $this->href])
-            ->andFilterWhere(['like', 'en_href', $this->en_href])
-            ->andFilterWhere(['like', 'active', $this->active]);
+            ->andFilterWhere(['like', 'active', $this->active])
+            ->andFilterWhere(['like', 'language', $this->language])
+            ->andFilterWhere(['like', 'page_show', $this->page_show])
+            ->andFilterWhere(['like', 'type', $this->type])
+            ->andFilterWhere(['like', 'position', $this->position])
+            ->andFilterWhere(['like', 'device', $this->device]);
 
         return $dataProvider;
     }

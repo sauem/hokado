@@ -1,11 +1,17 @@
 const {message} = antd;
 
-
-const onUploadMedia = (file, successCallback, errorCallBack, onUploadProgress) => {
+const onRemoveMedia = async (media_id) => {
+    try {
+        return await Server.post(ROUTE.AJAX.REMOVE_MEDIA, {media_id});
+    } catch (e) {
+        message.error(e.message);
+    }
+}
+const onUploadMedia = (file, successCallback, errorCallBack, onUploadProgress, type = MEDIA_TYPE_ARCHIVE) => {
     let formData = new FormData();
     formData.append('imageFile', file);
     formData.append('fileType', FILE_TYPE_IMAGE);
-    formData.append('type', MEDIA_TYPE_ARCHIVE);
+    formData.append('type', type);
     axios.create({
         baseURL: BASE_URL,
         headers: {
@@ -85,7 +91,7 @@ const Banners = {
     },
     update: async (banner) => {
         try {
-            const {data} = await Server.put(ROUTE.banner.UPDATE + `?id=${banner.id}`, banner).catch(axiosCatch);
+            const {data} = await Server.put(ROUTE.BANNER.UPDATE + `?id=${banner.id}`, banner).catch(axiosCatch);
             return data;
         } catch (e) {
             message.error(e.message);
@@ -93,7 +99,7 @@ const Banners = {
     },
     delete: async (id) => {
         try {
-            const {data} = await Server.delete(`${ROUTE.banner.DELETE}?id=${id}`).catch(axiosCatch);
+            const {data} = await Server.delete(`${ROUTE.BANNER.DELETE}?id=${id}`).catch(axiosCatch);
             message.success('Xóa banner thành công!');
             return data;
         } catch (e) {
@@ -102,7 +108,7 @@ const Banners = {
     },
     fetch: async (params) => {
         try {
-            const res = await Server.get(ROUTE.banner.INDEX, {
+            const res = await Server.get(ROUTE.BANNER.INDEX, {
                 params: {
                     ...params,
                     sort: '-created_at',

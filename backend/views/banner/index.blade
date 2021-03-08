@@ -13,20 +13,42 @@
             const [defaultFileList, setDefaultFileList] = useState([]);
             const [progress, setProgress] = useState(0);
             const [form] = Form.useForm();
+
             const onCancel = () => {
-                setState(initalState);
+                setState({
+                    ...state,
+                    ...{
+                        modalTitle: '',
+                        modalVisible: '',
+                        loading: false,
+                        uploading: false
+                    }
+                });
+                form.resetFields();
             }
             const onCreate = () => {
                 setState({
                     ...state,
                     ...{modalVisible: true, modalTitle: 'Tạo banner/slider'}
-                })
+                });
+                form.resetFields();
             }
             const onUpdate = banner => {
-
+                setState({
+                    ...state,
+                    ...{modalVisible: true, modalTitle: 'Cập nhật banner/slider'}
+                });
+                form.setFieldsValue(banner);
+                banner.avatar ? setDefaultFileList([{
+                    uid: '-1',
+                    name: banner.name,
+                    status: 'done',
+                    url: banner.avatar
+                }]) : setDefaultFileList([]);
             }
-            const onDelete = id => {
-
+            const onDelete = async (id) => {
+                await Banners.delete(id);
+                await updateSate();
             }
             const onUpload = options => {
                 const {onSuccess, onError, file, onProgress} = options;
@@ -39,7 +61,7 @@
                 onUploadMedia(file, data => {
                     form.setFieldsValue({
                         media_id: data.id
-                    })
+                    });
                     onSuccess();
                 }, onError, (event) => {
                     const percent = Math.floor((event.loaded / event.total) * 100);
@@ -48,70 +70,142 @@
                         setTimeout(() => setProgress(0), 1000);
                     }
                     onProgress({percent: (event.loaded / event.total) * 100});
-                });
+                }, MEDIA_TYPE_BANNER);
             }
             const handleOnChange = ({file, fileList, event}) => {
                 setDefaultFileList(fileList);
             };
+            const updateSate = async (obj = {}, page = 1) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true,
+                    }
+                });
+                const {data, pagination} = await Banners.fetch(Object.assign({page}, obj));
+                setState({
+                    ...state,
+                    ...Object.assign({
+                        pagination,
+                        loading: false,
+                        modalVisible: false,
+                        banners: data,
+                    }, obj)
+                });
+                form.resetFields();
+                data.avatar ? setDefaultFileList([{
+                    uid: '-1',
+                    name: data.name,
+                    status: 'done',
+                    url: data.avatar
+                }]) : setDefaultFileList([]);
+            }
+            const onFinish = async (data) => {
+                if (typeof data.id === "undefined") {
+                    await Banners.create(data);
+                } else {
+                    await Banners.update(data);
+                }
+                await updateSate();
+            }
+            useEffect(() => {
+                updateSate();
+            }, []);
             return (
                 <div>
                     <Card title={`Slider/Banner`}
                           extra={<Button onClick={onCreate} size="small" type="primary">
                               <i className="icon-add"/> Thêm mới</Button>}>
-                        <Table
-                            dataSource={[]}
-                            rowKey={'id'}
-                            columns={[
-                                {title: 'Tiêu đề', dataIndex: 'name'},
-                                {title: 'Mô tả ngắn', dataIndex: 'description'},
-                                {title: 'Loại banner', dataIndex: 'type'},
-                                {title: 'Vị trí', dataIndex: 'position'},
-                                {title: 'Trang hiển thị', dataIndex: 'page'},
-                                {title: 'Thiết bị', dataIndex: 'device'},
-                                {title: 'Trạng thái', dataIndex: 'status'},
-                                {
-                                    title: 'Hành động', key: 'action', render: raw => {
-                                        return (
-                                            <div>
-                                                <Button onClick={() => onUpdate(raw)} type="primary"
-                                                        className={`mr-1`} size={`small`}><i
-                                                    className="icon icon-edit"/></Button>
-                                                <Popconfirm
-                                                    title="Xóa danh mục hiện tại"
-                                                    onConfirm={() => onDelete(raw.id)}
-                                                    okText="Xóa"
-                                                    cancelText="Hủy"
-                                                >
-                                                    <Button type="dashed" danger size={`small`}><i
-                                                        className="icon icon-trash"/></Button>
-                                                </Popconfirm>
-                                            </div>
-                                        );
-                                    }
-                                },
-                            ]}
-                        >
-
-                        </Table>
+                        <Spin spinning={state.loading}>
+                            <Table
+                                dataSource={state.banners}
+                                rowKey={'id'}
+                                columns={[
+                                    {
+                                        title: 'Ảnh', dataIndex: 'avatar', key: 'avatar', render: raw =>
+                                            <img className={`img-fluid img-thumbnail`} width="100" src={raw}/>
+                                    },
+                                    {
+                                        title: 'Tiêu đề', dataIndex: 'name', render: (name, raw) => {
+                                            return (
+                                                <div>
+                                                    <p>{name}</p>
+                                                    <p>{raw.description}</p>
+                                                </div>
+                                            )
+                                        }
+                                    },
+                                    {title: 'Loại banner', dataIndex: 'type'},
+                                    {
+                                        title: 'Vị trí',
+                                        dataIndex: 'position',
+                                        key: 'position',
+                                        render: raw => getObjectValue(raw.name, BANNER_POSITIONS).name
+                                    },
+                                    {
+                                        title: 'Trang hiển thị', dataIndex: 'page_show', render: raw => {
+                                            return raw.map(item => {
+                                                return <span
+                                                    className={`badge badge-pill mr-1 badge-sm`}>{getObjectValue(item, BANNER_PAGES).name}</span>
+                                            })
+                                        }
+                                    },
+                                    {
+                                        title: 'Thiết bị',
+                                        dataIndex: 'device',
+                                        key: 'device',
+                                        render: raw => getObjectValue(raw.name, BANNER_DEVICES).name
+                                    },
+                                    {title: 'Trạng thái', dataIndex: 'status'},
+                                    {
+                                        title: 'Hành động', key: 'action', render: raw => {
+                                            return (
+                                                <div>
+                                                    <Button onClick={() => onUpdate(raw)} type="primary"
+                                                            className={`mr-1`} size={`small`}><i
+                                                        className="icon icon-edit"/></Button>
+                                                    <Popconfirm
+                                                        title="Xóa danh mục hiện tại"
+                                                        onConfirm={() => onDelete(raw.id)}
+                                                        okText="Xóa"
+                                                        cancelText="Hủy"
+                                                    >
+                                                        <Button type="dashed" danger size={`small`}><i
+                                                            className="icon icon-trash"/></Button>
+                                                    </Popconfirm>
+                                                </div>
+                                            );
+                                        }
+                                    },
+                                ]}
+                            />
+                        </Spin>
                     </Card>
                     <Modal
                         visible={state.modalVisible}
                         title={state.modalTitle}
                         onCancel={onCancel}
+                        footer={[
+                            <small className="text-danger mr-2">* Thông tin bắt buộc!</small>,
+                            <Button htmlType="submit" form={`bannerForm`} type="primary">Save</Button>,
+                            <Button onClick={onCancel}>Cancel</Button>
+                        ]}
                     >
-                        <Form layout="vertical">
+                        <Form form={form} onFinish={onFinish} id={`bannerForm`} layout="vertical">
                             <Row gutter={[8, 0]}>
                                 <Col sm={24}>
                                     <Form.Item
-                                        name="media_id"
+                                        name="avatar"
                                         label="Ảnh"
-                                        rules={[{required: true, message: 'Ảnh trống!'}]}
                                     >
                                         <Upload
                                             accept="image/*"
                                             customRequest={onUpload}
                                             onChange={handleOnChange}
                                             listType="picture"
+                                            onRemove={() =>
+                                                onRemoveMedia(form.getFieldValue('media_id'))
+                                            }
                                             fileList={defaultFileList}
                                             className="avatar-uploader single"
                                         >
@@ -121,21 +215,34 @@
                                         {progress > 0 ? <Progress percent={progress}/> : null}
                                     </Form.Item>
                                     <Form.Item
+                                        hidden
+                                        name="id"
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        hidden
+                                        rules={[{required: true, message: 'Ảnh trống!'}]}
+                                        name="media_id"
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
                                         label="Tiêu đề"
                                         name="name"
                                     >
                                         <Input/>
                                     </Form.Item>
                                     <Form.Item
-                                        label="Mô tả"
+                                        label="Mô tả (Alt)"
                                         name="description"
                                     >
                                         <Input.TextArea/>
                                     </Form.Item>
                                     <Form.Item
                                         label="Trang hiển thị"
-                                        name="page[]"
-                                        rules={[{required: true,message:'Trang hiển thị trống!'}]}
+                                        name="page_show"
+                                        rules={[{required: true, type: 'array', message: 'Trang hiển thị trống!'}]}
                                     >
                                         <Select
                                             mode="multiple"
@@ -214,7 +321,6 @@
 
                             </Row>
                         </Form>
-
                     </Modal>
                 </div>
 
