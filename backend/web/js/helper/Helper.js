@@ -73,6 +73,87 @@ function treeLoop(args = []) {
 }
 
 function getObjectValue(val, obj) {
-    let key = obj.findIndex(item => item.value === val || item.slug === val);
+    let key = obj.findIndex(item => item.value === val || item.slug === val || item.lang === val);
     return obj[key];
+}
+
+function convertTreeSelect(array) {
+    let arr = [];
+    if (array) {
+        array.map(item => arr.push({title: item.name, value: item.id, children: convertTreeSelect(item.children)}));
+    }
+    return arr;
+}
+
+function getParams(name) {
+    let url = new URLSearchParams(window.location.search);
+    return url.get(name);
+}
+
+function initTinymce(callback) {
+    // let useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    tinymce.init({
+        selector: 'textarea.editor',
+        plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap mentions quickbars linkchecker emoticons advtable',
+        tinydrive_token_provider: (success, failure) => {
+            return fetch('/jwt', {
+                method: 'GET',
+                // headers: {
+                //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTUyMjcyMjQsIm5iZiI6MTYxNzgxOTIyNCwiZXhwIjoxNjE3ODE5MjI0LCJ1aWQiOjF9.bEHbA7lM2lAe23Jm6mnriZTxDn5eB6V9FJC6C-nZ_kE'
+                // }
+            });
+        },
+        // tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
+        //Client secret : f3qxGcKzmedcugkyBVdmuFss
+        tinydrive_google_drive_key: 'AIzaSyA7eNIKKZ8p8opmrVGgpXfqT-qpBnxr6ZU',
+        tinydrive_google_drive_client_id: '858328145650-fo8uhfbs3m2am2lqovacbs5l2ke39a1m.apps.googleusercontent.com',
+        images_upload_url: BASE_URL + ROUTE.UPLOAD,
+        file_picker_callback: function (cb, value, meta) {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+
+            input.onchange = function () {
+                let file = this.files[0];
+                onUploadMedia(file, data => {
+                    cb(`/static${data.path}`, {title: file.name});
+                }, null, (e) => {
+                    console.log(e);
+                });
+            };
+
+            input.click();
+        },
+        mobile: {
+            plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable'
+        },
+        menubar: 'file edit view insert format tools table tc help',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+        autosave_ask_before_unload: true,
+        autosave_interval: '30s',
+        autosave_prefix: '{path}{query}-{id}-',
+        autosave_restore_when_empty: false,
+        autosave_retention: '2m',
+        image_advtab: true,
+        importcss_append: true,
+        height: 600,
+        image_caption: true,
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        noneditable_noneditable_class: 'mceNonEditable',
+        toolbar_mode: 'sliding',
+        spellchecker_ignore_list: ['Ephox', 'Moxiecode'],
+        content_style: '.mymention{ color: gray; }',
+        contextmenu: 'link image imagetools table configurepermanentpen',
+        a11y_advanced_options: true,
+        setup: function (ed) {
+            ed.on('keyup', function (e) {
+                callback(ed.getBody().innerHTML);
+            });
+            ed.on('Change', function (e) {
+                callback(ed.getBody().innerHTML);
+            });
+        }
+    });
+
 }

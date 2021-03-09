@@ -62,7 +62,7 @@ const Archives = {
                 params: {
                     ...params,
                     sort: '-created_at',
-                    expand: 'avatar',
+                    expand: 'avatar,children',
                     "per-page": 6
                 }
             }).catch(axiosCatch);
@@ -80,6 +80,71 @@ const Archives = {
         }
     }
 }
+const Articles = {
+    create: async (article) => {
+        try {
+            const {data} = await Server.post(ROUTE.ARTICLE.CREATE, article).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+        return false;
+    },
+    view: async (id) => {
+        try {
+            return await Server.get(ROUTE.ARTICLE.VIEW + `?id=${id}`, {
+                params: {
+                    expand: 'media,avatar,meta',
+                }
+            }).catch(axiosCatch);
+            ;
+        } catch (e) {
+            message.error(e.message);
+        }
+        return false;
+    },
+    update: async (article) => {
+        try {
+            const {data} = await Server.put(ROUTE.ARTICLE.UPDATE + `?id=${article.id}`, article).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+        return false;
+    },
+    delete: async (id) => {
+        try {
+            const {data} = await Server.delete(`${ROUTE.ARTICLE.DELETE}?id=${id}`).catch(axiosCatch);
+            message.success('Xóa bài viết thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    fetch: async (params) => {
+        try {
+            const res = await Server.get(ROUTE.ARTICLE.INDEX, {
+                params: {
+                    ...params,
+                    expand: 'archive',
+                    sort: '-created_at'
+                }
+            }).catch(axiosCatch);
+            const {data, headers} = res;
+            const current = headers['x-pagination-current-page'],
+                totalPage = headers['x-pagination-page-count'],
+                pageSize = headers['x-pagination-per-page'],
+                total = headers['x-pagination-total-count'],
+                pagination = {
+                    total, current, pageSize, totalPage
+                };
+            return {data, pagination};
+        } catch (e) {
+            message.error(e.message);
+        }
+    }
+}
+
 const Banners = {
     create: async (banner) => {
         try {

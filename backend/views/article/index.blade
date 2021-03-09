@@ -1,0 +1,92 @@
+@section("js_pos")
+    <script type="text/babel">
+
+        const App = () => {
+            const initalState = {
+                articles: [],
+                loading: false,
+                pagination: {}
+            }
+            const [state, setState] = useState(initalState);
+            const updateState = async () => {
+                const {data, pagination} = await Articles.fetch();
+                setState({
+                    ...state,
+                    ...{
+                        articles: data,
+                        pagination
+                    }
+                })
+            }
+            const onDelete = async (id) => {
+                await Articles.delete(id);
+                await updateState();
+            }
+            useEffect(() => {
+                updateState();
+            }, []);
+            return (
+                <Card title={`Bài viết`}
+                      extra={<a href={URLS.ARTICLE_CREATE} className="btn btn-xs btn-primary">
+                          <i className="icon-add"/> Thêm bài viết</a>}>
+                    <Spin spinning={state.loading}>
+                        <Table
+                            dataSource={state.articles}
+                            rowKey={'id'}
+                            pagination={state.pagination}
+                            columns={[
+                                {
+                                    title: 'Tên bài viết', dataIndex: 'name', key: 'name',
+                                    render: name => {
+                                        return <p className={`text-1`}>{name}</p>
+                                    }
+                                },
+                                {
+                                    title: 'Danh mục', dataIndex: 'archive_id', key: 'archive_id',
+                                    render: (archive_id, raw) => {
+                                        return raw.archive.name;
+                                    }
+                                },
+                                {
+                                    title: 'Trạng thái', dataIndex: 'status', key: 'status',
+                                    render: status => {
+                                        return status == 'public' ?
+                                            <span className={`badge badge-sm badge-pill badge-success`}>Đã đăng</span>
+                                            : '<span className={`badge badge-sm badge-pill badge-success`}>Nháp</span>';
+                                    }
+                                },
+                                {
+                                    title: 'Ngôn ngữ', dataIndex: 'language', key: 'language',
+                                    render: language => {
+                                        return getObjectValue(language, LANGUAGES).name;
+                                    }
+                                },
+                                {
+                                    title: '', dataIndex: 'action', key: 'action', render: (text, raw) => {
+                                        return (
+                                            <div className="d-flex align-items-center">
+                                                <a href={`${URLS.ARTICLE_UPDATE}?id=${raw.id}`}
+                                                   className={`btn btn-xs btn-primary mr-2 text-white`}><i
+                                                    className="icon icon-edit"/></a>
+                                                <Popconfirm
+                                                    title="Xóa danh mục hiện tại"
+                                                    onConfirm={() => onDelete(raw.id)}
+                                                    okText="Xóa"
+                                                    cancelText="Hủy"
+                                                >
+                                                    <Button type="dashed" danger size={`small`}><i
+                                                        className="icon icon-trash"/></Button>
+                                                </Popconfirm>
+                                            </div>
+                                        )
+                                    }
+                                },
+                            ]}
+                        >
+                        </Table>
+                    </Spin>
+                </Card>
+            );
+        }
+    </script>
+@stop

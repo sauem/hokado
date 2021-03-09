@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\helper\HelperFunction;
 use Yii;
+use yii\web\BadRequestHttpException;
 
 /**
  * This is the model class for table "seo_meta".
@@ -16,8 +18,12 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class SeoMeta extends \yii\db\ActiveRecord
+class SeoMeta extends BaseModel
 {
+    const META_ARCHIVE = 'archive';
+    const META_ARTICLE = 'article';
+    const META_PRODUCT = 'product';
+
     /**
      * {@inheritdoc}
      */
@@ -53,5 +59,28 @@ class SeoMeta extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @param $data
+     * @param bool $isUpdate
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public static function createMeta($data, $isUpdate = false)
+    {
+        try {
+            $model = new SeoMeta();
+            if ($isUpdate) {
+                $model = SeoMeta::findOne(['obj_id' => $data['obj_id'], 'obj_type' => $data['obj_type']]);
+            }
+            $model->load($data, '');
+            if (!$model->save()) {
+                throw new BadRequestHttpException(HelperFunction::firstError($model));
+            }
+            return true;
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
+        }
     }
 }

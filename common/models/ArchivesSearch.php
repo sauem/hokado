@@ -5,6 +5,7 @@ namespace common\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Archives;
+use yii\db\Expression;
 
 /**
  * ArchivesSearch represents the model behind the search form of `common\models\Archives`.
@@ -70,8 +71,8 @@ class ArchivesSearch extends Archives
             ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['=', 'type', $this->type])
             ->andFilterWhere(['=', 'language', $this->language])
-            ->andFilterWhere(['like', 'description', $this->description]);
-
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['IS', 'parent_id', new Expression('NULL')]);
         return $dataProvider;
     }
 }

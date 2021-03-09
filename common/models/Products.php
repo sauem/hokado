@@ -20,7 +20,7 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class Products extends \yii\db\ActiveRecord
+class Products extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -64,5 +64,11 @@ class Products extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getMeta()
+    {
+        return $this->hasOne(SeoMeta::className(), ['obj_id' => 'id'])
+            ->where(['obj_type' => SeoMeta::META_ARCHIVE]);
     }
 }

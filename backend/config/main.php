@@ -19,6 +19,10 @@ return [
     ],
     'layout' => 'main.blade',
     'components' => [
+        'jwt' => [
+            'class' => \sizeg\jwt\Jwt::class,
+            'key'   => 'secret',
+        ],
         'view' => [
             'class' => 'yii\web\View',
             'renderers' => [

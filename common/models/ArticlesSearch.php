@@ -17,8 +17,8 @@ class ArticlesSearch extends Articles
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'slug', 'content', 'excerpt', 'status', 'en_name', 'en_slug', 'en_content', 'en_excerpt'], 'safe'],
+            [['id', 'created_at', 'updated_at', 'archive_id', 'media_id'], 'integer'],
+            [['name', 'slug', 'content', 'excerpt', 'status', 'language'], 'safe'],
         ];
     }
 
@@ -61,6 +61,8 @@ class ArticlesSearch extends Articles
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'archive_id' => $this->archive_id,
+            'media_id' => $this->media_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
@@ -68,10 +70,7 @@ class ArticlesSearch extends Articles
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'excerpt', $this->excerpt])
             ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'en_name', $this->en_name])
-            ->andFilterWhere(['like', 'en_slug', $this->en_slug])
-            ->andFilterWhere(['like', 'en_content', $this->en_content])
-            ->andFilterWhere(['like', 'en_excerpt', $this->en_excerpt]);
+            ->andFilterWhere(['like', 'language', $this->language]);
 
         return $dataProvider;
     }

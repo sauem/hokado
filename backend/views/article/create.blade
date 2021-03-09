@@ -1,0 +1,229 @@
+@section('js_pos')
+    <script type="text/babel">
+
+
+        const App = () => {
+            const initalState = {
+                categories: [],
+                loading: false,
+
+            }
+            const [state, setState] = useState(initalState);
+            const [defaultFileList, setDefaultFileList] = useState([]);
+            const [progress, setProgress] = useState(0);
+            const [form] = Form.useForm();
+            const onSubmit = async (article) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true
+                    }
+                });
+                let res = false;
+                if (typeof article.id === "undefined") {
+                    await Articles.create(article);
+                    message.success('Thêm bài viết thành công!');
+                } else {
+                    await Articles.update(article);
+                    message.success('Cập nhật bài viết thành công!');
+                    updateState();
+                }
+            }
+            const updateState = () => {
+                window.location.href = URLS.ARTICLE_INDEX
+            }
+            const handleOnChange = ({file, fileList, event}) => {
+                setDefaultFileList(fileList);
+            };
+            const onUpload = options => {
+                const {onSuccess, onError, file, onProgress} = options;
+                setState({
+                    ...state,
+                    ...{
+                        uploading: true
+                    }
+                });
+                onUploadMedia(file, data => {
+                    form.setFieldsValue({
+                        media_id: data.id
+                    });
+                    onSuccess();
+                }, onError, (event) => {
+                    const percent = Math.floor((event.loaded / event.total) * 100);
+                    setProgress(percent);
+                    if (percent === 100) {
+                        setTimeout(() => setProgress(0), 1000);
+                    }
+                    onProgress({percent: (event.loaded / event.total) * 100});
+                }, MEDIA_TYPE_BLOG);
+            }
+            const onChangeSlug = (e) => {
+                form.setFieldsValue({
+                    slug: toSlug(e.target.value)
+                })
+            }
+            const handleChangeContent = text => {
+                form.setFieldsValue({
+                    content: text
+                })
+            }
+            useEffect(async () => {
+                initTinymce(handleChangeContent)
+                const id = getParams('id');
+                const {data} = await Archives.fetch({
+                    page: -1,
+                    type: ARCHIVE_TYPE_BLOG
+                });
+                if (id) {
+                    const {data} = await Articles.view(id);
+                    form.setFieldsValue({
+                        ...data,
+                        meta_title: data.meta.meta_title,
+                        meta_keyword: data.meta.meta_keyword,
+                        meta_description: data.meta.meta_description
+                    });
+                    data.avatar ? setDefaultFileList([{
+                        uid: data.id,
+                        name: data.name,
+                        status: 'done',
+                        url: data.avatar
+                    }]) : setDefaultFileList([]);
+                }
+                setState({
+                    ...state,
+                    ...{
+                        categories: convertTreeSelect(data)
+                    }
+                });
+            }, []);
+
+            return (
+                <div className="mb-5">
+                    <Form onFinish={onSubmit} form={form} layout="vertical">
+                        <Row gutter={[8, 0]}>
+                            <Col md={18} xs={24}>
+                                <Card bordered={false}>
+                                    <Form.Item name={`media_id`} hidden>
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item name={`id`} hidden>
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        onChange={onChangeSlug}
+                                        label="Tên bài viết"
+                                        name={`name`}
+                                        rules={[{required: true, message: 'Tên bài viết bắt buộc!'}]}
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Slug"
+                                        name={`slug`}
+                                        rules={[{required: true, message: 'Slug bắt buộc!'}]}
+                                    >
+                                        <Input disabled/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Mô tả"
+                                        name={`excerpt`}
+                                    >
+                                        <Input.TextArea/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        onChange={handleChangeContent}
+                                        label="Nội dung bài viết"
+                                        rules={[{required: true, message: 'Nội dung bắt buộc!'}]}
+                                        name={`content`}>
+                                        <Input.TextArea className="editor"/>
+                                    </Form.Item>
+                                </Card>
+                                <Card title="SEO Meta">
+                                    <Form.Item
+                                        label="Meta title"
+                                        name={`meta_title`}
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Meta keywords"
+                                        name={`meta_keyword`}
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Meta description"
+                                        name={`meta_description`}
+                                    >
+                                        <Input.TextArea/>
+                                    </Form.Item>
+                                </Card>
+                            </Col>
+                            <Col md={6} xs={24}>
+                                <div className={`sticky-sidebar`}>
+                                    <Card title="Thiết lập"
+                                          extra={<Button htmlType="submit" type="primary" size="small">Lưu</Button>}>
+                                        <Form.Item
+                                            label={`Danh mục`}
+                                            name="archive_id"
+                                            rules={[{required: true, message: 'Danh mục bắt buộc!'}]}
+                                        >
+                                            {state.categories.length > 0 ? <TreeSelect
+                                                treeData={state.categories}
+                                                style={styleTreeSelect}
+                                                dropdownStyle={dropdownStyleTreeSelect}
+                                                placeholder="Please select"
+                                                treeDefaultExpandAll
+                                            /> : null}
+                                        </Form.Item>
+                                        <Form.Item
+                                            name={`status`}
+                                            label="Trạng thái"
+                                            initialValue={`public`}
+                                        >
+                                            <Select>
+                                                <Select.Option value={'public'}>Công khai</Select.Option>
+                                                <Select.Option value={`draft`}>Nháp</Select.Option>
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item
+                                            initialValue={LANG_VI}
+                                            label="Ngôn ngữ"
+                                            name={`language`}
+                                            rules={[{required: true, message: 'Hãy chọn ngôn ngữ!'}]}
+                                        >
+                                            <Select>
+                                                <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                                <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="avatar"
+                                            label="Ảnh"
+                                        >
+                                            <Upload
+                                                accept="image/*"
+                                                customRequest={onUpload}
+                                                onChange={handleOnChange}
+                                                listType="picture"
+                                                onRemove={() =>
+                                                    onRemoveMedia(form.getFieldValue('media_id'))
+                                                }
+                                                fileList={defaultFileList}
+                                                className="avatar-uploader single"
+                                            >
+                                                {defaultFileList.length >= 1 ? null :
+                                                    <div className="select-file">Chọn ảnh</div>}
+                                            </Upload>
+                                            {progress > 0 ? <Progress percent={progress}/> : null}
+                                        </Form.Item>
+                                    </Card>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Form>
+                </div>
+            )
+        }
+    </script>
+@stop

@@ -4,6 +4,7 @@ const FILE_TYPE_BASE64 = 'base64';
 const MEDIA_TYPE_ARCHIVE = 'archive';
 const MEDIA_TYPE_PRODUCT = 'product';
 const MEDIA_TYPE_BANNER = 'banner';
+const MEDIA_TYPE_BLOG = 'article';
 // Loại danh mục
 const ARCHIVE_TYPE_BLOG = 'article';
 const ARCHIVE_TYPE_PRODUCT = 'product';
@@ -19,7 +20,9 @@ const POSITION_SIDEBAR_LEFT_BOTTOM = 'sidebar_left_bottom';
 const POSITION_SIDEBAR_RIGHT_TOP = 'sidebar_right_top';
 const POSITION_SIDEBAR_RIGHT_BOTTOM = 'sidebar_right_bottom';
 const POSITION_TOP_FOOTER = 'top_footer';
+const UPLOAD_PATH = '/uploads/';
 //Banner
+
 const BANNER_PAGES = [
     {
         name: 'Trang chủ',
@@ -93,7 +96,14 @@ const LANGUAGES = [
 
 
 // Router API
-const BASE_URL = '/';
+const BASE_URL = 'http://admin.hakota.local/';
+const URLS = {
+    PRODUCT_INDEX: '/product',
+    PRODUCT_CREATE: '/product/create',
+    ARTICLE_CREATE: '/article/create',
+    ARTICLE_UPDATE: '/article/update',
+    ARTICLE_INDEX: '/article/index'
+}
 const ROUTE = {
     AJAX: {
         REMOVE_MEDIA: 'default/remove-media'
@@ -110,6 +120,19 @@ const ROUTE = {
         UPDATE: 'banner/update',
         DELETE: 'banner/delete'
     },
-    UPLOAD: 'api/upload'
+    ARTICLE: {
+        INDEX: 'article/index',
+        CREATE: 'article/create',
+        UPDATE: 'article/update',
+        DELETE: 'article/delete',
+        VIEW: 'article/view'
+    },
+    UPLOAD: 'api/upload',
 }
 
+const styleTreeSelect = {
+    width: '100%'
+}
+const dropdownStyleTreeSelect = {
+    maxHeight: 400, overflow: 'auto'
+}
