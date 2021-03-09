@@ -39,7 +39,7 @@ class ProductsSearch extends Products
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $filter = null)
     {
         $query = Products::find();
 
@@ -49,12 +49,16 @@ class ProductsSearch extends Products
             'query' => $query,
         ]);
 
-        $this->load($params);
+
+        $this->load($params, '');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+        if ($filter) {
+            $query->andFilterWhere($filter);
         }
 
         // grid filtering conditions

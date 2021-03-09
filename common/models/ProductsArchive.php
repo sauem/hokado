@@ -12,7 +12,7 @@ use Yii;
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class ProductsArchive extends \yii\db\ActiveRecord
+class ProductsArchive extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -43,5 +43,15 @@ class ProductsArchive extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getArchive()
+    {
+        return $this->hasOne(Archives::className(), ['id' => 'archive_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Products::className(), ['id' => 'product_id']);
     }
 }

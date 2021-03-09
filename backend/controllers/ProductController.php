@@ -16,8 +16,18 @@ class ProductController extends BaseController
         return $this->render('create.blade');
     }
 
+    public function actionUpdate()
+    {
+        return $this->render('create.blade');
+    }
+
     public function actionCategory()
     {
         return $this->render('category.blade');
+    }
+
+    public function actionAttribute()
+    {
+        return $this->render('attribute.blade');
     }
 }

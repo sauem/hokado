@@ -80,7 +80,12 @@ function getObjectValue(val, obj) {
 function convertTreeSelect(array) {
     let arr = [];
     if (array) {
-        array.map(item => arr.push({title: item.name, value: item.id, children: convertTreeSelect(item.children)}));
+        array.map(item => arr.push({
+            title: item.name,
+            key: item.id,
+            value: item.id,
+            children: convertTreeSelect(item.children)
+        }));
     }
     return arr;
 }
