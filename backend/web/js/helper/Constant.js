@@ -141,6 +141,13 @@ const ROUTE = {
         DELETE: 'variant/delete',
         VIEW: 'variant/view'
     },
+    USER: {
+        INDEX: 'user/index',
+        CREATE: 'user/create',
+        UPDATE: 'user/update',
+        DELETE: 'user/delete',
+        VIEW: 'user/view'
+    },
     UPLOAD: 'api/upload',
 }
 

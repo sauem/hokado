@@ -34,7 +34,7 @@ return [
         ],
         'request' => [
             'enableCookieValidation' => true,
-            'enableCsrfValidation' => true,
+            'enableCsrfValidation' => false,
             'cookieValidationKey' => '88i-pzkud4b8eSW8jCa8bkx1C3WablQ8',
             'csrfParam' => '_csrf-backend',
             'parsers' => [

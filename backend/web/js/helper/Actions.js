@@ -30,6 +30,14 @@ const onUploadMedia = (file, successCallback, errorCallBack, onUploadProgress, t
             }
         });
 };
+const getPaginate = headers => {
+    return {
+        current: headers['x-pagination-current-page'],
+        totalPage: headers['x-pagination-page-count'],
+        pageSize: headers['x-pagination-per-page'],
+        total: headers['x-pagination-total-count'],
+    }
+}
 const Archives = {
     create: async (archive) => {
         try {
@@ -288,6 +296,50 @@ const Variants = {
                 pagination = {
                     total, current, pageSize, totalPage
                 };
+            return {data, pagination};
+        } catch (e) {
+            message.error(e.message);
+        }
+    }
+}
+const Users = {
+    create: async (user) => {
+        try {
+            const {data} = await Server.post(ROUTE.USER.CREATE, user).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    update: async (user) => {
+        try {
+            const {data} = await Server.put(ROUTE.USER.UPDATE + `?id=${user.id}`, archive).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    delete: async (id) => {
+        try {
+            const {data} = await Server.delete(`${ROUTE.USER.DELETE}?id=${id}`).catch(axiosCatch);
+            message.success('Xóa danh mục thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    fetch: async (params) => {
+        try {
+            const res = await Server.get(ROUTE.USER.INDEX, {
+                params: {
+                    ...params,
+                    sort: '-created_at',
+                    expand: 'role',
+                    "per-page": 6
+                }
+            }).catch(axiosCatch);
+            const {data, headers} = res;
+            const pagination = getPaginate(headers);
             return {data, pagination};
         } catch (e) {
             message.error(e.message);

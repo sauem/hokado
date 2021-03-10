@@ -31,9 +31,7 @@ $activeAction = Yii::$app->controller->action->id;
                 <a href="javascript:void(0)" class="dt-avatar-wrapper text-body">
                     <img class="dt-avatar" src="https://via.placeholder.com/150x150" alt="Domnic Harris">
                     <span class="dt-avatar-info">
-                    <span class="dt-avatar-name"><?= Yii::$app->user->isGuest ?
-                            'HELLO' : Yii::$app->user->identity->username?> - <?= Yii::$app->user->identity->role?>
-                    </span>
+
                     </span>
                 </a>
                 <!-- /dropdown link -->
@@ -47,8 +45,12 @@ $activeAction = Yii::$app->controller->action->id;
                 </li>
 
                 <li class="dt-list__item pl-5 pr-5">
-                    <a href="javascript:void(0)" class="dt-list__link">
-                        <i class="icon-xl icon icon-signin icon-fw"></i> Logout</a>
+                    <form method="POST" action="{{\yii\helpers\Url::toRoute(['logout'])}}">
+                        <input name="_csrf" type="hidden" value="{{Yii::$app->request->csrfToken}}">
+                        <button class="btn dt-list__link m-0 p-0" type="submit">
+                            <i class="icon-xl icon icon-signin icon-fw"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -83,9 +85,9 @@ $activeAction = Yii::$app->controller->action->id;
                     <?php foreach ($items as $item) {
 
                     ?>
-                    <li class="dt-side-nav__item <?= $currentRoute == substr($item['url'][0],1) ? 'open selected' : ''?>">
+                    <li class="dt-side-nav__item <?= $currentRoute == substr($item['url'][0], 1) ? 'open selected' : ''?>">
                         <a href="<?= $item['url'][0] ?>"
-                           class="dt-side-nav__link <?= $currentRoute == substr($item['url'][0],1) ? 'active' : ''?>"
+                           class="dt-side-nav__link <?= $currentRoute == substr($item['url'][0], 1) ? 'active' : ''?>"
                            title="<?= $item['label'] ?>">
                             <i class="icon <?= $item['icon'] ? $item['icon'] : 'icon-chevron-right' ?> icon-fw icon-sm"></i>
                             <span class="dt-side-nav__text"><?= $item['label'] ?></span> </a>
