@@ -24,6 +24,7 @@ class Medias extends BaseModel
     const STATUS_USING = 1;
     const ARCHIVE_TYPE = 'archive';
     const PRODUCT_TYPE = 'product';
+    const PRODUCT_THUMB_TYPE = 'thumb';
     const BANNER_TYPE = 'banner';
     const ARTICLE_TYPE = 'article';
 

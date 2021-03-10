@@ -10,11 +10,12 @@ use Yii;
  * @property int $id
  * @property string|null $name
  * @property string|null $slug
- * @property string|null $unit
+ * @property string|null $type
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property string|null $note
  */
-class Attributes extends \yii\db\ActiveRecord
+class Attributes extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -31,8 +32,9 @@ class Attributes extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'integer'],
-            [['name', 'slug', 'unit'], 'string', 'max' => 255],
+            [['name', 'slug', 'type', 'note'], 'string', 'max' => 255],
             [['slug'], 'unique'],
+            [['name', 'slug'], 'unique'],
         ];
     }
 
@@ -45,9 +47,10 @@ class Attributes extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'slug' => 'Slug',
-            'unit' => 'Unit',
+            'type' => 'Type',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'note' => 'Note',
         ];
     }
 }

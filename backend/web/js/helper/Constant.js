@@ -127,6 +127,20 @@ const ROUTE = {
         DELETE: 'article/delete',
         VIEW: 'article/view'
     },
+    ATTRIBUTE: {
+        INDEX: 'attribute/index',
+        CREATE: 'attribute/create',
+        UPDATE: 'attribute/update',
+        DELETE: 'attribute/delete',
+        VIEW: 'attribute/view'
+    },
+    VARIANT: {
+        INDEX: 'variant/index',
+        CREATE: 'variant/create',
+        UPDATE: 'variant/update',
+        DELETE: 'variant/delete',
+        VIEW: 'variant/view'
+    },
     UPLOAD: 'api/upload',
 }
 

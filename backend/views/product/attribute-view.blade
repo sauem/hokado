@@ -9,7 +9,7 @@ $view->title = 'Danh mục sản phẩm';
             const initialState = {
                 modalTitle: '',
                 modalVisible: false,
-                attributes: [],
+                variants: [],
                 pagination: {},
                 uploading: false,
                 loading: false,
@@ -19,9 +19,9 @@ $view->title = 'Danh mục sản phẩm';
             const [form] = Form.useForm();
             const onSubmit = async (data) => {
                 if (typeof data.id !== "undefined") {
-                    await Attributes.update(data);
+                    await Variants.update(data);
                 } else {
-                    await Attributes.create(data);
+                    await Variants.create(data);
                 }
                 await updateState({loading: false});
                 form.resetFields();
@@ -44,20 +44,22 @@ $view->title = 'Danh mục sản phẩm';
                         loading: true
                     }
                 });
-                const {pagination, data} = await Attributes.fetch(
+                const {pagination, data} = await Variants.fetch(
                     Object.assign({page}, obj)
                 );
                 setState({
                     ...state,
                     ...Object.assign({
-                        attributes: data,
+                        variants: data,
                         pagination: pagination,
                         loading: false
                     }, obj)
                 });
             }
             const onDelete = async (id) => {
-                Attributes.delete(id).then(() => updateState());
+                alert(id);
+                return;
+                Variants.delete(id).then(() => updateState());
             }
             const setSearchValue = e => {
                 setState({
@@ -136,7 +138,7 @@ $view->title = 'Danh mục sản phẩm';
                             <Spin tip="Loading..." spinning={state.loading}>
                                 <Table
                                     size={`small`}
-                                    dataSource={state.attributes}
+                                    dataSource={state.variants}
                                     pagination={state.pagination}
                                     onChange={changePage}
                                     columns={[

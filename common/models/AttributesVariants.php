@@ -12,6 +12,10 @@ use Yii;
  * @property string|null $name
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property string|null $slug
+ * @property string|null $note
+ * @property int|null $media_id
+ * @property string|null $color
  */
 class AttributesVariants extends \yii\db\ActiveRecord
 {
@@ -29,8 +33,9 @@ class AttributesVariants extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['attribute_id', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['attribute_id', 'created_at', 'updated_at', 'media_id'], 'integer'],
+            [['name', 'slug', 'note', 'color'], 'string', 'max' => 255],
+            [['slug'], 'unique'],
         ];
     }
 
@@ -45,6 +50,10 @@ class AttributesVariants extends \yii\db\ActiveRecord
             'name' => 'Name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'slug' => 'Slug',
+            'note' => 'Note',
+            'media_id' => 'Media ID',
+            'color' => 'Color',
         ];
     }
 }

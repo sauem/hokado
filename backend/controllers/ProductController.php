@@ -4,6 +4,10 @@
 namespace backend\controllers;
 
 
+use common\models\Attributes;
+use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
+
 class ProductController extends BaseController
 {
     public function actionIndex()
@@ -29,5 +33,14 @@ class ProductController extends BaseController
     public function actionAttribute()
     {
         return $this->render('attribute.blade');
+    }
+
+    public function actionAttributeView($id)
+    {
+        $model = Attributes::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException('Không tìm thấy chỉ mục!');
+        }
+        return $this->render('attribute-view.blade');
     }
 }

@@ -3,6 +3,7 @@
 
         const initalState = {
             categories: [],
+            attributes: [],
             loading: false,
 
         }
@@ -22,17 +23,17 @@
                     slug: toSlug(e.target.value)
                 });
             }
-            useEffect(() => {
+            useEffect(async () => {
                 initTinymce(changeContent);
-                Archives.fetch({page: -1, type: ARCHIVE_TYPE_PRODUCT}).then(({data}) => {
-                    setState({
-                        ...state,
-                        ...{
-                            categories: convertTreeSelect(data)
-                        }
-                    })
+                const res = await Archives.fetch({page: -1, type: ARCHIVE_TYPE_PRODUCT});
+                const attr = await Attributes.fetch({page: -1});
+                setState({
+                    ...state,
+                    ...{
+                        categories: convertTreeSelect(res.data),
+                        attributes: attr.data
+                    }
                 });
-
             }, []);
             const handleOnChange = ({file, fileList, event}) => {
                 setDefaultFileList(fileList);
@@ -58,10 +59,6 @@
                     }
                     onProgress({percent: (event.loaded / event.total) * 100});
                 }, MEDIA_TYPE_PRODUCT);
-            }
-
-            const changeTab = () => {
-
             }
             return (
                 <div className="mb-5">
@@ -98,24 +95,7 @@
                                 </Card>
                                 <div className="my-5">
                                     <Card title="Thuộc tính sản phẩm">
-                                        <Form.Item
-                                            label="Meta title"
-                                            name={`meta_tile`}
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Meta keywords"
-                                            name={`meta_keyword`}
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                        <Form.Item
-                                            label="Meta description"
-                                            name={`meta_description`}
-                                        >
-                                            <Input.TextArea/>
-                                        </Form.Item>
+
                                     </Card>
                                 </div>
                                 <Card title="SEO Meta">
@@ -196,7 +176,6 @@
                                                 {defaultFileList.length >= 1 ? null :
                                                     <Button><i className="icon-upload mr-2"/> Chọn ảnh</Button>}
                                             </Upload>
-                                            {progress > 0 ? <Progress percent={progress}/> : null}
                                         </Form.Item>
                                         <Form.Item
                                             label="Ảnh thumbnail (max 5)"
@@ -205,6 +184,7 @@
                                                 accept="image/*"
                                                 listType="picture"
                                                 maxCount={5}
+                                                customRequest={onUpload}
                                                 multiple
                                             >
                                                 <Button><i className="icon-upload mr-2"/> Chọn ảnh</Button>
