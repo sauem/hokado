@@ -228,13 +228,21 @@ const Attributes = {
             message.error(e.message);
         }
     },
+    view: async (id) => {
+        try {
+            const {data} = await Server.get(`${ROUTE.ATTRIBUTE.VIEW}?id=${id}`).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
     fetch: async (params) => {
         try {
             const res = await Server.get(ROUTE.ATTRIBUTE.INDEX, {
                 params: {
                     ...params,
                     sort: '-created_at',
-                    expand: 'avatar',
+                    expand: 'variants',
                     "per-page": 6
                 }
             }).catch(axiosCatch);
@@ -284,7 +292,7 @@ const Variants = {
                 params: {
                     ...params,
                     sort: '-created_at',
-                    expand: 'avatar',
+                    expand: 'attribute',
                     "per-page": 6
                 }
             }).catch(axiosCatch);

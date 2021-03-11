@@ -35,12 +35,19 @@ class ProductController extends BaseController
         return $this->render('attribute.blade');
     }
 
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionAttributeView($id)
     {
         $model = Attributes::findOne($id);
         if (!$model) {
             throw new NotFoundHttpException('Không tìm thấy chỉ mục!');
         }
-        return $this->render('attribute-view.blade');
+        return $this->render('attribute-view.blade', [
+            'model' => $model
+        ]);
     }
 }

@@ -60,6 +60,9 @@
                     onProgress({percent: (event.loaded / event.total) * 100});
                 }, MEDIA_TYPE_PRODUCT);
             }
+            const addAttribute = () => {
+                alert('1231');
+            }
             return (
                 <div className="mb-5">
                     <Form form={form} layout="vertical">
@@ -95,7 +98,66 @@
                                 </Card>
                                 <div className="my-5">
                                     <Card title="Thuộc tính sản phẩm">
-
+                                        <Row>
+                                            <Col xs={24} md={16}>
+                                                <Form.Item style={styleTreeSelect} name="attributes">
+                                                    <Input.Group compact>
+                                                        <Select style={getSize('70%')} mode="multiple"
+                                                                allowClear
+                                                                placeholder="Chọn thuộc tính">
+                                                            {state.attributes ? state.attributes.map(item => {
+                                                                return <Select.Option
+                                                                    value={item.slug}>{item.name}</Select.Option>
+                                                            }) : null}
+                                                        </Select>
+                                                        <Button type="primary" onClick={addAttribute}>Thêm</Button>
+                                                    </Input.Group>
+                                                </Form.Item>
+                                                <Form.List name={`variants`}>
+                                                    {(fields, {add, remove}) => {
+                                                        return (<div>
+                                                            {fields.map(field => {
+                                                                return (
+                                                                    <Space key={field.key}
+                                                                           style={getStyles('{"display":"flex","marginBottom":"8"}')}
+                                                                           align="baseline">
+                                                                        <Form.Item
+                                                                            {...field}
+                                                                            name={[field.name, 'first']}
+                                                                            fieldKey={[field.fieldKey, 'first']}
+                                                                            rules={[{
+                                                                                required: true,
+                                                                                message: 'Missing first name'
+                                                                            }]}
+                                                                        >
+                                                                            <Input placeholder="First Name"/>
+                                                                        </Form.Item>
+                                                                        <Form.Item
+                                                                            {...field}
+                                                                            name={[field.name, 'last']}
+                                                                            fieldKey={[field.fieldKey, 'last']}
+                                                                            rules={[{
+                                                                                required: true,
+                                                                                message: 'Missing last name'
+                                                                            }]}
+                                                                        >
+                                                                            <Input placeholder="Last Name"/>
+                                                                        </Form.Item>
+                                                                        <i className="trash"
+                                                                           onClick={() => remove(field.name)}/>
+                                                                    </Space>
+                                                                )
+                                                            })}
+                                                            <Form.Item>
+                                                                <Button type="dashed" onClick={() => add()} block>
+                                                                    Add field
+                                                                </Button>
+                                                            </Form.Item>
+                                                        </div>)
+                                                    }}
+                                                </Form.List>
+                                            </Col>
+                                        </Row>
                                     </Card>
                                 </div>
                                 <Card title="SEO Meta">

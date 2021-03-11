@@ -157,3 +157,10 @@ const styleTreeSelect = {
 const dropdownStyleTreeSelect = {
     maxHeight: 400, overflow: 'auto'
 }
+const getSize = (width = '100%', height = '100%') => {
+    return {width, height}
+}
+
+const getStyles = style => {
+    return JSON.parse(style);
+}

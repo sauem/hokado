@@ -105,7 +105,6 @@ $view->title = 'Danh mục sản phẩm';
                                     <Select>
                                         <Select.Option value="select">Lựa chọn</Select.Option>
                                         <Select.Option value="color">Màu sắc</Select.Option>
-                                        <Select.Option value="image">Ảnh</Select.Option>
                                         <Select.Option value="button">Nút</Select.Option>
                                     </Select>
                                 </Form.Item>
@@ -148,6 +147,9 @@ $view->title = 'Danh mục sản phẩm';
                                             render: raw => {
                                                 return (
                                                     <div>
+                                                        <p>{raw.variants ? raw.variants.map(item => {
+                                                            return `${item.name},`;
+                                                        }) : null}</p>
                                                         <a href={`/product/attribute-view?id=${raw.id}`}>
                                                             Cấu hình chủng loại</a>
                                                     </div>

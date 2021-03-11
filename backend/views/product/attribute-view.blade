@@ -4,12 +4,12 @@ $view->title = 'Danh mục sản phẩm';
 @section('js_pos')
     <script type="text/babel">
 
-
         const App = () => {
             const initialState = {
                 modalTitle: '',
                 modalVisible: false,
                 variants: [],
+                attribute: {},
                 pagination: {},
                 uploading: false,
                 loading: false,
@@ -45,7 +45,7 @@ $view->title = 'Danh mục sản phẩm';
                     }
                 });
                 const {pagination, data} = await Variants.fetch(
-                    Object.assign({page}, obj)
+                    Object.assign({page, attribute_id: getParams('id')}, obj)
                 );
                 setState({
                     ...state,
@@ -57,8 +57,6 @@ $view->title = 'Danh mục sản phẩm';
                 });
             }
             const onDelete = async (id) => {
-                alert(id);
-                return;
                 Variants.delete(id).then(() => updateState());
             }
             const setSearchValue = e => {
@@ -75,20 +73,24 @@ $view->title = 'Danh mục sản phẩm';
                 });
             }
             useEffect(async () => {
-                await updateState();
+                const res = await Attributes.view(getParams('id'));
+                await updateState({attribute: res});
             }, []);
 
             return (
                 <Row gutter={[8, 0]}>
                     <Col md={8}>
-                        <Card title="Thêm thuộc tính">
+                        <Card title={`Thêm biến thể ${state.attribute.name}`}>
                             <Form layout={`vertical`} onFinish={onSubmit} form={form} id={'categoryForm'}>
                                 <Form.Item name={'id'} hidden><Input/></Form.Item>
+                                <Form.Item initialValue={getParams('id')}
+                                           name={'attribute_id'}
+                                           hidden><Input/></Form.Item>
                                 <Form.Item
                                     name={'name'}
-                                    label={`Tên danh mục`}
+                                    label={`Tên biến thể`}
                                     onChange={handleSlug}
-                                    rules={[{required: true, message: 'Danh mục bắt buộc!'}]}
+                                    rules={[{required: true, message: 'tên biến thể bắt buộc!'}]}
                                 >
                                     <Input/>
                                 </Form.Item>
@@ -99,18 +101,15 @@ $view->title = 'Danh mục sản phẩm';
                                 >
                                     <Input disabled/>
                                 </Form.Item>
-                                <Form.Item
-                                    initialValue="select"
-                                    name={'type'}
-                                    label={`Trạng thái`}
-                                >
-                                    <Select>
-                                        <Select.Option value="select">Lựa chọn</Select.Option>
-                                        <Select.Option value="color">Màu sắc</Select.Option>
-                                        <Select.Option value="image">Ảnh</Select.Option>
-                                        <Select.Option value="button">Nút</Select.Option>
-                                    </Select>
-                                </Form.Item>
+
+                                {state.attribute.type === 'color' ?
+                                    <Form.Item
+                                        name={`color`}
+                                        initialValue="#CF1322"
+                                        label="Mã màu">
+                                        <Input type={`color`}/>
+                                    </Form.Item>
+                                    : null}
                                 <Form.Item
                                     name={'description'}
                                     label={`Ghi chú`}
@@ -126,7 +125,7 @@ $view->title = 'Danh mục sản phẩm';
                         </Card>
                     </Col>
                     <Col md={16}>
-                        <Card title={`Các thuộc tính`}
+                        <Card title={`Các biến thể`}
                               extra={
                                   <div className="d-flex">
                                       <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
@@ -144,16 +143,18 @@ $view->title = 'Danh mục sản phẩm';
                                     columns={[
                                         {title: 'Tên', dataIndex: 'name', key: 'name'},
                                         {title: 'Đường dẫn tĩnh', dataIndex: 'slug', key: 'slug'},
-                                        {title: 'Loại', dataIndex: 'type', key: 'type'},
                                         {
-                                            title: 'Tên chủng loại', key: 'variants',
-                                            render: raw => {
-                                                return (
-                                                    <div>
-                                                        <a href={`/product/attribute-view?id=${raw.id}`}>
-                                                            Cấu hình chủng loại</a>
-                                                    </div>
-                                                )
+                                            title: 'Màu sắc',
+                                            dataIndex: 'color', key: 'color',
+                                            render: color => {
+                                                const style = {
+                                                    backgroundColor: color,
+                                                    color: color == '#ffffff' ? 'black' : 'white'
+                                                }
+                                                return color ?
+                                                    <span className="badge border"
+                                                          style={style}>{color.toUpperCase()}</span>
+                                                    : null;
                                             }
                                         },
                                         {

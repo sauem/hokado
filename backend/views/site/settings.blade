@@ -1,61 +1,68 @@
 @section('js_pos')
     <script type="text/babel">
         const App = () => {
+            const [state, setState] = useState({
+                imgViewList: []
+            });
+
+            const onFileUpload = () => {
+
+            }
             return (
                 <Card title="Thiết lập website">
                     <Form layout="vertical">
                         <Row gutter={[16, 0]}>
                             <Col xs={24} md={18}>
-                              <Row gutter={[8,0]}>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="site_name"
-                                          label="Tên website"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="email"
-                                          label="Email liên hệ"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="hotline_1"
-                                          label="Hotline 1"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="hotline_2"
-                                          label="Hotline 2"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="address_1"
-                                          label="Địa chỉ 1"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                                  <Col xs={24} md={8}>
-                                      <Form.Item
-                                          name="address_2"
-                                          label="Địa chỉ 2"
-                                      >
-                                          <Input/>
-                                      </Form.Item>
-                                  </Col>
-                              </Row>
+                                <Row gutter={[8, 0]}>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="site_name"
+                                            label="Tên website"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="email"
+                                            label="Email liên hệ"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="hotline_1"
+                                            label="Hotline 1"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="hotline_2"
+                                            label="Hotline 2"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="address_1"
+                                            label="Địa chỉ 1"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="address_2"
+                                            label="Địa chỉ 2"
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
                             </Col>
                             <Col xs={24} md={6}>
                                 <Form.Item
@@ -64,10 +71,11 @@
                                 >
                                     <Upload
                                         accept="image/*"
-                                        listType="picture"
-                                        className="avatar-uploader single"
+                                        showUploadList={false}
+                                        listType="picture-card"
+                                        className="avatar-uploader"
                                     >
-                                        <div className="select-file">Chọn ảnh</div>
+                                        <Button>Chọn ảnh</Button>
                                     </Upload>
                                 </Form.Item>
                                 <Form.Item
@@ -76,10 +84,14 @@
                                 >
                                     <Upload
                                         accept="image/*"
-                                        listType="picture"
-                                        className="avatar-uploader single"
+                                        showUploadList={false}
+                                        customRequest={onFileUpload}
+                                        listType="picture-card"
+                                        className="avatar-uploader"
                                     >
-                                        <div className="select-file">Chọn ảnh</div>
+                                        {state.imgViewList.length > 0 ?
+                                            <img src={state.imgViewList["logo_footer"].path} alt="avatar"
+                                                 style={getSize('100%')}/> : <Button>Chọn ảnh</Button>}
                                     </Upload>
                                 </Form.Item>
                             </Col>
