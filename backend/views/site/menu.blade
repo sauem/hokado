@@ -1,0 +1,120 @@
+@section('js_pos')
+    <script type="text/babel">
+        const ItemMenu = () => {
+            return (
+                <div>
+                    HELLO2
+                </div>
+            )
+        }
+        const App = () => {
+            const [state, setState] = useState({
+                categories: [],
+                outerLink: false,
+                type: null
+            });
+            const [form] = Form.useForm();
+            const submitForm = (data) => {
+                let item = getObjectValue(data.link, state.categories);
+
+            }
+            const changeLink = (e) => {
+
+                if (e === 'outer_link') {
+                    setState({
+                        ...state,
+                        ...{
+                            outerLink: true
+                        }
+                    });
+                } else {
+                    setState({
+                        ...state,
+                        ...{
+                            outerLink: false
+                        }
+                    });
+                }
+            }
+            useEffect(async () => {
+                const {data} = await Archives.fetch({page: -1});
+                let categories = convertTreeSelect(data);
+                categories.push({
+                    title: 'Link tùy chỉnh',
+                    key: categories.length + 1,
+                    type: 'custom',
+                    value: 'outer_link',
+                });
+                setState({
+                    ...state,
+                    ...{
+                        categories: categories,
+                    }
+                });
+            }, []);
+            return (
+                <Form onFinish={submitForm} layout="vertical">
+                    <Row gutter={[8, 0]}>
+                        <Col md={8}>
+                            <Card title="Thêm item menu" extra={
+                                <Form.Item
+                                    initialValue="header"
+                                    style={getStyles({marginBottom: 0})}
+                                    name="name">
+                                    <Select>
+                                        <Select.Option value={`header`}>Header</Select.Option>
+                                        <Select.Option value={`footer`}>Footer</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                            }>
+                                <Form.Item
+                                    label="Tên hiển thị"
+                                    name="title"
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    hidden
+                                    name="type"
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Đường dẫn"
+                                    name="link"
+                                >
+                                    <TreeSelect
+                                        onChange={changeLink}
+                                        showArrow={false}
+                                        treeData={state.categories}
+                                        style={styleTreeSelect}
+                                        dropdownStyle={dropdownStyleTreeSelect}
+                                        placeholder="Please select"
+                                        treeDefaultExpandAll
+                                    />
+                                </Form.Item>
+                                {state.outerLink ? <Form.Item
+                                    label="Link tùy chỉnh"
+                                    name="outer_link"
+                                >
+                                    <Input/>
+                                </Form.Item> : null}
+
+                                <div className="pull-right">
+                                    <Button htmlType="submit" type="primary">
+                                        Lưu
+                                    </Button>
+                                </div>
+                            </Card>
+                        </Col>
+                        <Col md={16}>
+                            <Card title="Menu list">
+                                <ItemMenu/>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Form>
+            )
+        }
+    </script>
+@stop

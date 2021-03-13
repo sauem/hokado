@@ -162,5 +162,5 @@ const getSize = (width = '100%', height = '100%') => {
 }
 
 const getStyles = style => {
-    return JSON.parse(style);
+    return typeof style == 'object' ? style : JSON.parse(style);
 }

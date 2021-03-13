@@ -1,0 +1,20 @@
+.header-top, .btn-style-one {
+  background: #21409a; }
+
+.banner-section .content-column h1 span,
+.service-block .inner-box .icon-box,
+.reputation-section-two .form-column h5,
+.testimonial-block .inner-box .quote,
+.sec-title h2 span {
+  color: #de2d2b; }
+
+.service-block .inner-box:hover {
+  border-color: #21409a; }
+
+.testimonial-block .inner-box:before {
+  background-color: #de2d2b; }
+
+.main-menu .navigation > li:hover > a, .main-menu .navigation > li.current > a {
+  color: #de2d2b; }
+
+/*# sourceMappingURL=custom.css.map */

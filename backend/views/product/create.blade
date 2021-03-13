@@ -5,10 +5,11 @@
             categories: [],
             attributes: [],
             loading: false,
-
+            language: LANG_VI,
         }
         const App = () => {
             const [state, setState] = useState(initalState);
+            const [stateSelect, setStateSelect] = useState({});
             const [form] = Form.useForm();
             const [defaultFileList, setDefaultFileList] = useState([]);
             const [progress, setProgress] = useState(0);
@@ -35,6 +36,14 @@
                     }
                 });
             }, []);
+            const setLanguage = (e) => {
+                setState({
+                    ...state,
+                    ...{
+                        language: e
+                    }
+                })
+            }
             const handleOnChange = ({file, fileList, event}) => {
                 setDefaultFileList(fileList);
             };
@@ -60,8 +69,7 @@
                     onProgress({percent: (event.loaded / event.total) * 100});
                 }, MEDIA_TYPE_PRODUCT);
             }
-            const addAttribute = () => {
-                alert('1231');
+            const selectAttribute = () => {
             }
             return (
                 <div className="mb-5">
@@ -69,6 +77,7 @@
                         <Row gutter={[8, 0]}>
                             <Col md={18}>
                                 <Card title="Chi tiết">
+
                                     <Form.Item
                                         onChange={slugChange}
                                         label="Tên sản phẩm"
@@ -90,48 +99,81 @@
                                     >
                                         <Input.TextArea/>
                                     </Form.Item>
+
                                     <Form.Item
                                         label="Nội dung sản phẩm"
                                         name="content">
                                         <Input.TextArea className={`editor`}/>
                                     </Form.Item>
+                                    <Row gutter={[8, 0]}>
+                                        <Col xs={24} md={6}>
+                                            <Form.Item
+                                                label="Mã sản phẩm"
+                                                name={`sku`}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} md={6}>
+                                            <Form.Item
+                                                initialValue={0}
+                                                label="Giá bán"
+                                                name={`default_price`}
+                                            >
+                                                <InputNumber
+                                                    style={getSize('100%')}
+                                                    formatter={value => `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                    parser={value => value.replace(/\đ\s?|(,*)/g, '')}
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} md={6}>
+                                            <Form.Item
+                                                initialValue={0}
+                                                label="Giá giảm"
+                                                name={`default_sale_price`}
+                                            >
+                                                <InputNumber
+                                                    style={getSize('100%')}
+                                                    formatter={value => `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                    parser={value => value.replace(/\đ\s?|(,*)/g, '')}
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
                                 </Card>
                                 <div className="my-5">
                                     <Card title="Thuộc tính sản phẩm">
                                         <Row>
-                                            <Col xs={24} md={16}>
-                                                <Form.Item style={styleTreeSelect} name="attributes">
-                                                    <Input.Group compact>
-                                                        <Select style={getSize('70%')} mode="multiple"
-                                                                allowClear
-                                                                placeholder="Chọn thuộc tính">
-                                                            {state.attributes ? state.attributes.map(item => {
-                                                                return <Select.Option
-                                                                    value={item.slug}>{item.name}</Select.Option>
-                                                            }) : null}
-                                                        </Select>
-                                                        <Button type="primary" onClick={addAttribute}>Thêm</Button>
-                                                    </Input.Group>
-                                                </Form.Item>
-                                                <Form.List name={`variants`}>
-                                                    {(fields, {add, remove}) => {
-                                                        return (<div>
-                                                            {fields.map(field => {
-                                                                return (
-                                                                    <Space key={field.key}
-                                                                           style={getStyles('{"display":"flex","marginBottom":"8"}')}
-                                                                           align="baseline">
+                                            <Col xs={24}>
+                                                <Form.List name="attrs">
+                                                    {(fields, {add, remove}) => (
+                                                        <div>
+                                                            {fields.map(field => (
+                                                                <Row gutter={[8, 0]}>
+                                                                    <Col md={6}>
                                                                         <Form.Item
                                                                             {...field}
-                                                                            name={[field.name, 'first']}
-                                                                            fieldKey={[field.fieldKey, 'first']}
+                                                                            name={[field.name, 'name']}
+                                                                            fieldKey={[field.fieldKey, 'name']}
                                                                             rules={[{
                                                                                 required: true,
                                                                                 message: 'Missing first name'
                                                                             }]}
                                                                         >
-                                                                            <Input placeholder="First Name"/>
+                                                                            <Select
+                                                                                className={`w-100`}
+                                                                                allowClear
+                                                                                placeholder="Chọn thuộc tính">
+                                                                                {state.attributes ? state.attributes.map(item => {
+                                                                                    return <Select.Option
+                                                                                        value={item.slug}>{item.name}</Select.Option>
+                                                                                }) : null}
+                                                                            </Select>
                                                                         </Form.Item>
+
+                                                                    </Col>
+                                                                    <Col md={14}>
                                                                         <Form.Item
                                                                             {...field}
                                                                             name={[field.name, 'last']}
@@ -141,21 +183,32 @@
                                                                                 message: 'Missing last name'
                                                                             }]}
                                                                         >
-                                                                            <Input placeholder="Last Name"/>
+                                                                            <Select mode="multiple"
+                                                                                    allowClear
+                                                                                    placeholder="Chọn thuộc tính">
+                                                                                {state.attributes ? state.attributes.map(item => {
+                                                                                    return <Select.Option
+                                                                                        value={item.slug}>{item.name}</Select.Option>
+                                                                                }) : null}
+                                                                            </Select>
                                                                         </Form.Item>
-                                                                        <i className="trash"
-                                                                           onClick={() => remove(field.name)}/>
-                                                                    </Space>
-                                                                )
-                                                            })}
-                                                            <Form.Item>
-                                                                <Button type="dashed" onClick={() => add()} block>
-                                                                    Add field
-                                                                </Button>
-                                                            </Form.Item>
-                                                        </div>)
-                                                    }}
+                                                                    </Col>
+                                                                    <Col>
+                                                                        <Button onClick={() => remove(field.name)}>
+                                                                            <i className="icon-trash"/>
+                                                                        </Button>
+                                                                    </Col>
+                                                                </Row>
+                                                            ))}
+                                                            <Button type="dashed" onClick={() => add()} block>
+                                                                Thêm thuộc tính khác
+                                                            </Button>
+                                                        </div>
+                                                    )}
                                                 </Form.List>
+                                            </Col>
+                                            <Col xs={24}>
+
                                             </Col>
                                         </Row>
                                     </Card>
@@ -214,7 +267,7 @@
                                             label="Ngôn ngữ"
                                             rules={[{required: true, message: 'Hãy chọn ngôn ngữ!'}]}
                                         >
-                                            <Select>
+                                            <Select onChange={setLanguage}>
                                                 <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
                                                 <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
                                             </Select>

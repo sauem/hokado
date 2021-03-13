@@ -11,7 +11,10 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
+            'enableCookieValidation' => true,
+            'enableCsrfValidation' => false,
             'csrfParam' => '_csrf-frontend',
+            'cookieValidationKey' => 't-X35MSnjfnpwc60yDvcbsNisYIJ8pqK',
         ],
         'user' => [
             'identityClass' => 'common\models\User',

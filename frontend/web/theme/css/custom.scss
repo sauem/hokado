@@ -1,0 +1,25 @@
+$default: #21409a;
+$red: #de2d2b;
+.header-top, .btn-style-one, {
+  background: $default;
+}
+
+.banner-section .content-column h1 span,
+.service-block .inner-box .icon-box,
+.reputation-section-two .form-column h5,
+.testimonial-block .inner-box .quote,
+.sec-title h2 span {
+  color: $red;
+}
+
+.service-block .inner-box:hover {
+  border-color: $default;
+}
+
+.testimonial-block .inner-box:before {
+  background-color: $red;
+}
+
+.main-menu .navigation > li:hover > a, .main-menu .navigation > li.current > a {
+  color: $red;
+}

@@ -83,6 +83,7 @@ function convertTreeSelect(array) {
         array.map(item => arr.push({
             title: item.name,
             key: item.id,
+            type: item.type,
             value: item.id,
             children: convertTreeSelect(item.children)
         }));
