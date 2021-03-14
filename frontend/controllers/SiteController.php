@@ -1,6 +1,10 @@
 <?php
+
 namespace frontend\controllers;
 
+use common\models\Archives;
+use common\models\ArchivesSearch;
+use common\models\Banners;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -74,7 +78,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $sliders = Banners::findAll([
+            'active' => Banners::BANNER_ACTIVE,
+            'language' => 'vi',
+            'position' => 'home_slider'
+        ]);
+        $categories = ArchivesSearch::findAll([
+            'active' => Archives::STATUS_ACTIVE
+        ]);
+
+        return $this->render('index', [
+            'sliders' => $sliders,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -216,8 +232,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {

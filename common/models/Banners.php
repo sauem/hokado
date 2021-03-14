@@ -31,6 +31,8 @@ class Banners extends BaseModel
     public $avatar;
     const BANNER_IMAGE = 'image';
     const BANNER_VIDEO = 'video';
+    const BANNER_ACTIVE = 'active';
+    const BANNER_DEACTIVE = 'deactive';
 
     public static function tableName()
     {

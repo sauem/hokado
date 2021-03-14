@@ -1,104 +1,36 @@
-@section('js_pos')
-    <script type="text/babel">
-        const App = () => {
-            const [state, setState] = useState({
-                imgViewList: []
-            });
+<?php
 
-            const onFileUpload = () => {
-
-            }
-            return (
-                <Card title="Thiết lập website">
-                    <Form layout="vertical">
-                        <Row gutter={[16, 0]}>
-                            <Col xs={24} md={18}>
-                                <Row gutter={[8, 0]}>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="site_name"
-                                            label="Tên website"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="email"
-                                            label="Email liên hệ"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="hotline_1"
-                                            label="Hotline 1"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="hotline_2"
-                                            label="Hotline 2"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="address_1"
-                                            label="Địa chỉ 1"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="address_2"
-                                            label="Địa chỉ 2"
-                                        >
-                                            <Input/>
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col xs={24} md={6}>
-                                <Form.Item
-                                    name="logo_header"
-                                    label="Logo header"
-                                >
-                                    <Upload
-                                        accept="image/*"
-                                        showUploadList={false}
-                                        listType="picture-card"
-                                        className="avatar-uploader"
-                                    >
-                                        <Button>Chọn ảnh</Button>
-                                    </Upload>
-                                </Form.Item>
-                                <Form.Item
-                                    name="logo_footer"
-                                    label="Logo header"
-                                >
-                                    <Upload
-                                        accept="image/*"
-                                        showUploadList={false}
-                                        customRequest={onFileUpload}
-                                        listType="picture-card"
-                                        className="avatar-uploader"
-                                    >
-                                        {state.imgViewList.length > 0 ?
-                                            <img src={state.imgViewList["logo_footer"].path} alt="avatar"
-                                                 style={getSize('100%')}/> : <Button>Chọn ảnh</Button>}
-                                    </Upload>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Card>
-            )
-        }
-    </script>
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+?>
+@section("content")
+    <?php $form = ActiveForm::begin() ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="action-tools">
+                        <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
+                    </div>
+                    <h4 class="card-title">Thiết lập website</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'site_name')->label('Tên website')?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'address_1')->label('Địa chỉ 1')?>
+                            <?= $form->field($model, 'address_2')->label('Địa chỉ 2')?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, 'hotline_1')->label('Hotline 1')?>
+                            <?= $form->field($model, 'hotline_2')->label('Hotline 2')?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php ActiveForm::end() ?>
 @stop

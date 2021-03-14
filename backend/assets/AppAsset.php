@@ -26,6 +26,7 @@ class AppAsset extends AssetBundle
         '/js/lib/babel.js',
         'https://cdnjs.cloudflare.com/ajax/libs/antd/4.13.0/antd.min.js',
         #'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js',
         '/js/lib/axios.js',
         '/js/helper/Constant.js',
         '/js/helper/Helper.js',

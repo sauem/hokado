@@ -21,6 +21,9 @@ use Yii;
  */
 class Archives extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_DEACTIVE = 0;
+
     /**
      * {@inheritdoc}
      */

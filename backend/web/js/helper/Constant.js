@@ -108,11 +108,15 @@ const ROUTE = {
     AJAX: {
         REMOVE_MEDIA: 'default/remove-media'
     },
+    SETTING: {
+        CREATE: 'setting/create'
+    },
     ARCHIVE: {
         INDEX: 'archive/index',
         CREATE: 'archive/create',
         UPDATE: 'archive/update',
-        DELETE: 'archive/delete'
+        DELETE: 'archive/delete',
+        VIEW: 'archive/view',
     },
     BANNER: {
         INDEX: 'banner/index',

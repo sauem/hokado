@@ -15,11 +15,13 @@ class ArchivesSearch extends Archives
     /**
      * {@inheritdoc}
      */
+    public $groupby;
+
     public function rules()
     {
         return [
             [['id', 'active', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'slug', 'description', 'type', 'language'], 'safe'],
+            [['name', 'slug', 'description', 'type', 'language', 'groupby'], 'safe'],
         ];
     }
 

@@ -30,7 +30,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="page-wrapper">
     <?= $this->render('../parts/header') ?>
-    <?= $this->render('../parts/banner') ?>
+
     <?= $content ?>
     <?= $this->render('../parts/footer') ?>
 </div>

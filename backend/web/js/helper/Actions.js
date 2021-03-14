@@ -86,7 +86,15 @@ const Archives = {
         } catch (e) {
             message.error(e.message);
         }
-    }
+    },
+    view: async (id) => {
+        try {
+            const {data} = await Server.get(`${ROUTE.ARCHIVE.VIEW}?id=${id}`).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
 }
 const Articles = {
     create: async (article) => {
@@ -349,6 +357,20 @@ const Users = {
             const {data, headers} = res;
             const pagination = getPaginate(headers);
             return {data, pagination};
+        } catch (e) {
+            message.error(e.message);
+        }
+    }
+}
+const Settings = {
+    save: async (setting) => {
+        try {
+            const {data} = await axios.create({
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).post('/site/settings', setting).catch(axiosCatch);
+            return data;
         } catch (e) {
             message.error(e.message);
         }

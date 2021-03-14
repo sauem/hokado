@@ -1,6 +1,6 @@
 @section('js_pos')
     <script type="text/babel">
-        const ItemMenu = () => {
+        const ItemMenu = ({...props}) => {
             return (
                 <div>
                     HELLO2
@@ -10,13 +10,36 @@
         const App = () => {
             const [state, setState] = useState({
                 categories: [],
+                items: [],
                 outerLink: false,
                 type: null
             });
             const [form] = Form.useForm();
-            const submitForm = (data) => {
-                let item = getObjectValue(data.link, state.categories);
+            const submitForm = async (data) => {
+                let items = state.items;
+                if (data.link === 'outer_link') {
+                    items.push({
+                        title: data.title,
+                        key: 'outer_link',
+                        value: 'outer_link',
+                        type: 'custom'
+                    });
+                } else {
+                    let item = await Archives.view(data.link);
+                    items.push({
+                        title: data.title,
+                        key: item.id,
+                        value: item.id,
+                        type: item.type
+                    });
+                }
 
+                setState({
+                    ...state,
+                    ...{
+                        items
+                    }
+                });
             }
             const changeLink = (e) => {
 
@@ -53,7 +76,7 @@
                 });
             }, []);
             return (
-                <Form onFinish={submitForm} layout="vertical">
+                <Form form={form} onFinish={submitForm} layout="vertical">
                     <Row gutter={[8, 0]}>
                         <Col md={8}>
                             <Card title="Thêm item menu" extra={
@@ -102,14 +125,17 @@
 
                                 <div className="pull-right">
                                     <Button htmlType="submit" type="primary">
-                                        Lưu
+                                        Thêm menu
                                     </Button>
                                 </div>
                             </Card>
                         </Col>
                         <Col md={16}>
                             <Card title="Menu list">
-                                <ItemMenu/>
+                                {state.items.length > 0 ?
+                                    state.items.map(item => <ItemMenu {...item}/>) :
+                                    null
+                                }
                             </Card>
                         </Col>
                     </Row>

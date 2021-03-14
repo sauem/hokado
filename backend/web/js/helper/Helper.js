@@ -72,10 +72,16 @@ function treeLoop(args = []) {
 
 }
 
-function getObjectValue(val, obj) {
-    let key = obj.findIndex(item => item.value === val || item.slug === val || item.lang === val);
+function getObjectValue(val, obj, getKey = false) {
+    let key = obj.findIndex(item =>
+        item.value === val || item.id === val || item.slug === val || item.lang === val
+    );
+    if (getKey) {
+        return key;
+    }
     return obj[key];
 }
+
 
 function convertTreeSelect(array) {
     let arr = [];

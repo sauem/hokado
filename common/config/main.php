@@ -26,6 +26,14 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'i18n' => [
+            'translations' => [
+                'yii2mod.settings' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@yii2mod/settings/messages',
+                ],
+            ],
+        ],
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => SQL_HOST,

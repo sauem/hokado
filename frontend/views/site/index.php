@@ -6,6 +6,10 @@ $this->title = 'My Yii Application';
 ?>
 
 <!-- Services Section -->
+<?= $this->render('../parts/slider', [
+    'sliders' => $sliders
+]) ?>
+
 <div class="services-section">
     <div class="auto-container">
         <div class="sec-title">
@@ -178,7 +182,9 @@ $this->title = 'My Yii Application';
                     <div class="inner-box">
                         <div class="quote icofont-quote-right"></div>
                         <div class="author">Gắn kết<span></span></div>
-                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.</div>
+                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna
+                            akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.
+                        </div>
                     </div>
                 </div>
 
@@ -187,7 +193,9 @@ $this->title = 'My Yii Application';
                     <div class="inner-box">
                         <div class="quote icofont-quote-right"></div>
                         <div class="author">Trách nhiệm <span>/ Director at Spotify</span></div>
-                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.</div>
+                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna
+                            akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.
+                        </div>
                     </div>
                 </div>
 
@@ -196,7 +204,9 @@ $this->title = 'My Yii Application';
                     <div class="inner-box">
                         <div class="quote icofont-quote-right"></div>
                         <div class="author">Kết nối <span>/ Director at Chobham Manor</span></div>
-                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.</div>
+                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna
+                            akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.
+                        </div>
                     </div>
                 </div>
 
@@ -205,7 +215,9 @@ $this->title = 'My Yii Application';
                     <div class="inner-box">
                         <div class="quote icofont-quote-right"></div>
                         <div class="author">Tiếp cận <span>/ Director at Spotify</span></div>
-                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.</div>
+                        <div class="text">Sed elit quam, iaculis sed semper sit amet udin vitae nibh. Rubino at magna
+                            akal semperFusce commodo molestie luctus.Lorem ipsum Dolor tusima olatiup.
+                        </div>
                     </div>
                 </div>
 
@@ -225,7 +237,7 @@ $this->title = 'My Yii Application';
             <div class="form-column col-lg-5 col-md-12 col-sm-12">
                 <div class="inner-column">
                     <div class="form-boxed">
-                        <h5>free consulation</h5>
+                        <h5>THAM GIA CHI HỘI</h5>
 
                         <div class="consult-form">
                             <form method="post"
@@ -233,34 +245,28 @@ $this->title = 'My Yii Application';
 
                                 <!--Form Group-->
                                 <div class="form-group">
-                                    <label>full name</label>
-                                    <input type="text" name="name" value="" placeholder="Jason Staham" required>
+                                    <label>Họ và tên</label>
+                                    <input type="text" name="name" value="" placeholder="Nguyen Van A" required>
                                 </div>
                                 <!--Form Group-->
                                 <div class="form-group">
-                                    <label>phone number</label>
-                                    <input type="text" name="phone" value="" placeholder="Enter your phone number"
+                                    <label>Số điện thoại</label>
+                                    <input type="text" name="phone" value="" placeholder="034xxxxxx"
                                            required>
                                 </div>
-                                <!--Form Group-->
                                 <div class="form-group">
-                                    <label>topics</label>
-                                    <select class="custom-select-box">
-                                        <option>Choose topic</option>
-                                        <option>Topic 01</option>
-                                        <option>Topic 02</option>
-                                        <option>Topic 03</option>
-                                        <option>Topic 04</option>
-                                    </select>
+                                    <label>Email</label>
+                                    <input type="text" name="email" placeholder="demo@gmail.com"
+                                           required>
                                 </div>
-                                <!--Form Group-->
+
                                 <div class="form-group">
-                                    <label>message</label>
-                                    <textarea name="message" placeholder="Write your message here"></textarea>
+                                    <label>Lời nhắn</label>
+                                    <textarea name="message" placeholder="lời nhắn của bạn...."></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button class="theme-btn btn-style-one" type="submit" name="submit-form"><span
-                                                class="txt">send your messenger</span></button>
+                                    <button class="theme-btn btn-style-one" type="submit" name="submit-form">
+                                        <span class="txt">GỬI YÊU CẦU</span></button>
                                 </div>
                             </form>
 
