@@ -39,7 +39,8 @@ class AppAsset extends AssetBundle
         '/js/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js',
         '/js/lib/masonry-layout/dist/masonry.pkgd.min.js',
         '/js/lib/sweetalert2/dist/sweetalert2.js',
-        '/js/script.js'
+        '/js/script.js',
+        '/js/upload.js?v=1.5',
     ];
     public $depends = [
         'yii\web\YiiAsset',

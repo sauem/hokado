@@ -2,9 +2,11 @@
 
 namespace frontend\controllers;
 
+use common\helper\HelperFunction;
 use common\models\Archives;
 use common\models\ArchivesSearch;
 use common\models\Banners;
+use common\models\Medias;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;

@@ -1,3 +1,8 @@
+<?php
+
+use common\helper\HelperFunction;
+
+?>
 <header class="main-header">
 
     <!-- Header Top -->
@@ -40,8 +45,11 @@
             <div class="inner-container clearfix">
 
                 <div class="pull-left logo-box">
-                    <div class="logo"><a href="index.html">
-                            <img src="images/logo.png" alt="" title=""></a>
+                    <div class="logo">
+                        <a href="/">
+                            <img src="<?= HelperFunction::getMedia(HelperFunction::setting('logo_header',true)) ?>"
+                                 alt="<?= HelperFunction::setting('site_name') ?>">
+                        </a>
                     </div>
                 </div>
 

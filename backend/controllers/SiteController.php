@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\helper\HelperFunction;
 use common\models\Common;
 use Yii;
 use yii\web\Controller;

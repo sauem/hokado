@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\helper\HelperFunction;
 ?>
 @section("content")
     <?php $form = ActiveForm::begin() ?>
@@ -26,6 +27,34 @@ use yii\widgets\ActiveForm;
                         <div class="col-md-3">
                             <?= $form->field($model, 'hotline_1')->label('Hotline 1')?>
                             <?= $form->field($model, 'hotline_2')->label('Hotline 2')?>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="upload-area avatar">
+                                <div class="img">
+                                    <img onerror="defaultImage(this)" id="Common[logo_header]" src="<?= HelperFunction::getImage(null,HelperFunction::setting('logo_header'))?>"/>
+                                    <?= $form->field($model, 'logo_header')->hiddenInput()->label(false)?>
+                                    <input data-key="Common[logo_header]"
+                                           onchange="new HandleUpload(this).onChoseFile();"
+                                           type="file" name="file">
+                                    <p>Chọn ảnh</p>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn"><i class="icon-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="upload-area avatar mt-3">
+                                <div class="img">
+                                    <img onerror="defaultImage(this)" src="<?= HelperFunction::getImage(null,HelperFunction::setting('logo_footer'))?>" id="Common[logo_footer]"/>
+                                    <?= $form->field($model, 'logo_footer')->hiddenInput()->label(false)?>
+                                    <input data-key="Common[logo_footer]"
+                                           onchange="new HandleUpload(this).onChoseFile();"
+                                           type="file" name="file">
+                                    <p>Chọn ảnh</p>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn"><i class="icon-trash"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
