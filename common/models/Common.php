@@ -12,10 +12,15 @@ class Common extends Model
     public $hotline_1;
     public $hotline_2;
     public $site_name;
+    public $site_description;
     public $address_1;
+    public $address_en_1;
     public $address_2;
+    public $address_en_2;
     public $logo_header;
     public $logo_footer;
+    public $site_name_en;
+    public $site_description_en;
 
     public static function tableName()
     {
@@ -27,7 +32,10 @@ class Common extends Model
         return [
             [['email', 'site_name', 'hotline_1',
                 'hotline_2', 'address_1', 'address_2',
-                'logo_header', 'logo_footer'], 'string']
+                'logo_header', 'logo_footer', 'site_description',
+                'address_en_1', 'site_name_en', 'site_description_en',
+                'address_en_2',
+            ], 'string']
         ];
     }
 

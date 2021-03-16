@@ -46,8 +46,32 @@ class HelperFunction
         return "/static/$media->path";
     }
 
-    public static function setting($key)
+    public static function setting($key, $getLang = false)
     {
-        return \Yii::$app->settings->get('Common', $key);
+        $lang = \Yii::$app->language;
+        return \Yii::$app->settings->get('Common', $key . ($getLang == true && $lang == LANG_EN ? '_' . $lang : ''));
+    }
+
+    public static function getLogo($key = 'header')
+    {
+        $logo = \Yii::$app->settings->get('Common', "logo_$key");
+        if (!$logo) {
+            return '/usvn/images/logo/USVN.png';
+        }
+        $model = Medias::findOne($logo);
+        if (!$model) {
+            return '/usvn/images/logo/USVN.png';
+        }
+        return "/static$model->path";
+    }
+
+    public static function Language($lang = 'vi')
+    {
+        return \Yii::$app->language == $lang;
+    }
+
+    public static function getLanguage()
+    {
+        return \Yii::$app->language === 'vi-VN' ? 'vi' : 'en';
     }
 }

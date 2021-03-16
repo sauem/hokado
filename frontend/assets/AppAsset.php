@@ -12,26 +12,20 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        '/theme/css/main.css',
-        '/theme/css/responsive.css',
-        '/theme/css/custom.css',
+        'https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800;900&amp;family=Roboto:wght@400;700&amp;display=swap',
+        '/usvn/css/all.css',
+        '/usvn/css/libraries.css',
+        '/usvn/css/style.css',
+        '/usvn/css/custom.css',
     ];
     public $js = [
-        '/theme/js/popper.min.js',
-        '/theme/js/jquery.mCustomScrollbar.concat.min.js',
-        '/theme/js/jquery.fancybox.js',
-        '/theme/js/appear.js',
-        '/theme/js/owl.js',
-        '/theme/js/wow.js',
-        '/theme/js/parallax.min.js',
-        '/theme/js/parallax.min.js',
-        '/theme/js/tilt.jquery.min.js',
-        '/theme/js/jquery.paroller.min.js',
-        '/theme/js/jquery-ui.js',
-        '/theme/js/script.js',
+        '//cdn.jsdelivr.net/npm/sweetalert2@10',
+        '/usvn/js/plugins.js',
+        '/usvn/js/main.js',
+        '/usvn/js/templ.js?v=1.6',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        #  'yii\bootstrap\BootstrapAsset',
     ];
 }

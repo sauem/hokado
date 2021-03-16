@@ -20,58 +20,13 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\Response;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 
     /**
      * Displays homepage.
@@ -82,11 +37,12 @@ class SiteController extends Controller
     {
         $sliders = Banners::findAll([
             'active' => Banners::BANNER_ACTIVE,
-            'language' => 'vi',
+            'language' => HelperFunction::getLanguage(),
             'position' => 'home_slider'
         ]);
         $categories = ArchivesSearch::findAll([
-            'active' => Archives::STATUS_ACTIVE
+            'active' => Archives::STATUS_ACTIVE,
+            'language' => HelperFunction::getLanguage()
         ]);
 
         return $this->render('index', [
@@ -274,5 +230,17 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionSwitchLanguage()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isPost) {
+            $lang = Yii::$app->request->post('lang') == 'en' ? 'en' : 'vi-VN';
+            Yii::$app->cache->set('language', $lang);
+            Yii::$app->language = $lang;
+            return Yii::$app->language;
+        }
+        return false;
     }
 }

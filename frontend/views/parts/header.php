@@ -3,114 +3,88 @@
 use common\helper\HelperFunction;
 
 ?>
-<header class="main-header">
 
-    <!-- Header Top -->
-    <div class="header-top">
-        <div class="auto-container">
-            <div class="inner-container clearfix">
-                <!-- Top Left -->
-                <div class="top-left">
-                    <!-- Info List -->
-                    <ul class="info-list">
-                        <li><a href="mailto:hello@consulte.co"><span class="icon icofont-envelope"></span>
-                                hello@consulte.co</a></li>
-                        <li><a href="tel:+1212-226-3126"><span class="icon icofont-phone"></span> +1212-226-3126</a>
-                        </li>
-                        <li><a href="contact.html"><span class="icon icofont-clock-time"></span> Mon - Sat: 8.00 -
-                                17.00, Sunday Closed</a></li>
-                    </ul>
-                </div>
+<header class="header header-transparent">
+    <nav class="navbar navbar-expand-lg sticky-navbar">
+        <div class="container">
 
-                <!-- Top Right -->
-                <div class="top-right pull-right">
-                    <!-- Social Box -->
-                    <ul class="social-box">
-                        <li class="share">Our Social</li>
-                        <li><a href="https://twitter.com/" class="icofont-twitter"></a></li>
-                        <li><a href="http://facebook.com/" class="icofont-facebook"></a></li>
-                        <li><a href="https://www.instagram.com/" class="icofont-instagram"></a></li>
-                        <li><a href="https://rss.com/" class="icofont-rss"></a></li>
-                        <li><a href="https://www.youtube.com/" class="icofont-play-alt-1"></a></li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Upper -->
-    <div class="header-upper">
-        <div class="auto-container">
-            <div class="inner-container clearfix">
-
-                <div class="pull-left logo-box">
-                    <div class="logo">
-                        <a href="/">
-                            <img src="<?= HelperFunction::getMedia(HelperFunction::setting('logo_header',true)) ?>"
-                                 alt="<?= HelperFunction::setting('site_name') ?>">
+            <a class="navbar-brand" href="index.html">
+                <img width="80" src="<?= HelperFunction::getLogo('header') ?>" class="logo-light" alt="logo">
+                <img width="80" src="<?= HelperFunction::getLogo('header') ?>" class="logo-dark" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button">
+                <span class="menu-lines"><span></span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavigation">
+                <ul class="navbar-nav m-auto">
+                    <li class="nav__item">
+                        <a href="#" class="nav__item-link">Trang chủ</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="product-and-brief-request.html" class="nav__item-link">Sản phẩm & Yêu cầu đặt
+                            hàng</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="guideline.html" class="nav__item-link">Hướng dẫn</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="blog.html" class="nav__item-link">Tin tức</a>
+                    </li>
+                    <!--              <li class="nav__item  has-dropdown">-->
+                    <!--                <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">Company</a>-->
+                    <!--                <ul class="dropdown-menu">-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="about-us.html" class="nav__item-link">About Us</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="why-us.html" class="nav__item-link">Why Choose Us</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="leadership-team.html" class="nav__item-link">Leadership Team</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="awards.html" class="nav__item-link">Award & Recognition</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="pricing.html" class="nav__item-link">Pricing & Plans</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="faqs.html" class="nav__item-link">Help & FAQs</a>-->
+                    <!--                  </li> &lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                  <li class="nav__item">-->
+                    <!--                    <a href="careers.html" class="nav__item-link">Careers</a>-->
+                    <!--                  </li>&lt;!&ndash; /.nav-item &ndash;&gt;-->
+                    <!--                </ul>&lt;!&ndash; /.dropdown-menu &ndash;&gt;-->
+                    <!--              </li>-->
+                    <li class="nav__item">
+                        <a href="contact-us.html" class="nav__item-link">Liên hệ</a>
+                    </li><!-- /.nav-item -->
+                </ul>
+                <ul class="navbar-actions list-unstyled mb-0 d-flex align-items-center">
+                    <li class="nav__item language has-dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">
+                            <img src="/usvn/images/flags/<?= HelperFunction::Language('vi-VN') ? 'vi.svg' : 'en.svg' ?>"/>
+                            <span class="ml-1"></span><?= HelperFunction::Language('vi-VN') ? 'VI' : 'EN' ?> </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav__item">
+                                <a onclick="switchLanguage('<?= LANG_VI?>')" href="javascript:void(0)" class="nav__item-link">
+                                    <img width="24" src="/usvn/images/flags/vi.svg"/> VN</a>
+                            </li><!-- /.nav-item -->
+                            <li class="nav__item">
+                                <a href="javascript:void(0)" onclick="switchLanguage('<?= LANG_EN?>')" class="nav__item-link">
+                                    <img width="24" src="/usvn/images/flags/en.svg"/> English</a>
+                            </li><!-- /.nav-item -->
+                        </ul><!-- /.dropdown-menu -->
+                    </li>
+                    <li>
+                        <a href="tel: <?= HelperFunction::setting('hotline_1') ?>"
+                           class="action__btn">
+                            <i class="icon-phone"></i><span><?= HelperFunction::setting('hotline_1', false) ?></span>
                         </a>
-                    </div>
-                </div>
-
-                <div class="nav-outer pull-left clearfix">
-                    <!-- Main Menu -->
-                    <nav class="main-menu navbar-expand-md">
-                        <div class="navbar-header">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-
-                        <div class="navbar-collapse show collapse clearfix" id="navbarSupportedContent">
-                            <ul class="navigation clearfix">
-                                <li class="current"><a href="/">Trang chủ</a></li>
-                                <li class="dropdown"><a href="#">Giới thiệu về hội</a>
-                                    <ul>
-                                        <li><a href="project.html">Giới thiệu về hội doanh nhân</a></li>
-                                        <li><a href="project.html">Giới thiệu về chi hội</a></li>
-                                        <li><a href="project.html">Giấy chứng nhận</a></li>
-                                        <li><a href="project-details.html">Quyền lợi của hội viên</a></li>
-                                        <li><a href="project-details.html">Nhiệm vụ của chủ tịch và các ban</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="about.html">Danh sách thành viên</a></li>
-                                <li><a href="blog.html">Tin tức</a></li>
-                                <li><a href="contact.html">Liên hệ </a></li>
-                            </ul>
-                        </div>
-
-                    </nav>
-
-                </div>
-
-                <!-- Outer Box -->
-                <div class="outer-box">
-                    <!-- Search Btn -->
-                    <div class="search-box-btn search-box-outer"><span class="icon icofont-search"></span></div>
-                    <!-- Mobile Navigation Toggler -->
-                    <div class="mobile-nav-toggler"><span class="icon ti-menu"></span></div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!--End Header Upper-->
-
-    <!-- Mobile Menu  -->
-    <div class="mobile-menu">
-        <div class="menu-backdrop"></div>
-        <div class="close-btn"><span class="icon lnr lnr-cross"></span></div>
-
-        <nav class="menu-box">
-            <div class="nav-logo"><a href="index.html"><img src="images/logo.png" alt="" title=""></a></div>
-            <div class="menu-outer">
-                <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
-        </nav>
-    </div><!-- End Mobile Menu -->
-
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+            <!-- /.navbar-actions -->
+        </div><!-- /.container -->
+    </nav><!-- /.navabr -->
 </header>

@@ -28,23 +28,25 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="page-wrapper">
+<div class="wrapper">
+    <div class="preloader">
+        <div class="sk-cube-grid">
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+            <span class="sk-cube"></span>
+        </div>
+    </div>
     <?= $this->render('../parts/header') ?>
 
     <?= $content ?>
     <?= $this->render('../parts/footer') ?>
 </div>
-<div class="search-popup">
-    <button class="close-search style-two"><span class="icofont-brand-nexus"></span></button>
-    <button class="close-search"><span class="icofont-arrow-up"></span></button>
-    <form method="post" action="https://htmldemo.hasthemes.com/consultix/consultix/blog.html">
-        <div class="form-group">
-            <input type="search" name="search-field" value="" placeholder="Search Here" required="">
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </div>
-    </form>
-</div>
-<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-arrow-circle-up"></span></div>
 <?php $this->endBody() ?>
 </body>
 </html>

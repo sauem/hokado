@@ -19,10 +19,16 @@ use common\helper\HelperFunction;
                     <div class="row">
                         <div class="col-md-3">
                             <?= $form->field($model, 'site_name')->label('Tên website')?>
+                            <?= $form->field($model, 'site_name')->label('Tên website (en)')?>
+                            <?= $form->field($model, 'site_description')->textarea()->label('Giới thiệu ngắn')?>
+                            <?= $form->field($model, 'site_description_en')->textarea()->label('Giới thiệu ngắn (en)')?>
+                            <?= $form->field($model, 'email')->label('Email')?>
                         </div>
                         <div class="col-md-3">
                             <?= $form->field($model, 'address_1')->label('Địa chỉ 1')?>
                             <?= $form->field($model, 'address_2')->label('Địa chỉ 2')?>
+                            <?= $form->field($model, 'address_en_1')->label('Địa chỉ 1 (en)')?>
+                            <?= $form->field($model, 'address_en_2')->label('Địa chỉ 2 (en)')?>
                         </div>
                         <div class="col-md-3">
                             <?= $form->field($model, 'hotline_1')->label('Hotline 1')?>
@@ -31,7 +37,8 @@ use common\helper\HelperFunction;
                         <div class="col-md-3">
                             <div class="upload-area avatar">
                                 <div class="img">
-                                    <img onerror="defaultImage(this)" id="Common[logo_header]" src="<?= HelperFunction::getImage(null,HelperFunction::setting('logo_header'))?>"/>
+                                    <img onerror="defaultImage(this)" id="Common[logo_header]"
+                                         src="<?= HelperFunction::getImage(null, HelperFunction::setting('logo_header'))?>"/>
                                     <?= $form->field($model, 'logo_header')->hiddenInput()->label(false)?>
                                     <input data-key="Common[logo_header]"
                                            onchange="new HandleUpload(this).onChoseFile();"
@@ -44,7 +51,9 @@ use common\helper\HelperFunction;
                             </div>
                             <div class="upload-area avatar mt-3">
                                 <div class="img">
-                                    <img onerror="defaultImage(this)" src="<?= HelperFunction::getImage(null,HelperFunction::setting('logo_footer'))?>" id="Common[logo_footer]"/>
+                                    <img onerror="defaultImage(this)"
+                                         src="<?= HelperFunction::getImage(null, HelperFunction::setting('logo_footer'))?>"
+                                         id="Common[logo_footer]"/>
                                     <?= $form->field($model, 'logo_footer')->hiddenInput()->label(false)?>
                                     <input data-key="Common[logo_footer]"
                                            onchange="new HandleUpload(this).onChoseFile();"

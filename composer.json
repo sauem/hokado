@@ -26,7 +26,8 @@
     "mdmsoft/yii2-admin": "~2.0",
     "yii2mod/yii2-settings": "*",
     "cyneek/yii2-blade": "*",
-    "sizeg/yii2-jwt": "dev-master"
+    "sizeg/yii2-jwt": "dev-master",
+    "yiisoft/yii2-redis": "~2.0.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
