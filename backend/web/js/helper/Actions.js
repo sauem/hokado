@@ -376,3 +376,64 @@ const Settings = {
         }
     }
 }
+const Products = {
+    create: async (product) => {
+        try {
+            const {data} = await Server.post(ROUTE.PRODUCT.CREATE, product).catch(axiosCatch);
+            console.log(data);
+            message.success('Tạo sản phẩm thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    update: async (product) => {
+        try {
+            const {data} = await Server.put(ROUTE.PRODUCT.UPDATE + `?id=${product.id}`, product).catch(axiosCatch);
+            message.success('Cập nhật sản phẩm thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    delete: async (id) => {
+        try {
+            const {data} = await Server.delete(`${ROUTE.PRODUCT.DELETE}?id=${id}`).catch(axiosCatch);
+            message.success('Xóa sản phẩm thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    fetch: async (params) => {
+        try {
+            const res = await Server.get(ROUTE.PRODUCT.INDEX, {
+                params: {
+                    ...params,
+                    sort: '-created_at',
+                    expand: 'avatar,archive',
+                    "per-page": 20
+                }
+            }).catch(axiosCatch);
+            const {data, headers} = res;
+            const current = headers['x-pagination-current-page'],
+                totalPage = headers['x-pagination-page-count'],
+                pageSize = headers['x-pagination-per-page'],
+                total = headers['x-pagination-total-count'],
+                pagination = {
+                    total, current, pageSize, totalPage
+                };
+            return {data, pagination};
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    view: async (id) => {
+        try {
+            const {data} = await Server.get(`${ROUTE.PRODUCT.VIEW}?id=${id}`).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+}

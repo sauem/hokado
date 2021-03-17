@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\web\BadRequestHttpException;
 
 /**
  * This is the model class for table "products_archive".
@@ -53,5 +54,20 @@ class ProductsArchive extends BaseModel
     public function getProduct()
     {
         return $this->hasOne(Products::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @param $data
+     * @throws BadRequestHttpException
+     */
+    public static function saveItems($data)
+    {
+        try {
+            Yii::$app->db->createCommand()->batchInsert(ProductsArchive::tableName(), [
+                'archive_id', 'product_id', 'created_at', 'updated_at'
+            ], $data)->execute();
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
+        }
     }
 }

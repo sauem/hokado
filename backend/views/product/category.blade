@@ -208,6 +208,10 @@ $view->title = 'Danh mục sản phẩm';
                         <Card title={`Danh mục sản phẩm`}
                               extra={
                                   <div className="d-flex">
+                                      <Select defaultValue={LANG_VI} style={getStyles({width:'100%',marginRight:5})}>
+                                          <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                          <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                      </Select>
                                       <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
                                       <Button onClick={searchArchive} className="ml-2"><i
                                           className="icon-search"/></Button>

@@ -24,6 +24,7 @@ class Products extends BaseModel
 {
     public $avatar;
     public $thumbnails;
+    public $media_id;
 
     /**
      * {@inheritdoc}
@@ -45,7 +46,7 @@ class Products extends BaseModel
             [['name', 'slug', 'excerpt'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 50],
             [['slug'], 'unique'],
-            [['avatar', 'thumbnails'], 'safe'],
+            [['avatar', 'thumbnails', 'media_id'], 'safe'],
         ];
     }
 

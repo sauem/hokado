@@ -145,6 +145,13 @@ const ROUTE = {
         DELETE: 'variant/delete',
         VIEW: 'variant/view'
     },
+    PRODUCT: {
+        INDEX: 'product/index',
+        CREATE: 'product/create',
+        UPDATE: 'product/update',
+        DELETE: 'product/delete',
+        VIEW: 'product/view'
+    },
     USER: {
         INDEX: 'user/index',
         CREATE: 'user/create',

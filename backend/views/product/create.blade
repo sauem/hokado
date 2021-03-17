@@ -13,7 +13,14 @@
             const [form] = Form.useForm();
             const [defaultFileList, setDefaultFileList] = useState([]);
             const [progress, setProgress] = useState(0);
-
+            const onSubmit = async (data) => {
+                console.log(data);
+                if (typeof data.id == "undefined") {
+                    await Products.create(data);
+                } else {
+                    await Products.update(data);
+                }
+            }
             const changeContent = text => {
                 form.setFieldsValue({
                     content: text
@@ -47,7 +54,7 @@
             const handleOnChange = ({file, fileList, event}) => {
                 setDefaultFileList(fileList);
             };
-            const onUpload = options => {
+            const onUpload = (options, type = 'avatar') => {
                 const {onSuccess, onError, file, onProgress} = options;
                 setState({
                     ...state,
@@ -56,9 +63,18 @@
                     }
                 });
                 onUploadMedia(file, data => {
-                    form.setFieldsValue({
-                        media_id: data.id
-                    });
+                    let thumbnails = typeof form.getFieldValue('thumbnails') == "undefined" ? [] : form.getFieldValue('thumbnails');
+                    if (type === 'thumbnails') {
+                        thumbnails.push(data.id);
+                        form.setFieldsValue({
+                            thumbnails: thumbnails
+                        });
+                    } else {
+                        form.setFieldsValue({
+                            media_id: data.id
+                        });
+                    }
+
                     onSuccess();
                 }, onError, (event) => {
                     const percent = Math.floor((event.loaded / event.total) * 100);
@@ -69,11 +85,16 @@
                     onProgress({percent: (event.loaded / event.total) * 100});
                 }, MEDIA_TYPE_PRODUCT);
             }
+            const onSelectArchive = (selectedKeys, info) => {
+                form.setFieldsValue({
+                    archive_id: selectedKeys
+                })
+            }
             const selectAttribute = () => {
             }
             return (
                 <div className="mb-5">
-                    <Form form={form} layout="vertical">
+                    <Form onFinish={onSubmit} form={form} layout="vertical">
                         <Row gutter={[8, 0]}>
                             <Col md={18}>
                                 <Card title="Chi tiết">
@@ -245,6 +266,7 @@
                                         >
                                             <Tree
                                                 checkable
+                                                onCheck={onSelectArchive}
                                                 treeData={state.categories}
                                             />
                                         </Form.Item>
@@ -293,13 +315,24 @@
                                             </Upload>
                                         </Form.Item>
                                         <Form.Item
+                                            name="media_id"
+                                            hidden>
+                                            <Input/>
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="thumbnails"
+                                            rules={[{type: 'array'}]}
+                                            hidden>
+                                            <Input/>
+                                        </Form.Item>
+                                        <Form.Item
                                             label="Ảnh thumbnail (max 5)"
                                         >
                                             <Upload
                                                 accept="image/*"
                                                 listType="picture"
                                                 maxCount={5}
-                                                customRequest={onUpload}
+                                                customRequest={options => onUpload(options, 'thumbnails')}
                                                 multiple
                                             >
                                                 <Button><i className="icon-upload mr-2"/> Chọn ảnh</Button>

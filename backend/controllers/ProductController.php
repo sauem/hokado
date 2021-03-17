@@ -5,6 +5,7 @@ namespace backend\controllers;
 
 
 use common\models\Attributes;
+use common\models\ProductsArchive;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 

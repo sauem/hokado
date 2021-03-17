@@ -190,9 +190,17 @@ $view->title = 'Danh mục sản phẩm';
                         <Card title={`Danh mục sản phẩm`}
                               extra={
                                   <div className="d-flex">
-                                      <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
-                                      <Button onClick={searchArchive} className="ml-2"><i
-                                          className="icon-search"/></Button>
+                                      <div>
+                                          <Select>
+                                              <Select.Option>Tiếng Việt</Select.Option>
+                                              <Select.Option>Tiếng Anh</Select.Option>
+                                          </Select>
+                                      </div>
+                                      <div>
+                                          <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
+                                          <Button onClick={searchArchive} className="ml-2"><i
+                                              className="icon-search"/></Button>
+                                      </div>
                                   </div>
                               }
                         >

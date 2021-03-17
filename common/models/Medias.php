@@ -84,8 +84,20 @@ class Medias extends BaseModel
             $model = Medias::findOne($media_id);
             $model->obj_id = $obj_id;
             $model->status = Medias::STATUS_USING;
-            $model->save();
-            return Medias::deleteAll(['status' => Medias::STATUS_TRASH]);
+            return $model->save();
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param $thumbs
+     * @throws BadRequestHttpException
+     */
+    static function saveThumbnail($thumbs, $obj_id)
+    {
+        try {
+            Medias::updateAll(['obj_id' => $obj_id, 'status' => 1, 'type' => Medias::PRODUCT_THUMB_TYPE], ['id' => $thumbs]);
         } catch (\Exception $exception) {
             throw new BadRequestHttpException($exception->getMessage());
         }
