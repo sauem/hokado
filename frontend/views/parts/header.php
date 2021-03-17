@@ -8,7 +8,7 @@ use common\helper\HelperFunction;
     <nav class="navbar navbar-expand-lg sticky-navbar">
         <div class="container">
 
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
                 <img width="80" src="<?= HelperFunction::getLogo('header') ?>" class="logo-light" alt="logo">
                 <img width="80" src="<?= HelperFunction::getLogo('header') ?>" class="logo-dark" alt="logo">
             </a>
@@ -18,7 +18,7 @@ use common\helper\HelperFunction;
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav m-auto">
                     <li class="nav__item">
-                        <a href="#" class="nav__item-link">Trang chủ</a>
+                        <a href="/" class="nav__item-link">Trang chủ</a>
                     </li>
                     <li class="nav__item">
                         <a href="product-and-brief-request.html" class="nav__item-link">Sản phẩm & Yêu cầu đặt

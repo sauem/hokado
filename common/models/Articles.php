@@ -23,6 +23,8 @@ use Yii;
 class Articles extends BaseModel
 {
     public $avatar;
+    const STATUS_ACTIVE = 'public';
+    const STATUS_DRAFT = 'draft';
 
     /**
      * {@inheritdoc}

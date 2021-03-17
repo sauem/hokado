@@ -13,6 +13,9 @@ class HelperFunction
 {
     static function getImage($path = '', $id = null, $type = '')
     {
+        if ($path) {
+            return "/static$path";
+        }
         $model = Medias::findOne($id);
         if (!$model) {
             return "/static/$path";
@@ -73,5 +76,10 @@ class HelperFunction
     public static function getLanguage()
     {
         return \Yii::$app->language === 'vi-VN' ? 'vi' : 'en';
+    }
+
+    public static function Link($type = BLOG, $slug = '')
+    {
+        return "$type/$slug";
     }
 }

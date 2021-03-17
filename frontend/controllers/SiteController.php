@@ -5,8 +5,10 @@ namespace frontend\controllers;
 use common\helper\HelperFunction;
 use common\models\Archives;
 use common\models\ArchivesSearch;
+use common\models\Articles;
 use common\models\Banners;
 use common\models\Medias;
+use common\models\Products;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -44,47 +46,24 @@ class SiteController extends BaseController
             'active' => Archives::STATUS_ACTIVE,
             'language' => HelperFunction::getLanguage()
         ]);
-
+        $articles = Articles::find()
+            ->where([
+                'status' => Articles::STATUS_ACTIVE,
+                'language' => HelperFunction::getLanguage()
+            ])->limit(12)->orderBy('created_at DESC')->all();
+        $products = Products::find()
+            ->where([
+                'status' => Articles::STATUS_ACTIVE,
+                'language' => HelperFunction::getLanguage()
+            ])->limit(6)->orderBy('created_at DESC')->all();
         return $this->render('index', [
             'sliders' => $sliders,
             'categories' => $categories,
+            'articles' => $articles,
+            'products' => $products
         ]);
     }
 
-    /**
-     * Logs in a user.
-     *
-     * @return mixed
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
 
     /**
      * Displays contact page.
