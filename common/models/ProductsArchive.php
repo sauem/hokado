@@ -70,4 +70,15 @@ class ProductsArchive extends BaseModel
             throw new BadRequestHttpException($exception->getMessage());
         }
     }
+
+    static function removeRef($obj_id)
+    {
+        try {
+            ProductsArchive::deleteAll([
+                'product_id' => $obj_id
+            ]);
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
+        }
+    }
 }

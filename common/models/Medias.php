@@ -102,4 +102,16 @@ class Medias extends BaseModel
             throw new BadRequestHttpException($exception->getMessage());
         }
     }
+
+    static function removeObj($obj_id, $type)
+    {
+        try {
+            Medias::deleteAll([
+                'obj_id' => $obj_id,
+                'type' => $type
+            ]);
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
+        }
+    }
 }

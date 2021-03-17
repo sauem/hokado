@@ -16,7 +16,7 @@ function switchLanguage(lang) {
             willOpen: async () => {
                 Swal.showLoading();
                 const res = await this.setLang(lang);
-                setTimeout(() => window.location.reload(), 2000);
+                setTimeout(() => window.location.reload(), 1000);
             }
         });
     } catch (e) {

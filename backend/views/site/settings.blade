@@ -35,6 +35,8 @@ use common\helper\HelperFunction;
                             <?= $form->field($model, 'hotline_2')->label('Hotline 2')?>
                         </div>
                         <div class="col-md-3">
+                            <label>Logo header</label>
+
                             <div class="upload-area avatar">
                                 <div class="img">
                                     <img onerror="defaultImage(this)" id="Common[logo_header]"
@@ -49,6 +51,8 @@ use common\helper\HelperFunction;
                                     <button type="button" class="btn"><i class="icon-trash"></i></button>
                                 </div>
                             </div>
+                            <hr>
+                            <label>Logo footer</label>
                             <div class="upload-area avatar mt-3">
                                 <div class="img">
                                     <img onerror="defaultImage(this)"
@@ -56,6 +60,23 @@ use common\helper\HelperFunction;
                                          id="Common[logo_footer]"/>
                                     <?= $form->field($model, 'logo_footer')->hiddenInput()->label(false)?>
                                     <input data-key="Common[logo_footer]"
+                                           onchange="new HandleUpload(this).onChoseFile();"
+                                           type="file" name="file">
+                                    <p>Chọn ảnh</p>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn"><i class="icon-trash"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <label>Favicon</label>
+                            <div class="upload-area avatar mt-3">
+                                <div class="img">
+                                    <img onerror="defaultImage(this)"
+                                         src="<?= HelperFunction::getImage(null, HelperFunction::setting('favicon'))?>"
+                                         id="Common[favicon]"/>
+                                    <?= $form->field($model, 'favicon')->hiddenInput()->label(false)?>
+                                    <input data-key="Common[favicon]"
                                            onchange="new HandleUpload(this).onChoseFile();"
                                            type="file" name="file">
                                     <p>Chọn ảnh</p>

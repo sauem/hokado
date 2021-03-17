@@ -100,6 +100,7 @@ const BASE_URL = 'http://admin.hakota.local/';
 const URLS = {
     PRODUCT_INDEX: '/product',
     PRODUCT_CREATE: '/product/create',
+    PRODUCT_UPDATE: '/product/update',
     ARTICLE_CREATE: '/article/create',
     ARTICLE_UPDATE: '/article/update',
     ARTICLE_INDEX: '/article/index'

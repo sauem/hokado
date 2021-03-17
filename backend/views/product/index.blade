@@ -2,18 +2,70 @@
     <script type="text/babel">
 
         const App = () => {
+            const [state, setState] = useState({
+                products: [],
+                pagination: {},
+                loading: false
+            });
+            const onDelete = async (id) => {
+                try {
+                    await Products.delete(id);
+                    await updateState({page: 1});
+                } catch (e) {
+                    message.error(e.message);
+                }
+            }
+            const updateState = async (page) => {
+                const {data, pagination} = await Products.fetch(page);
+                setState({
+                    ...state,
+                    ...{
+                        products: data,
+                        pagination: pagination,
+                        loading: false
+                    }
+                });
+            }
+            useEffect(async () => {
+                try {
+                    await updateState({page: 1});
+                } catch (e) {
+
+                }
+
+            }, []);
             return (
                 <Card title={`Sản phẩm`}
-                      extra={<a href="/product/create" className="btn btn-xs btn-primary">
+                      extra={<a href={URLS.PRODUCT_CREATE} className="btn btn-xs btn-primary">
                           <i className="icon-add"/> Tạo sản phẩm</a>}>
                     <Table
-                        dataSource={[]}
+                        dataSource={state.products}
                         rowKey={'id'}
                         columns={[
                             {title: 'Sản phẩm', dataIndex: 'name'},
                             {title: 'Danh mục', dataIndex: 'name'},
                             {title: 'Giá sản phẩm', dataIndex: 'name'},
                             {title: 'Trạng thái', dataIndex: 'name'},
+                            {
+                                title: '', dataIndex: 'action', key: 'action', render: (text, raw) => {
+                                    return (
+                                        <div className="d-flex align-items-center">
+                                            <a href={`${URLS.PRODUCT_UPDATE}?id=${raw.id}`}
+                                               className={`btn btn-xs btn-primary mr-2 text-white`}><i
+                                                className="icon icon-edit"/></a>
+                                            <Popconfirm
+                                                title="Xóa sản phẩm hiện tại"
+                                                onConfirm={() => onDelete(raw.id)}
+                                                okText="Xóa"
+                                                cancelText="Hủy"
+                                            >
+                                                <Button type="dashed" danger size={`small`}><i
+                                                    className="icon icon-trash"/></Button>
+                                            </Popconfirm>
+                                        </div>
+                                    )
+                                }
+                            },
                         ]}
                     >
 

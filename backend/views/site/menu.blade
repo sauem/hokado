@@ -131,7 +131,14 @@
                             </Card>
                         </Col>
                         <Col md={16}>
-                            <Card title="Menu list">
+                            <Card title="Menu list" extra={
+                                <div>
+                                    <Select defaultValue={LANG_VI} style={getStyles({width: '100%'})}>
+                                        <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                        <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                    </Select>
+                                </div>
+                            }>
                                 {state.items.length > 0 ?
                                     state.items.map(item => <ItemMenu {...item}/>) :
                                     null

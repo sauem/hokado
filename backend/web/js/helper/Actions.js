@@ -411,7 +411,7 @@ const Products = {
                 params: {
                     ...params,
                     sort: '-created_at',
-                    expand: 'avatar,archive',
+                    expand: 'avatar,archives,thumbs',
                     "per-page": 20
                 }
             }).catch(axiosCatch);

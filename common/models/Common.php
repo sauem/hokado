@@ -9,6 +9,7 @@ use yii\base\Model;
 class Common extends Model
 {
     public $email;
+    public $favicon;
     public $hotline_1;
     public $hotline_2;
     public $site_name;
@@ -35,6 +36,7 @@ class Common extends Model
                 'logo_header', 'logo_footer', 'site_description',
                 'address_en_1', 'site_name_en', 'site_description_en',
                 'address_en_2',
+                'favicon'
             ], 'string']
         ];
     }
