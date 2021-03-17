@@ -4,6 +4,7 @@
         const initalState = {
             categories: [],
             attributes: [],
+            defaultArchives: [],
             loading: false,
             language: LANG_VI,
         }
@@ -32,12 +33,36 @@
                 });
             }
             useEffect(async () => {
+
                 initTinymce(changeContent);
+                const id = getParams('id');
+
+                if (id) {
+                    const {data} = await Products.view(id);
+                    const {meta, archives} = data;
+                    initalState.defaultArchives = archives.map(item => {
+                        return item.archive_id;
+                    });
+
+                    form.setFieldsValue({
+                        ...data,
+                        meta_title: meta ? meta.meta_title : null,
+                        meta_keyword: meta ? meta.meta_keyword : null,
+                        meta_description: meta ? meta.meta_description : null
+                    });
+                    typeof data.avatar !== 'undefined' ? setDefaultFileList([{
+                        uid: data.id,
+                        name: data.name,
+                        status: 'done',
+                        url: data.avatar
+                    }]) : setDefaultFileList([]);
+                }
                 const res = await Archives.fetch({page: -1, type: ARCHIVE_TYPE_PRODUCT});
                 const attr = await Attributes.fetch({page: -1});
                 setState({
                     ...state,
                     ...{
+                        defaultArchives: initalState.defaultArchives,
                         categories: convertTreeSelect(res.data),
                         attributes: attr.data
                     }
@@ -116,7 +141,7 @@
                                     </Form.Item>
                                     <Form.Item
                                         label="Mô tả"
-                                        name={`description`}
+                                        name={`excerpt`}
                                     >
                                         <Input.TextArea/>
                                     </Form.Item>
@@ -265,6 +290,9 @@
                                             rules={[{required: true, message: 'Danh mục bắt buộc', type: 'array'}]}
                                         >
                                             <Tree
+                                                selectedKeys={state.defaultArchives}
+                                                expandedKeys={state.defaultArchives}
+                                                checkedKeys={state.defaultArchives}
                                                 checkable
                                                 onCheck={onSelectArchive}
                                                 treeData={state.categories}

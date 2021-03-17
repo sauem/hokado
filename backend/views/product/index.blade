@@ -4,6 +4,7 @@
         const App = () => {
             const [state, setState] = useState({
                 products: [],
+                categories: [],
                 pagination: {},
                 loading: false
             });
@@ -17,10 +18,12 @@
             }
             const updateState = async (page) => {
                 const {data, pagination} = await Products.fetch(page);
+                const categories = await Archives.fetch({page: -1});
                 setState({
                     ...state,
                     ...{
                         products: data,
+                        categories: categories.data,
                         pagination: pagination,
                         loading: false
                     }
@@ -43,7 +46,20 @@
                         rowKey={'id'}
                         columns={[
                             {title: 'Sản phẩm', dataIndex: 'name'},
-                            {title: 'Danh mục', dataIndex: 'name'},
+                            {
+                                title: 'Danh mục', dataIndex: 'archives',
+                                render: archives => {
+                                    if (!archives) {
+                                        return '---';
+                                    }
+                                    return archives.map(item => {
+                                        let categories = state.categories;
+                                        let index = categories.indexOf(archive => archive.id == item.archive_id);
+                                        console.log(categories);
+                                        return '---';
+                                    })
+                                }
+                            },
                             {title: 'Giá sản phẩm', dataIndex: 'name'},
                             {title: 'Trạng thái', dataIndex: 'name'},
                             {

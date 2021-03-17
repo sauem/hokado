@@ -113,7 +113,6 @@ const Articles = {
                     expand: 'media,avatar,meta',
                 }
             }).catch(axiosCatch);
-            ;
         } catch (e) {
             message.error(e.message);
         }
@@ -430,8 +429,11 @@ const Products = {
     },
     view: async (id) => {
         try {
-            const {data} = await Server.get(`${ROUTE.PRODUCT.VIEW}?id=${id}`).catch(axiosCatch);
-            return data;
+            return  await Server.get(`${ROUTE.PRODUCT.VIEW}?id=${id}`, {
+                params: {
+                    expand: 'media,avatar,meta,archives,thumbs',
+                }
+            }).catch(axiosCatch);
         } catch (e) {
             message.error(e.message);
         }

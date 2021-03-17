@@ -5,6 +5,7 @@ namespace backend\controllers;
 
 
 use common\models\Attributes;
+use common\models\Products;
 use common\models\ProductsArchive;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -21,8 +22,12 @@ class ProductController extends BaseController
         return $this->render('create.blade');
     }
 
-    public function actionUpdate()
+    public function actionUpdate($id)
     {
+        $model = Products::findOne($id);
+        if (!$model) {
+            throw new NotFoundHttpException('Không tồn tại sản phẩm!');
+        }
         return $this->render('create.blade');
     }
 
