@@ -429,7 +429,7 @@ const Products = {
     },
     view: async (id) => {
         try {
-            return  await Server.get(`${ROUTE.PRODUCT.VIEW}?id=${id}`, {
+            return await Server.get(`${ROUTE.PRODUCT.VIEW}?id=${id}`, {
                 params: {
                     expand: 'media,avatar,meta,archives,thumbs',
                 }
@@ -438,4 +438,14 @@ const Products = {
             message.error(e.message);
         }
     },
+}
+const Menu = {
+    save: async (data) => {
+        try {
+            const res = await Server.post(ROUTE.MENU.SAVE, data).catch(axiosCatch);
+            return res;
+        } catch (e) {
+            message.error(e.message);
+        }
+    }
 }

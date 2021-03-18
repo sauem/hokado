@@ -17,8 +17,9 @@ class AppAsset extends AssetBundle
         '/js/lib/gaxon-icon/style.css',
         '/js/lib/perfect-scrollbar/css/perfect-scrollbar.css',
         '/js/lib/summernote/dist/summernote-bs4.css',
+        '/css/nestable.min.css',
         '/css/lite-style-1.min.css',
-        '/css/customize.css?v=1.2',
+        '/css/customize.css?v=1.4',
     ];
     public $js = [
         '/js/lib/react.js',
@@ -26,7 +27,7 @@ class AppAsset extends AssetBundle
         '/js/lib/babel.js',
         'https://cdnjs.cloudflare.com/ajax/libs/antd/4.13.0/antd.min.js',
         #'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js',
+        '/js/lib/nestable.min.js',
         '/js/lib/axios.js',
         '/js/helper/Constant.js',
         '/js/helper/Helper.js',

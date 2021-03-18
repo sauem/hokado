@@ -161,6 +161,9 @@ const ROUTE = {
         VIEW: 'user/view'
     },
     UPLOAD: 'api/upload',
+    MENU: {
+        SAVE: 'menu/create'
+    }
 }
 
 const styleTreeSelect = {

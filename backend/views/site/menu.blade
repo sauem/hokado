@@ -2,9 +2,26 @@
     <script type="text/babel">
         const ItemMenu = ({...props}) => {
             return (
-                <div>
-                    HELLO2
-                </div>
+
+                <li className="dd-item dd3-item"
+                    data-id={props.value}
+                    data-title={props.title}
+                    data-type={props.type}>
+                    <div className="dd3-content">
+                        <i className="icon-menu dd-handle"/>
+                        {props.title}
+                        <a className="btn" onClick={() => props.removeItem(props)}><i className="icon-trash"/></a>
+                    </div>
+                    {
+                        props.children ? props.children.map(item => {
+                            return (
+                                <ol className="dd-list">
+                                    <ItemMenu removeItem={props.removeItem} {...item}/>
+                                </ol>
+                            )
+                        }) : null
+                    }
+                </li>
             )
         }
         const App = () => {
@@ -15,6 +32,9 @@
                 type: null
             });
             const [form] = Form.useForm();
+            const onRemoveItem = item => {
+                console.log('click remove: ', item);
+            }
             const submitForm = async (data) => {
                 let items = state.items;
                 if (data.link === 'outer_link') {
@@ -33,7 +53,6 @@
                         type: item.type
                     });
                 }
-
                 setState({
                     ...state,
                     ...{
@@ -59,6 +78,17 @@
                     });
                 }
             }
+            const saveMenu = async () => {
+                let items = JSON.stringify($('#menu-sortable').nestable('serialize'));
+                let language = form.getFieldValue('language'),
+                    name = form.getFieldValue('name');
+                try {
+                    const res = await Menu.save({items, language, name});
+                    message.success('Lưu menu thành công!');
+                } catch (e) {
+                    message.error(e.message);
+                }
+            }
             useEffect(async () => {
                 const {data} = await Archives.fetch({page: -1});
                 let categories = convertTreeSelect(data);
@@ -74,6 +104,9 @@
                         categories: categories,
                     }
                 });
+
+                initSortable();
+
             }, []);
             return (
                 <Form form={form} onFinish={submitForm} layout="vertical">
@@ -93,8 +126,19 @@
                                 <Form.Item
                                     label="Tên hiển thị"
                                     name="title"
+                                    rules={[{required: true, message: 'Nhập tên hiển thị'}]}
                                 >
                                     <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    initialValue={LANG_VI}
+                                    label="Ngôn ngữ"
+                                    name="language"
+                                >
+                                    <Select style={getStyles({width: '100%'})}>
+                                        <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                        <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item
                                     hidden
@@ -105,6 +149,7 @@
                                 <Form.Item
                                     label="Đường dẫn"
                                     name="link"
+                                    rules={[{required: true, message: 'Chọn đường dẫn'}]}
                                 >
                                     <TreeSelect
                                         onChange={changeLink}
@@ -117,8 +162,10 @@
                                     />
                                 </Form.Item>
                                 {state.outerLink ? <Form.Item
+                                    initialValue="/"
                                     label="Link tùy chỉnh"
                                     name="outer_link"
+                                    rules={[{required: true, message: 'Nhập đường dẫn'}]}
                                 >
                                     <Input/>
                                 </Form.Item> : null}
@@ -132,17 +179,36 @@
                         </Col>
                         <Col md={16}>
                             <Card title="Menu list" extra={
-                                <div>
-                                    <Select defaultValue={LANG_VI} style={getStyles({width: '100%'})}>
-                                        <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
-                                        <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
-                                    </Select>
+                                <div className="d-flex justify-content-between">
+                                    <Form.Item
+                                        name="language"
+                                    >
+                                        <Select defaultValue={LANG_VI}
+                                                style={getStyles({width: '100%'})}>
+                                            <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                            <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        name={'name'}
+                                    >
+                                        <Select defaultValue={`header`} style={getStyles({width: '100%'})}>
+                                            <Select.Option value={`header`}>Header</Select.Option>
+                                            <Select.Option value={`footer`}>Footer</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                    <Button onClick={saveMenu} type="primary" htmlType="button"
+                                            className="ml-2">Lưu</Button>
                                 </div>
                             }>
-                                {state.items.length > 0 ?
-                                    state.items.map(item => <ItemMenu {...item}/>) :
-                                    null
-                                }
+                                <div id="menu-sortable" className="custom-dd dd">
+                                    <ol className="dd-list">
+                                        {state.items.length > 0 ?
+                                            state.items.map(item => <ItemMenu removeItem={onRemoveItem} {...item}/>) :
+                                            null
+                                        }
+                                    </ol>
+                                </div>
                             </Card>
                         </Col>
                     </Row>

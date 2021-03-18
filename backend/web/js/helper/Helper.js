@@ -169,3 +169,10 @@ function initTinymce(callback) {
     });
 
 }
+
+function initSortable() {
+    $('#menu-sortable').nestable({
+        maxDepth: 2,
+        emptyClass: ''
+    });
+}

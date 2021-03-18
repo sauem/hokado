@@ -4,6 +4,7 @@
 namespace backend\modules\controllers;
 
 
+use common\helper\HelperFunction;
 use common\models\MenuConfig;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
@@ -22,12 +23,25 @@ class MenuController extends BaseActiveFilterController
 
     public function actionCreate()
     {
-        $post = \Yii::$app->request->post();
-        $model = MenuConfig::findOne(['name' => ArrayHelper::getValue($post, 'name')]);
-        if (!$model) {
-            throw new BadRequestHttpException('không tìm thấy menu!');
+        try {
+            $post = \Yii::$app->request->post();
+            $model = MenuConfig::findOne([
+                'name' => ArrayHelper::getValue($post, 'name'),
+                'language' => ArrayHelper::getValue($post, 'language')
+            ]);
+            if (!$model) {
+                $model = new MenuConfig();
+                $model->language = ArrayHelper::getValue($post, 'language');
+                $model->name = ArrayHelper::getValue($post, 'name');
+            }
+            $items = ArrayHelper::getValue($post, 'items');
+            $model->items = $items;
+            if (!$model->save()) {
+                throw new BadRequestHttpException(HelperFunction::firstError($model));
+            }
+            return true;
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
         }
-        $item = ArrayHelper::getValue($post, 'item');
-
     }
 }

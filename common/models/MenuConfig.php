@@ -10,10 +10,11 @@ use Yii;
  * @property int $id
  * @property string|null $name
  * @property string|null $items
+ * @property string|null $language
  * @property int|null $created_at
  * @property int|null $updated_at
  */
-class MenuConfig extends \yii\db\ActiveRecord
+class MenuConfig extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -30,9 +31,9 @@ class MenuConfig extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 50],
+            [['name', 'language'], 'string', 'max' => 50],
             [['items'], 'string', 'max' => 255],
-            [['name'], 'unique'],
+        //    [['name'], 'unique'],
         ];
     }
 
@@ -45,6 +46,7 @@ class MenuConfig extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'items' => 'Items',
+            'language' => 'Language',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

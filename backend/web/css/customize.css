@@ -93,4 +93,65 @@ form label {
       object-fit: cover;
       object-position: center; }
 
+.dd-list .dd-item .dd-handle {
+  border: none;
+  padding: 8px 16px;
+  height: auto;
+  font-weight: 600;
+  border-radius: 3px;
+  background: #f3f7f9;
+  color: #6c757d; }
+
+.dd-list .dd-item .dd-handle:hover {
+  color: #6658dd; }
+
+.dd-list .dd-item button {
+  height: 36px;
+  font-size: 17px;
+  margin: 0;
+  color: #98a6ad;
+  width: 36px; }
+
+.dd-list .dd3-item {
+  margin: 5px 0; }
+
+.dd-list .dd3-item .dd-item button {
+  width: 36px;
+  height: 36px; }
+
+.dd-list .dd3-handle {
+  margin: 0;
+  height: 36px !important;
+  float: left; }
+
+.dd-list .dd3-content {
+  height: auto;
+  border: none;
+  padding: 8px 16px 8px 46px;
+  background: #f3f7f9;
+  color: #6c757d;
+  font-weight: 600;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+.dd-list .dd-item button {
+  position: absolute;
+  top: 8px; }
+
+.dd-list .dd3-content:hover {
+  color: #6658dd; }
+
+.dd-list .dd3-handle:before {
+  content: "\F035C";
+  font-family: "Material Design Icons";
+  color: #adb5bd; }
+
+.dd-empty, .dd-placeholder {
+  background: rgba(206, 212, 218, 0.2); }
+
+.dd-dragel .dd-handle {
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15); }
+
 /*# sourceMappingURL=customize.css.map */
