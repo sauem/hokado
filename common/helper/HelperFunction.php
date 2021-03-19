@@ -7,6 +7,7 @@ namespace common\helper;
 use common\models\Common;
 use common\models\Medias;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 
 class HelperFunction
@@ -80,6 +81,30 @@ class HelperFunction
 
     public static function Link($type = BLOG, $slug = '')
     {
-        return "$type/$slug";
+        if (is_array($slug)) {
+            switch ($slug['type']) {
+                case 'custom':
+                    return "/" . ArrayHelper::getValue($slug, 'key', '/');
+                case 'page':
+                    return "/" . ArrayHelper::getValue($slug, 'slug', '/');
+                case 'article':
+                    return "/" . $slug['type'] . '/' . $slug['slug'];
+                    break;
+            }
+        }
+        return "/$type/$slug";
+    }
+
+    public static function getMenu($name = 'header')
+    {
+        $menus = \Yii::$app->params['menus'];
+        if (!empty($menus)) {
+            foreach ($menus as $k => $menu) {
+                if ($menu['name'] == $name) {
+                    return $menu;
+                }
+            }
+        }
+        return false;
     }
 }

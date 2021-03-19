@@ -162,10 +162,42 @@ const ROUTE = {
     },
     UPLOAD: 'api/upload',
     MENU: {
-        SAVE: 'menu/create'
+        SAVE: 'menu/create',
+        DETAIL: 'menu/index'
     }
 }
-
+const customPages = (categories = []) => {
+    return [
+        {
+            title: 'Link tùy chỉnh',
+            key: categories.length + 1,
+            type: 'custom',
+            value: 'outer_link',
+            slug: ''
+        },
+        {
+            title: 'Hướng dẫn',
+            key: categories.length + 2,
+            type: 'page',
+            value: 'guide',
+            slug: 'guide'
+        },
+        {
+            title: 'Liên hệ',
+            key: categories.length + 3,
+            type: 'page',
+            value: 'contact',
+            slug: 'contact'
+        },
+        {
+            title: 'Sản phẩm & Yêu cầu đặt hàng',
+            key: categories.length + 4,
+            type: 'page',
+            value: 'product-and-brief',
+            slug: 'product-and-brief'
+        }
+    ]
+}
 const styleTreeSelect = {
     width: '100%'
 }

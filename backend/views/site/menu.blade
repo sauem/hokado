@@ -5,7 +5,9 @@
 
                 <li className="dd-item dd3-item"
                     data-id={props.value}
+                    data-key={props.value}
                     data-title={props.title}
+                    data-slug={props.slug}
                     data-type={props.type}>
                     <div className="dd3-content">
                         <i className="icon-menu dd-handle"/>
@@ -16,7 +18,7 @@
                         props.children ? props.children.map(item => {
                             return (
                                 <ol className="dd-list">
-                                    <ItemMenu removeItem={props.removeItem} {...item}/>
+                                    <ItemMenu removeItem={() => props.removeItem(item)} {...item}/>
                                 </ol>
                             )
                         }) : null
@@ -29,26 +31,36 @@
                 categories: [],
                 items: [],
                 outerLink: false,
-                type: null
+                type: null,
+                currentItem: {}
             });
             const [form] = Form.useForm();
             const onRemoveItem = item => {
-                console.log('click remove: ', item);
+                let items = state.items.filter(key => key.id !== item.id);
+                setState({
+                    ...state,
+                    ...{
+                        items
+                    }
+                })
             }
             const submitForm = async (data) => {
                 let items = state.items;
-                if (data.link === 'outer_link') {
-                    items.push({
+                if (data.link === 'outer_link' || typeof data.link === 'string') {
+                    let item = {
                         title: data.title,
-                        key: 'outer_link',
-                        value: 'outer_link',
-                        type: 'custom'
-                    });
+                        key: data.key === 'outer_link' ? 'outer_link' : state.currentItem.key,
+                        value: typeof data.outer_link ? data.outer_link : state.currentItem.link,
+                        type: typeof state.currentItem.type === "undefined" ? 'custom' : state.currentItem.type,
+                        slug: state.currentItem.slug
+                    };
+                    items.push(item);
                 } else {
                     let item = await Archives.view(data.link);
                     items.push({
                         title: data.title,
                         key: item.id,
+                        slug: item.slug,
                         value: item.id,
                         type: item.type
                     });
@@ -60,20 +72,26 @@
                     }
                 });
             }
-            const changeLink = (e) => {
-
-                if (e === 'outer_link') {
+            const changeLink = e => {
+                if (typeof e == 'string') {
+                    let itemKey = getObjectValue(e, customPages(state.categories));
+                    let outerLink = false;
+                    if (e === 'outer_link') {
+                        outerLink = true;
+                    }
                     setState({
                         ...state,
                         ...{
-                            outerLink: true
+                            outerLink: outerLink,
+                            currentItem: itemKey
                         }
                     });
                 } else {
                     setState({
                         ...state,
                         ...{
-                            outerLink: false
+                            outerLink: false,
+                            currentItem: {}
                         }
                     });
                 }
@@ -83,30 +101,38 @@
                 let language = form.getFieldValue('language'),
                     name = form.getFieldValue('name');
                 try {
-                    const res = await Menu.save({items, language, name});
+                    await Menu.save({items, language, name});
                     message.success('Lưu menu thành công!');
                 } catch (e) {
                     message.error(e.message);
                 }
             }
+            const getMenu = async (name, lang) => {
+                try {
+                    const data = await Menu.get(name, lang);
+                    form.setFieldsValue({
+                        language: data.language,
+                        name: data.name
+                    })
+                    setState({
+                        items: JSON.parse(data.items)
+                    })
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
             useEffect(async () => {
                 const {data} = await Archives.fetch({page: -1});
                 let categories = convertTreeSelect(data);
-                categories.push({
-                    title: 'Link tùy chỉnh',
-                    key: categories.length + 1,
-                    type: 'custom',
-                    value: 'outer_link',
-                });
+                categories = categories.concat(customPages(categories));
                 setState({
                     ...state,
                     ...{
                         categories: categories,
                     }
                 });
-
+                await getMenu(form.getFieldValue('name'), form.getFieldValue('language'));
                 initSortable();
-
             }, []);
             return (
                 <Form form={form} onFinish={submitForm} layout="vertical">

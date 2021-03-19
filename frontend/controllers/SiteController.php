@@ -222,4 +222,16 @@ class SiteController extends BaseController
         }
         return false;
     }
+
+    public function actionProductAndBrief()
+    {
+        return $this->render('product-and-brief', [
+            'products' => [],
+        ]);
+    }
+    public function actionGuide(){
+        return $this->render('guide', [
+            'products' => [],
+        ]);
+    }
 }

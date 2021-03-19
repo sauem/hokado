@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "menu_config".
@@ -32,8 +33,8 @@ class MenuConfig extends BaseModel
         return [
             [['created_at', 'updated_at'], 'integer'],
             [['name', 'language'], 'string', 'max' => 50],
-            [['items'], 'string', 'max' => 255],
-        //    [['name'], 'unique'],
+            [['items'], 'string'],
+            //    [['name'], 'unique'],
         ];
     }
 

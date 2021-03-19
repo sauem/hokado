@@ -447,5 +447,15 @@ const Menu = {
         } catch (e) {
             message.error(e.message);
         }
+    },
+    get: async (name,language) => {
+        try {
+            const {data} = await Server.get(ROUTE.MENU.DETAIL, {
+                params: {name, language}
+            }).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
     }
 }
