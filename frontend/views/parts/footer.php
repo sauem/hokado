@@ -11,7 +11,7 @@ use common\helper\HelperFunction;
                     <div class="footer-widget__content">
                         <img width="100" src="<?= HelperFunction::getLogo('footer') ?>" alt="logo" class="mb-30">
                     </div><!-- /.footer-widget__content -->
-                    <p><?= HelperFunction::setting('site_description',true) ?></p>
+                    <p><?= HelperFunction::setting('site_description', true) ?></p>
                 </div><!-- /.col-xl-3 -->
                 <div class="col-sm-6 col-md-4 col-lg-2 footer-widget footer-widget-nav">
                     <h6 class="footer-widget__title">Company</h6>
@@ -58,20 +58,11 @@ use common\helper\HelperFunction;
                     </div><!-- /.footer-widget__content -->
                 </div><!-- /.col-lg-2 -->
                 <div class="col-sm-6 col-md-6 col-lg-3 footer-widget">
-                    <h6 class="footer-widget__title">Newsletter</h6>
+                    <h6 class="footer-widget__title">Facebook Fanpage</h6>
                     <div class="footer-widget__content">
-                        <form class="footer-form">
-                            <div class="form-group mb-20">
-                                <input type="text" class="form-control" placeholder="Your Email Address">
-                                <button type="submit" class="footer-form__submit"><i class="icon-arrow-right"></i>
-                                </button>
-                            </div>
-                            <div class="custom-control custom-checkbox d-flex align-items-center mb-20">
-                                <input type="checkbox" class="custom-control-input" id="terms">
-                                <label class="custom-control-label" for="terms">I accept the privacy and
-                                    terms.</label>
-                            </div>
-                        </form>
+                        <div id="fb-root"></div>
+                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0&appId=2069666556634206&autoLogAppEvents=1" nonce="klBP5QNE"></script>
+                        <div class="fb-page" data-href="https://www.facebook.com/lozapetloveno1/" data-tabs="tin nh&#x1eaf;n, s&#x1ef1; ki&#x1ec7;n" data-width="" data-height="100%" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/lozapetloveno1/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/lozapetloveno1/">Gỗ HUSU - Đồng hồ treo tường và Đèn gỗ</a></blockquote></div>
                     </div><!-- /.footer-widget__content -->
                 </div><!-- /.col-lg-3 -->
             </div><!-- /.row -->

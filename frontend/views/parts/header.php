@@ -11,7 +11,7 @@ if ($menu) {
 }
 ?>
 
-<header class="header header-transparent">
+<header class="header header-<?= isset($this->params['header_type']) ? $this->params['header_type'] : 'transparent' ?>">
     <nav class="navbar navbar-expand-lg sticky-navbar">
         <div class="container">
 

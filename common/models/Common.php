@@ -15,13 +15,15 @@ class Common extends Model
     public $site_name;
     public $site_description;
     public $address_1;
-    public $address_en_1;
+    public $address_1_en;
     public $address_2;
-    public $address_en_2;
+    public $address_2_en;
     public $logo_header;
     public $logo_footer;
     public $site_name_en;
     public $site_description_en;
+    public $fanpage_script;
+    public $map_iframe;
 
     public static function tableName()
     {
@@ -34,9 +36,9 @@ class Common extends Model
             [['email', 'site_name', 'hotline_1',
                 'hotline_2', 'address_1', 'address_2',
                 'logo_header', 'logo_footer', 'site_description',
-                'address_en_1', 'site_name_en', 'site_description_en',
-                'address_en_2',
-                'favicon'
+                'address_1_en', 'site_name_en', 'site_description_en',
+                'address_2_en',
+                'favicon','map_iframe','fanpage_script'
             ], 'string']
         ];
     }

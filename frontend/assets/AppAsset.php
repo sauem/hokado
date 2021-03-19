@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         '//cdn.jsdelivr.net/npm/sweetalert2@10',
+        'https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js',
         '/usvn/js/plugins.js',
         '/usvn/js/main.js',
         '/usvn/js/templ.js?v=1.6',

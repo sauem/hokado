@@ -53,7 +53,10 @@ class HelperFunction
     public static function setting($key, $getLang = false)
     {
         $lang = \Yii::$app->language;
-        return \Yii::$app->settings->get('Common', $key . ($getLang == true && $lang == LANG_EN ? '_' . $lang : ''));
+        if ($lang == LANG_EN && $getLang) {
+            return \Yii::$app->settings->get('Common', "{$key}_{$lang}");
+        }
+        return \Yii::$app->settings->get('Common', $key);
     }
 
     public static function getLogo($key = 'header')
@@ -84,7 +87,7 @@ class HelperFunction
         if (is_array($slug)) {
             switch ($slug['type']) {
                 case 'custom':
-                    return "/" . ArrayHelper::getValue($slug, 'key', '/');
+                    return ArrayHelper::getValue($slug, 'key', '/');
                 case 'page':
                     return "/" . ArrayHelper::getValue($slug, 'slug', '/');
                 case 'article':

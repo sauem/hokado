@@ -14,9 +14,13 @@ $this->title = 'Products and brief';
                 <div class="heading mb-50">
                     <div class="d-flex align-items-center">
                         <div class="divider divider-primary mr-30"></div>
-                        <h2 class="heading__subtitle mb-0">Sản phẩm</h2>
+                        <h2 class="heading__subtitle mb-0">
+                            <?= Yii::t('app','products') ?>
+                        </h2>
                     </div>
-                    <h3 class="heading__title mb-0">Các mặt hàng sản phẩm</h3>
+                    <h3 class="heading__title mb-0">
+                        <?= Yii::t('app','product_items') ?>
+                    </h3>
                 </div>
             </div><!-- /.col-lg-6 -->
         </div>
@@ -38,7 +42,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Support">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/1.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/1.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -55,7 +59,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Consulting">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/2.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/2.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -73,7 +77,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Security">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/3.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/3.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -90,7 +94,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Software">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/4.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/4.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -107,7 +111,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Management">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/5.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/5.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -125,7 +129,7 @@ $this->title = 'Products and brief';
             <div class="col-sm-6 col-md-6 col-lg-4 mix filter-Cloud">
                 <div class="portfolio-item">
                     <div class="portfolio__img">
-                        <img src="assets/images/portfolio/grid/6.jpg" alt="portfolio img">
+                        <img src="/usvn/images/portfolio/grid/6.jpg" alt="portfolio img">
                     </div><!-- /.portfolio-img -->
                     <div class="portfolio__content">
                         <h4 class="portfolio__title"><a href="#">Sản phẩm mẫu</a></h4>
@@ -153,7 +157,7 @@ $this->title = 'Products and brief';
     </div><!-- /.container -->
 </section>
 <section class="banner-layout1 pt-90 pb-90 bg-overlay bg-overlay-primary">
-    <div class="bg-img"><img src="assets/images/banners/5.jpg" alt="background"></div>
+    <div class="bg-img"><img src="/usvn/images/banners/5.jpg" alt="background"></div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 col-inner d-flex flex-column justify-content-between">
@@ -236,19 +240,19 @@ $this->title = 'Products and brief';
                     </div>
                     <div class="slider-nav">
                         <div class="testimonial__thumb">
-                            <img src="assets/images/testimonials/thumbs/1.png" alt="author thumb">
+                            <img src="/usvn/images/testimonials/thumbs/1.png" alt="author thumb">
                         </div><!-- /.testimonial-thumb -->
                         <div class="testimonial__thumb">
-                            <img src="assets/images/testimonials/thumbs/2.png" alt="author thumb">
+                            <img src="/usvn/images/testimonials/thumbs/2.png" alt="author thumb">
                         </div><!-- /.testimonial-thumb -->
                         <div class="testimonial__thumb">
-                            <img src="assets/images/testimonials/thumbs/3.png" alt="author thumb">
+                            <img src="/usvn/images/testimonials/thumbs/3.png" alt="author thumb">
                         </div><!-- /.testimonial-thumb -->
                         <div class="testimonial__thumb">
-                            <img src="assets/images/testimonials/thumbs/2.png" alt="author thumb">
+                            <img src="/usvn/images/testimonials/thumbs/2.png" alt="author thumb">
                         </div><!-- /.testimonial-thumb -->
                         <div class="testimonial__thumb">
-                            <img src="assets/images/testimonials/thumbs/3.png" alt="author thumb">
+                            <img src="/usvn/images/testimonials/thumbs/3.png" alt="author thumb">
                         </div><!-- /.testimonial-thumb -->
                     </div><!-- /.slcik-nav -->
                 </div>
