@@ -1,0 +1,229 @@
+<?php
+$view->title = 'Đánh giá khách hàng';
+?>
+@section('js_pos')
+    <script type="text/babel">
+
+
+        const App = () => {
+            const initialState = {
+                testimonials: [],
+                pagination: {},
+                uploading: false,
+                loading: false,
+                searchValue: ''
+            }
+            const [state, setState] = useState(initialState);
+            const [defaultFileList, setDefaultFileList] = useState([]);
+            const [progress, setProgress] = useState(0);
+            const [form] = Form.useForm();
+            const onSubmit = async (data) => {
+                if (typeof data.id !== "undefined") {
+                    await Testimonials.update(data);
+                } else {
+                    await Testimonials.create(data);
+                }
+                await updateState({loading: false});
+                form.resetFields();
+            }
+            const onUpdate = async (archive) => {
+                form.setFieldsValue(archive);
+
+                archive.avatar ? setDefaultFileList([{
+                    uid: '-1',
+                    name: archive.name,
+                    status: 'done',
+                    url: archive.avatar
+                }]) : setDefaultFileList([]);
+
+            }
+            const onUpload = options => {
+                const {onSuccess, onError, file, onProgress} = options;
+                setState({
+                    ...state,
+                    ...{
+                        uploading: true
+                    }
+                });
+                onUploadMedia(file, data => {
+                    form.setFieldsValue({
+                        media_id: data.id
+                    })
+                    onSuccess();
+                }, onError, (event) => {
+                    const percent = Math.floor((event.loaded / event.total) * 100);
+                    setProgress(percent);
+                    if (percent === 100) {
+                        setTimeout(() => setProgress(0), 1000);
+                    }
+                    onProgress({percent: (event.loaded / event.total) * 100});
+                }, MEDIA_TYPE_TESTIMONIAL);
+            }
+            const handleOnChange = ({file, fileList, event}) => {
+                setDefaultFileList(fileList);
+            };
+
+            const changePage = async ({current}) => {
+                await updateState({}, current);
+            }
+            const updateState = async (obj = {}, page = 1) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true
+                    }
+                });
+                const {pagination, data} = await Testimonials.fetch(
+                    Object.assign({page}, obj)
+                );
+                setState({
+                    ...state,
+                    ...Object.assign({
+                        testimonials: data,
+                        pagination: pagination,
+                        loading: false
+                    }, obj)
+                });
+            }
+            const onDelete = async (id) => {
+                Testimonials.delete(id).then(() => updateState());
+            }
+            const setSearchValue = e => {
+                setState({
+                    ...state,
+                    ...{
+                        searchValue: e.target.value
+                    }
+                })
+            }
+            const searchArchive = async () => {
+                await updateState({
+                    name: state.searchValue
+                });
+            }
+            useEffect(async () => {
+                await updateState();
+            }, []);
+
+            return (
+                <Row gutter={[8, 0]}>
+                    <Col md={8}>
+                        <Card title="Thêm nhận xét">
+                            <Form layout={`vertical`} onFinish={onSubmit} form={form} id={'categoryForm'}>
+                                <Form.Item name={'id'} hidden><Input/></Form.Item>
+                                <Form.Item
+                                    name={'name'}
+                                    label={`Tên danh mục`}
+                                    rules={[{required: true, message: 'Danh mục bắt buộc!'}]}
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    initialValue={LANG_VI}
+                                    label="Ngôn ngữ"
+                                    name={`language`}
+                                    rules={[{required: true, message: 'Hãy chọn ngôn ngữ!'}]}
+                                >
+                                    <Select>
+                                        <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                        <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'position'}
+                                    label={`Chức vụ`}
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    name={'company'}
+                                    label={`Công ty`}
+                                >
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item
+                                    rules={[{required: true, message: 'Nội dung bắt buộc!'}]}
+                                    name={'message'}
+                                    label={`Nội dung`}
+                                >
+                                    <Input.TextArea rows={7}/>
+                                </Form.Item>
+                                <Form.Item>
+                                    <Upload
+                                        accept="image/*"
+                                        customRequest={onUpload}
+                                        onChange={handleOnChange}
+                                        listType="picture-card"
+                                        fileList={defaultFileList}
+                                        className="avatar-uploader single"
+                                    >
+                                        {defaultFileList.length >= 1 ? null : <div>Chọn ảnh</div>}
+                                    </Upload>
+                                    {progress > 0 ? <Progress percent={progress}/> : null}
+                                </Form.Item>
+                                <Form.Item
+                                    rules={[{required: true, message: 'Avatar bắt buộc!'}]}
+                                    name={'media_id'} hidden><Input/></Form.Item>
+                                <Divider/>
+                                <div className="text-right">
+                                    <small className="text-danger mr-2">* thông tin bắt buộc</small>
+                                    <Button htmlType={`submit`}>Lưu</Button>
+                                </div>
+                            </Form>
+                        </Card>
+                    </Col>
+                    <Col md={16}>
+                        <Card title={`Nhận xét khách hàng`}
+                              extra={
+                                  <div className="d-flex">
+                                      <Select defaultValue={LANG_VI} style={getStyles({width: '100%', marginRight: 5})}>
+                                          <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
+                                          <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
+                                      </Select>
+                                      <Input onChange={setSearchValue} placeholder="Tìm kiếm tên....." name="s"/>
+                                      <Button onClick={searchArchive} className="ml-2"><i
+                                          className="icon-search"/></Button>
+                                  </div>
+                              }
+                        >
+                            <Spin tip="Loading..." spinning={state.loading}>
+                                <Table
+                                    size={`small`}
+                                    dataSource={state.testimonials}
+                                    pagination={state.pagination}
+                                    onChange={changePage}
+                                    columns={[
+                                        {title: 'Tên', dataIndex: 'name', key: 'name'},
+                                        {title: 'Chức vụ', dataIndex: 'position', key: 'position'},
+                                        {title: 'Công ty', dataIndex: 'company', key: 'company'},
+                                        {title: 'Nội dung', dataIndex: 'message', key: 'message'},
+                                        {
+                                            title: '', dataIndex: 'action', key: 'action', render: (text, raw) => {
+                                                return (
+                                                    <div>
+                                                        <Button onClick={() => onUpdate(raw)} type="primary"
+                                                                className={`mr-1`} size={`small`}><i
+                                                            className="icon icon-edit"/></Button>
+                                                        <Popconfirm
+                                                            title="Xóa nhận xét hiện tại"
+                                                            onConfirm={() => onDelete(raw.id)}
+                                                            okText="Xóa"
+                                                            cancelText="Hủy"
+                                                        >
+                                                            <Button type="dashed" danger size={`small`}><i
+                                                                className="icon icon-trash"/></Button>
+                                                        </Popconfirm>
+                                                    </div>
+                                                )
+                                            }
+                                        },
+                                    ]}
+                                />
+                            </Spin>
+                        </Card>
+                    </Col>
+                </Row>
+            )
+        }
+    </script>
+@stop

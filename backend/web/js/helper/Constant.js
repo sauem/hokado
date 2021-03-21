@@ -5,6 +5,7 @@ const MEDIA_TYPE_ARCHIVE = 'archive';
 const MEDIA_TYPE_PRODUCT = 'product';
 const MEDIA_TYPE_BANNER = 'banner';
 const MEDIA_TYPE_BLOG = 'article';
+const MEDIA_TYPE_TESTIMONIAL = 'testimonial';
 // Loại danh mục
 const ARCHIVE_TYPE_BLOG = 'article';
 const ARCHIVE_TYPE_PRODUCT = 'product';
@@ -118,6 +119,13 @@ const ROUTE = {
         UPDATE: 'archive/update',
         DELETE: 'archive/delete',
         VIEW: 'archive/view',
+    },
+    TESTIMONIAL: {
+        INDEX: 'testimonial/index',
+        CREATE: 'testimonial/create',
+        UPDATE: 'testimonial/update',
+        DELETE: 'testimonial/delete',
+        VIEW: 'testimonial/view',
     },
     BANNER: {
         INDEX: 'banner/index',

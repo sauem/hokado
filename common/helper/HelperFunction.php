@@ -53,7 +53,7 @@ class HelperFunction
     public static function setting($key, $getLang = false)
     {
         $lang = \Yii::$app->language;
-        if ($lang == LANG_EN && $getLang) {
+        if ($lang == 'en' && $getLang) {
             return \Yii::$app->settings->get('Common', "{$key}_{$lang}");
         }
         return \Yii::$app->settings->get('Common', $key);
