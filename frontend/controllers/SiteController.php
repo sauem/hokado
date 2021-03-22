@@ -9,10 +9,12 @@ use common\models\Articles;
 use common\models\Banners;
 use common\models\Medias;
 use common\models\Products;
+use common\models\ProductsSearch;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\db\Expression;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -22,6 +24,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -225,11 +228,49 @@ class SiteController extends BaseController
 
     public function actionProductAndBrief()
     {
+        $searchModel = new ProductsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('product-and-brief', [
-            'products' => [],
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
-    public function actionGuide(){
+
+    /**
+     * @param $slug
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionProductDetail($slug)
+    {
+        $model = Products::findOne(['slug' => $slug]);
+        if (!$model) {
+            throw new NotFoundHttpException(Yii::t('app', 'not_found_product'));
+        }
+        $nextProduct = Products::find()
+            ->filterWhere(['language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['>', 'id', $model->id])
+            ->orderBy('created_at DESC')
+            ->one();
+        $prevProduct = Products::find()
+            ->filterWhere(['language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['<', 'id', $model->id])
+            ->orderBy('created_at DESC')
+            ->one();
+        $categories = Archives::find()
+            ->filterWhere(['language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['IS', 'parent_id', new Expression('NULL')])
+            ->all();
+        return $this->render('product-detail', [
+            'model' => $model,
+            'categories' => $categories,
+            'nextProduct' => $nextProduct,
+            'prevProduct' => $prevProduct
+        ]);
+    }
+
+    public function actionGuide()
+    {
         return $this->render('guide', [
             'products' => [],
         ]);

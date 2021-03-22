@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\helper\HelperFunction;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Products;
@@ -41,7 +42,8 @@ class ProductsSearch extends Products
      */
     public function search($params, $filter = null)
     {
-        $query = Products::find();
+        $query = Products::find()
+            ->where(['language' => HelperFunction::getLanguage()]);
 
         // add conditions that should always apply here
 

@@ -5,6 +5,7 @@ return [
     'read_more' => 'Đọc tiếp...',
     'about_us' => 'Về chúng tôi',
     'products' => 'Sản phẩm',
+    'product' => 'Sản phẩm',
     'video_intro' => 'Video giới thiệu',
     'company_name' => 'CTYTNHH Xuất nhập khẩu USVN',
     'products_new' => 'Mặt hàng mới',
@@ -20,4 +21,8 @@ return [
     'usvn_info' => 'Thông tin USVN',
     'address' => 'Địa chỉ ',
     'hotline' => 'Hotline ',
+    'not_found_product' => 'Không tìm thấy sản phẩm này!',
+    'next' => '{type} kế tiếp',
+    'prev' => '{type} trước đó',
+    'category' => 'Danh mục'
 ];

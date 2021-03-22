@@ -23,3 +23,17 @@ function switchLanguage(lang) {
 
     }
 }
+
+
+function productsPage() {
+    this.getProduct = async (obj) => {
+        return $.ajax({
+            url: AJAX_URL.PRODUCT,
+            type: 'GET',
+            data: {page: 1},
+        });
+    }
+    this.loadContent = async () => {
+
+    }
+}

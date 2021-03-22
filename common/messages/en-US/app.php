@@ -6,6 +6,7 @@ return [
     'about_us' => 'About Us',
     'company_name' => 'USVN EXPORT LOGISTICS COMPANY LIMITED',
     'products' => 'Products',
+    'product' => 'Product',
     'video_intro' => 'Video intro',
     'products_new' => 'New export items',
     'product_items' => 'Product export items',
@@ -20,5 +21,9 @@ return [
     'usvn_info' => 'USVN information',
     'address' => 'Adress',
     'hotline' => 'Hotline ',
+    'not_found_product' => 'Product request not founded!',
+    'next' => 'Next {type}',
+    'prev' => 'Previous {type}',
+    'category' => 'Categories'
 
 ];

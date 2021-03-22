@@ -71,6 +71,10 @@ return [
             'showScriptName' => false,
             'rules' => $rules
         ],
+        'errorHandler' => [
+            'class' => 'yii\web\ErrorHandler',
+            'errorAction' => 'site/error'
+        ],
     ],
     'params' => $params,
 ];
