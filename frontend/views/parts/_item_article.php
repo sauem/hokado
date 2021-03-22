@@ -3,23 +3,24 @@
 use common\helper\HelperFunction;
 
 ?>
-<div class="portfolio-item">
-    <div class="portfolio__img">
-        <img src="<?= $model->avatar ?>" alt="<?= $model->name ?>">
-    </div>
-    <div class="portfolio__content">
-        <h4 class="portfolio__title">
+<div class="post-item">
+    <div class="post__img">
+        <a href="<?= HelperFunction::Link(BLOG, $model->slug, $archive->slug) ?>">
+            <img src="<?= $model->avatar ?>" alt="<?= $model->name ?>">
+        </a>
+    </div><!-- /.post-img -->
+    <div class="post__content">
+        <span class="post__meta-date"><?= date('d/m/Y', $model->created_at) ?></span>
+        <h4 class="post__title">
             <a href="<?= HelperFunction::Link(BLOG, $model->slug, $archive->slug) ?>">
                 <?= $model->name ?>
             </a>
         </h4>
-        <p class="portfolio__desc">
-            <?= $model->excerpt ?>
-        </p>
-        <a href="<?= HelperFunction::Link(BLOG, $model->slug, $archive->slug) ?>" class="btn btn__secondary btn__link">
-            <span><?= Yii::t('app', 'detail') ?></span>
+        <p class="post__desc"><?= $model->excerpt ?></p>
+        <a href="<?= HelperFunction::Link(BLOG, $model->slug, $archive->slug) ?>"
+           class="btn btn__secondary btn__link">
+            <span><?= Yii::t('app', 'read_more') ?></span>
             <i class="icon-arrow-right"></i>
         </a>
-    </div>
+    </div><!-- /.post-content -->
 </div>
-

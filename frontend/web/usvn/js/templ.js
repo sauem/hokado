@@ -56,8 +56,10 @@ function BriefRequest() {
                     swal.showLoading()
                     try {
                         const res = await reqBrief(data);
+
                         swal.fire({
                             title: 'Successfully!',
+                            icon: 'success',
                             text: '',
                             type: 'success'
                         }).then(() => {

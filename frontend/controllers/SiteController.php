@@ -77,20 +77,10 @@ class SiteController extends BaseController
      */
     public function actionContact()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
+        $model = new Contact();
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -311,6 +301,42 @@ class SiteController extends BaseController
             'categories' => $categories,
             'nextProduct' => $nextProduct,
             'prevProduct' => $prevProduct
+        ]);
+    }
+
+    public function actionArticleDetail($archive, $slug)
+    {
+        $archiveModel = Archives::findOne(['slug' => $archive, 'language' => HelperFunction::getLanguage()]);
+        if (!$archiveModel) {
+            throw new NotFoundHttpException(Yii::t('app', 'not_found_archive'));
+        }
+        $model = Articles::findOne(['slug' => $slug, 'language' => HelperFunction::getLanguage()]);
+        if (!$model) {
+            throw new NotFoundHttpException(Yii::t('app', 'not_found_article'));
+        }
+        $categories = Archives::find()
+            ->filterWhere(['language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['IS', 'parent_id', new Expression('NULL')])
+            ->all();
+        $nextPost = Articles::find()
+            ->filterWhere([
+                'archive_id' => $archiveModel->id,
+                'language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['>', 'id', $model->id])
+            ->orderBy('created_at DESC')
+            ->one();
+        $prevPost = Articles::find()
+            ->filterWhere([
+                'archive_id' => $archiveModel->id,
+                'language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['<', 'id', $model->id])
+            ->orderBy('created_at DESC')
+            ->one();
+        return $this->render('blog-detail', [
+            'model' => $model,
+            'categories' => $categories,
+            'nextPost' => $nextPost,
+            'prevPost' => $prevPost
         ]);
     }
 

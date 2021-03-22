@@ -6,6 +6,7 @@ namespace frontend\controllers;
 
 use common\helper\HelperFunction;
 use common\models\Contact;
+use frontend\models\ContactForm;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
@@ -36,6 +37,6 @@ class AjaxController extends BaseController
                 throw new BadRequestHttpException($exception->getMessage());
             }
         }
-        return \Yii::$app->request->post();
+        return false;
     }
 }

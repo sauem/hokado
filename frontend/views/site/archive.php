@@ -4,36 +4,42 @@ $this->title = $model->name ? $model->name : 'Archive';
 use yii\widgets\ListView;
 
 ?>
-<section class="page-title page-title-layout16 text-center bg-overlay bg-overlay-gradient bg-parallax">
-    <div class="bg-img"><img src="/usvn/images/page-titles/12.jpg" alt="background"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="pagetitle__heading mb-10">News</h1>
-                <nav>
-                    <ol class="breadcrumb justify-content-center mb-0">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">News</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</section>
 
-<section class="blog-grid">
+
+<?= $this->render('../parts/page-title', [
+    'title' => $this->title,
+    'description' => ''
+]) ?>
+<section class="portfolio-grid">
     <div class="container">
         <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="heading mb-50">
+                    <div class="d-flex align-items-center">
+                        <div class="divider divider-primary mr-30"></div>
+                        <h2 class="heading__subtitle mb-0">
+                            <?= Yii::t('app', 'products') ?>
+                        </h2>
+                    </div>
+                    <h3 class="heading__title mb-0">
+                        <?= Yii::t('app', 'product_items') ?>
+                    </h3>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+
+        <div id="filtered-items-wrap" class="row">
+
             <?= ListView::widget([
                 'dataProvider' => $dataProvider,
-                'itemView' => '../parts/_item_product' . ($model->type === 'product' ? '_item_product' : '_item_article'),
+                'itemView' => '../parts/' . ($model->type === 'product' ? '_item_product' : '_item_article'),
                 'emptyText' => 'No results.',
                 'viewParams' => [
-                        'archive' => $model
+                    'archive' => $model
                 ],
                 'itemOptions' => [
                     'tag' => 'article',
-                    'class' => 'col-sm-6 col-md-6 col-lg-4 mix',
+                    'class' => 'col-12 col-md-4 mix',
                 ],
                 'summary' => false,
                 'pager' => [
