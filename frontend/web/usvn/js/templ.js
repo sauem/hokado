@@ -35,8 +35,8 @@ function BriefRequest() {
             url: AJAX_URL.SUBMIT_BRIEF,
             type: 'POST',
             cache: false,
+            contentType: false,
             processData: false,
-            dataType: false,
             data: data
         });
     }
@@ -62,7 +62,7 @@ function BriefRequest() {
                             type: 'success'
                         }).then(() => {
                             swal.close();
-                            form.reset();
+                            form.trigger('reset');
                         });
                     } catch (e) {
                         swal.fire({

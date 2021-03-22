@@ -164,7 +164,9 @@ $this->title = 'Products and brief';
             </div><!-- /.col-xl-6 -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
                 <div class="contact-panel">
-                    <?= $this->render('../parts/form-request') ?>
+                    <?= $this->render('../parts/form-request',[
+                            'model' => $contactForm
+                    ]) ?>
                 </div>
             </div><!-- /.col-xl-6 -->
         </div><!-- /.row -->

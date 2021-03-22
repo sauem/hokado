@@ -25,7 +25,7 @@ class AppAsset extends AssetBundle
         '/usvn/js/handlebars-helper.js',
         '/usvn/js/plugins.js',
         '/usvn/js/main.js',
-        '/usvn/js/templ.js?v=2.4',
+        '/usvn/js/templ.js?v=2.6',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -23,19 +23,19 @@ class AjaxController extends BaseController
      */
     function actionCreateBrief()
     {
+        $contact = new Contact();
         if (\Yii::$app->request->isPost) {
-            $contact = new Contact();
             try {
-                if ($contact->load(\Yii::$app->request->post(), '')) {
+                if ($contact->load(\Yii::$app->request->post())) {
                     if (!$contact->save()) {
                         throw new BadRequestHttpException(HelperFunction::firstError($contact));
                     }
+                    return true;
                 }
-                return true;
             } catch (\Exception $exception) {
                 throw new BadRequestHttpException($exception->getMessage());
             }
         }
-        return false;
+        return \Yii::$app->request->post();
     }
 }

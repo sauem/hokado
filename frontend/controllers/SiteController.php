@@ -8,6 +8,7 @@ use common\models\ArchivesSearch;
 use common\models\Articles;
 use common\models\ArticlesSearch;
 use common\models\Banners;
+use common\models\Contact;
 use common\models\Medias;
 use common\models\Products;
 use common\models\ProductsSearch;
@@ -233,9 +234,11 @@ class SiteController extends BaseController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, [
             'language' => HelperFunction::getLanguage()
         ]);
+        $contactForm = new Contact();
 
         return $this->render('product-and-brief', [
             'searchModel' => $searchModel,
+            'contactForm' => $contactForm,
             'dataProvider' => $dataProvider
         ]);
     }
