@@ -1,5 +1,6 @@
 const AJAX_URL = {
-    PRODUCT: '/ajax/products'
+    PRODUCT: '/ajax/products',
+    SUBMIT_BRIEF: '/ajax/create-brief'
 };
 const LANGUAGE = {
     vi: {

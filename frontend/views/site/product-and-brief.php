@@ -164,68 +164,7 @@ $this->title = 'Products and brief';
             </div><!-- /.col-xl-6 -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
                 <div class="contact-panel">
-                    <form class="contact-panel__form" method="post" id="contactForm">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="contact-panel__title mb-20">Yêu cầu sản phẩm</h4>
-                                <p class="contact-panel__desc mb-30">Thông tin yêu cầu sản phẩm của bạn sẽ được đội ngũ
-                                    tư vấn lưu lại hồ sơ chăm sóc khách hàg và bảo mật hoàn toàn</p>
-                            </div> <!-- /.col-12 -->
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Name" id="contact-name"
-                                           name="contact-name"
-                                           required>
-                                </div>
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" id="contact-email"
-                                           name="contact-email" required>
-                                </div>
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option value="0">Contact preference</option>
-                                        <option value="1">Link to chat</option>
-                                        <option value="2">Contact via Email</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <select class="form-control">
-                                        <option value="0">Export country</option>
-                                        <option value="1">England</option>
-                                        <option value="2">Us</option>
-                                        <option value="2">Autruslia</option>
-                                        <option value="2">Viet Nam</option>
-                                    </select>
-                                </div>
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Time expectation "
-                                           id="contact-Phone"
-                                           name="contact-phone">
-                                </div>
-                            </div><!-- /.col-lg-6 -->
-                            <div class="col-12">
-                                <div class="form-group">
-                      <textarea class="form-control" placeholder="Products of interest" id="contact-message"
-                                name="contact-message"></textarea>
-                                </div>
-                                <div class="custom-control custom-checkbox d-flex align-items-center mb-20">
-                                    <input type="checkbox" class="custom-control-input" id="acceptTerms">
-                                    <label class="custom-control-label" for="acceptTerms">Tôi đồng ý với điều khoản dịch
-                                        vụ của USVN</label>
-                                </div>
-                                <button type="submit" class="btn btn__primary btn__xl btn__block">Gưi yêu cầu</button>
-                                <div class="contact-result"></div>
-                            </div><!-- /.col-12 -->
-                        </div><!-- /.row -->
-                    </form>
+                    <?= $this->render('../parts/form-request') ?>
                 </div>
             </div><!-- /.col-xl-6 -->
         </div><!-- /.row -->

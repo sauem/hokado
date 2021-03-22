@@ -59,7 +59,7 @@ $this->params['header_type'] = 'light';
                                 <img src="<?= $prevProduct->avatar ?>" alt="<?= $prevProduct->name ?>">
                             </div>
                             <div class="widget-nav__content">
-                                <span><?= Yii::t('app', 'prev') ?></span>
+                                <span><?= Yii::t('app', 'prev',['type'  => 'Sản phẩm']) ?></span>
                                 <h5 class="fz-16 mb-0">
                                     <?= $prevProduct->name ?>
                                 </h5>

@@ -82,7 +82,7 @@ class HelperFunction
         return \Yii::$app->language === 'vi-VN' ? 'vi' : 'en';
     }
 
-    public static function Link($type = BLOG, $slug = '')
+    public static function Link($type = BLOG, $slug = '', $archive = '')
     {
         if (is_array($slug)) {
             switch ($slug['type']) {
@@ -91,11 +91,12 @@ class HelperFunction
                 case 'page':
                     return "/" . ArrayHelper::getValue($slug, 'slug', '/');
                 case 'article':
-                    return "/" . $slug['type'] . '/' . $slug['slug'];
+                case 'product':
+                    return "/" . $slug['type'] . '/' . ($archive ? "$archive/" : '') . $slug['slug'];
                     break;
             }
         }
-        return "/$type/$slug";
+        return "/$type/$archive/$slug";
     }
 
     public static function getMenu($name = 'header')

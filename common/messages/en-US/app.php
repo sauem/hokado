@@ -22,8 +22,13 @@ return [
     'address' => 'Adress',
     'hotline' => 'Hotline ',
     'not_found_product' => 'Product request not founded!',
+    'not_found_archive' => 'Archive request not founded!',
     'next' => 'Next {type}',
     'prev' => 'Previous {type}',
-    'category' => 'Categories'
+    'category' => 'Categories',
+    'product_interest' => 'Products of interest',
+    'time_expectation' => 'Time expectation',
+    'export_country' => 'Export country',
+    'contact_preference' => 'Contact preference'
 
 ];

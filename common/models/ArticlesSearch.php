@@ -38,7 +38,7 @@ class ArticlesSearch extends Articles
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $filter = null)
     {
         $query = Articles::find();
 
@@ -55,7 +55,9 @@ class ArticlesSearch extends Articles
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        if($filter){
+            $query->andFilterWhere($filter);
+        }
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

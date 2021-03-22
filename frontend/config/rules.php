@@ -5,5 +5,6 @@ return [
     GUIDE => 'site/guide',
     CONTACT => 'site/contact',
     PRODUCT . '/<slug:[0-9a-zA-Z\-]+>' => 'site/product-detail',
-    BLOG . '/<slug:[0-9a-zA-Z\-]+>' => 'site/article-detail',
+    BLOG . '/<slug:[0-9a-zA-Z\-]+>' => 'site/archive',
+    BLOG . '/<archive:[0-9a-zA-Z\-]+>/<slug:[0-9a-zA-Z\-]+>' => 'site/article-detail',
 ];

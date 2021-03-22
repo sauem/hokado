@@ -6,6 +6,7 @@ use common\helper\HelperFunction;
 use common\models\Archives;
 use common\models\ArchivesSearch;
 use common\models\Articles;
+use common\models\ArticlesSearch;
 use common\models\Banners;
 use common\models\Medias;
 use common\models\Products;
@@ -229,7 +230,10 @@ class SiteController extends BaseController
     public function actionProductAndBrief()
     {
         $searchModel = new ProductsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, [
+            'language' => HelperFunction::getLanguage()
+        ]);
+
         return $this->render('product-and-brief', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider
@@ -241,9 +245,46 @@ class SiteController extends BaseController
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionProductDetail($slug)
+    public function actionArchive($slug)
     {
-        $model = Products::findOne(['slug' => $slug]);
+        $model = Archives::findOne(['slug' => $slug, 'language' => HelperFunction::getLanguage()]);
+        if (!$model) {
+            throw new NotFoundHttpException(Yii::t('app', 'not_found_archive'));
+        }
+        switch ($model->type) {
+            case BLOG:
+                $searchModel = new ArticlesSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams, [
+                    'language' => HelperFunction::getLanguage(),
+                    'archive_id' => $model->id
+                ]);
+                break;
+            default:
+                $searchModel = new ProductsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams, [
+                    'language' => HelperFunction::getLanguage()
+                ]);
+                break;
+        }
+        return $this->render('archive', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
+        ]);
+    }
+
+    /**
+     * @param $slug
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionProductDetail($archive, $slug)
+    {
+        $archiveModel = Archives::findOne(['slug' => $archive, 'language' => HelperFunction::getLanguage()]);
+        if (!$archiveModel) {
+            throw new NotFoundHttpException(Yii::t('app', 'not_found_archive'));
+        }
+        $model = Products::findOne(['slug' => $slug, 'language' => HelperFunction::getLanguage()]);
         if (!$model) {
             throw new NotFoundHttpException(Yii::t('app', 'not_found_product'));
         }
@@ -261,6 +302,7 @@ class SiteController extends BaseController
             ->filterWhere(['language' => HelperFunction::getLanguage()])
             ->andFilterWhere(['IS', 'parent_id', new Expression('NULL')])
             ->all();
+
         return $this->render('product-detail', [
             'model' => $model,
             'categories' => $categories,

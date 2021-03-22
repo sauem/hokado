@@ -24,16 +24,58 @@ function switchLanguage(lang) {
     }
 }
 
+function getAjaxError(e) {
+    console.log(e);
+    return e.message;
+}
 
-function productsPage() {
-    this.getProduct = async (obj) => {
+function BriefRequest() {
+    const reqBrief = async (data) => {
         return $.ajax({
-            url: AJAX_URL.PRODUCT,
-            type: 'GET',
-            data: {page: 1},
+            url: AJAX_URL.SUBMIT_BRIEF,
+            type: 'POST',
+            cache: false,
+            processData: false,
+            dataType: false,
+            data: data
         });
     }
-    this.loadContent = async () => {
-
+    this.send = () => {
+        $(document).on('click', '.btn-request-form', function (e) {
+            e.preventDefault();
+            let form = $(this).closest('#request-form');
+            let data = new FormData(form[0]);
+            swal.fire({
+                title: 'Waiting submit...',
+                type: 'info',
+                icon: 'info',
+                showConfirmButton: false,
+                clickOutside: false,
+                allowEscapeKey: false,
+                willOpen: async () => {
+                    swal.showLoading()
+                    try {
+                        const res = await reqBrief(data);
+                        swal.fire({
+                            title: 'Successfully!',
+                            text: '',
+                            type: 'success'
+                        }).then(() => {
+                            swal.close();
+                            form.reset();
+                        });
+                    } catch (e) {
+                        swal.fire({
+                            title: 'Error',
+                            text: getAjaxError(e),
+                            type: 'error'
+                        });
+                    }
+                }
+            })
+            return false;
+        });
     }
 }
+
+new BriefRequest().send();

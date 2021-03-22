@@ -36,6 +36,7 @@ class Contact extends BaseModel
     public function rules()
     {
         return [
+            [['email', 'name'], 'required'],
             [['message'], 'string'],
             [['time_exp', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],

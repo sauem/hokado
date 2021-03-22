@@ -14,6 +14,7 @@ use yii\web\BadRequestHttpException;
  * @property string|null $slug
  * @property string|null $status
  * @property string|null $content
+ * @property string|null $language
  * @property string|null $excerpt
  * @property string|null $attributes
  * @property float|null $default_price
@@ -46,7 +47,7 @@ class Products extends BaseModel
             [['default_price', 'default_sale_type', 'default_sale_price'], 'number'],
             [['created_at', 'updated_at'], 'integer'],
             [['name', 'slug', 'excerpt'], 'string', 'max' => 255],
-            [['status'], 'string', 'max' => 50],
+            [['status', 'language'], 'string', 'max' => 50],
             [['slug'], 'unique'],
             [['avatar', 'thumbnails', 'media_id'], 'safe'],
         ];
@@ -73,6 +74,7 @@ class Products extends BaseModel
             'default_price' => 'Default Price',
             'default_sale_type' => 'Default Sale Type',
             'default_sale_price' => 'Default Sale Price',
+            'language' => 'Ngôn ngữ',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

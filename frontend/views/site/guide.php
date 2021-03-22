@@ -33,7 +33,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div>
@@ -50,7 +50,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div>
@@ -67,7 +67,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div>
@@ -84,7 +84,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div>
@@ -101,7 +101,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div>
@@ -118,7 +118,7 @@ $this->title = 'Guideline';
                         </a>
                     </div><!-- /.service__content -->
                     <div class="service__img">
-                        <img src="assets/images/services/1.jpg" alt="service" class="w-100">
+                        <img src="/usvn/images/services/1.jpg" alt="service" class="w-100">
                     </div><!-- /.service__img -->
                 </div><!-- /.service-item -->
             </div><!-- /.col-lg-4 -->
@@ -159,7 +159,7 @@ $this->title = 'Guideline';
                         <!-- portfolio item #1 -->
                         <div class="portfolio-item">
                             <div class="portfolio__img">
-                                <img src="assets/images/portfolio/carousel/1.jpg" alt="portfolio img">
+                                <img src="/usvn/images/portfolio/carousel/1.jpg" alt="portfolio img">
                                 <div class="portfolio__hover">
                                     <a class="portfolio__icon" href="case-studies-single.html">
                                         <i class="fas fa-eye"></i>
@@ -172,7 +172,7 @@ $this->title = 'Guideline';
                         </div>
                         <div class="portfolio-item">
                             <div class="portfolio__img">
-                                <img src="assets/images/portfolio/carousel/1.jpg" alt="portfolio img">
+                                <img src="/usvn/images/portfolio/carousel/1.jpg" alt="portfolio img">
                                 <div class="portfolio__hover">
                                     <a class="portfolio__icon" href="case-studies-single.html">
                                         <i class="fas fa-eye"></i>
@@ -185,7 +185,7 @@ $this->title = 'Guideline';
                         </div>
                         <div class="portfolio-item">
                             <div class="portfolio__img">
-                                <img src="assets/images/portfolio/carousel/1.jpg" alt="portfolio img">
+                                <img src="/usvn/images/portfolio/carousel/1.jpg" alt="portfolio img">
                                 <div class="portfolio__hover">
                                     <a class="portfolio__icon" href="case-studies-single.html">
                                         <i class="fas fa-eye"></i>
@@ -198,7 +198,7 @@ $this->title = 'Guideline';
                         </div>
                         <div class="portfolio-item">
                             <div class="portfolio__img">
-                                <img src="assets/images/portfolio/carousel/1.jpg" alt="portfolio img">
+                                <img src="/usvn/images/portfolio/carousel/1.jpg" alt="portfolio img">
                                 <div class="portfolio__hover">
                                     <a class="portfolio__icon" href="case-studies-single.html">
                                         <i class="fas fa-eye"></i>
@@ -211,7 +211,7 @@ $this->title = 'Guideline';
                         </div>
                         <div class="portfolio-item">
                             <div class="portfolio__img">
-                                <img src="assets/images/portfolio/carousel/1.jpg" alt="portfolio img">
+                                <img src="/usvn/images/portfolio/carousel/1.jpg" alt="portfolio img">
                                 <div class="portfolio__hover">
                                     <a class="portfolio__icon" href="case-studies-single.html">
                                         <i class="fas fa-eye"></i>

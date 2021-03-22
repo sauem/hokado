@@ -22,7 +22,12 @@ return [
     'address' => 'Địa chỉ ',
     'hotline' => 'Hotline ',
     'not_found_product' => 'Không tìm thấy sản phẩm này!',
+    'not_found_archive' => 'Danh mục không tồn tại!',
     'next' => '{type} kế tiếp',
     'prev' => '{type} trước đó',
-    'category' => 'Danh mục'
+    'category' => 'Danh mục',
+    'product_interest' => 'Sản phẩm quan tâm',
+    'time_expectation' => 'Thời gian kì vọng (ngày)',
+    'export_country' => 'Quốc gia xuất khẩu',
+    'contact_preference' => 'Phương thức hỗ trợ'
 ];
