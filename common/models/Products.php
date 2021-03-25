@@ -125,4 +125,11 @@ class Products extends BaseModel
             'product_id' => 'id'
         ])->with('archive');
     }
+
+    public function getFirstArchive()
+    {
+        return $this->hasOne(ProductsArchive::className(), [
+            'product_id' => 'id'
+        ])->with('archive');
+    }
 }

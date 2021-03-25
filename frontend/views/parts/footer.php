@@ -10,7 +10,7 @@ if ($menu) {
     $menuItems = Json::decode(ArrayHelper::getValue($menu, 'items'));
 }
 ?>
-<footer class="footer footer-light">
+<footer class="footer footer-dark">
     <div class="footer-primary">
         <div class="container">
             <div class="row">
@@ -24,7 +24,7 @@ if ($menu) {
                     foreach ($menuItems as $item) {
                         $childrens = ArrayHelper::getValue($item, 'children', []);
                         ?>
-                        <div class="col-sm-6 col-md-4 footer-widget footer-widget-nav">
+                        <div class="col-sm-6 col-md-2 footer-widget footer-widget-nav">
                             <h6 class="footer-widget__title"><?= $item['title'] ?></h6>
                             <div class="footer-widget__content">
                                 <nav>

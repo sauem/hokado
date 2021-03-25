@@ -34,6 +34,7 @@
                 type: null,
                 currentItem: {}
             });
+
             const [form] = Form.useForm();
             const onRemoveItem = item => {
                 let items = state.items.filter(key => key.id !== item.id);
@@ -108,18 +109,25 @@
                 }
             }
             const getMenu = async (name, lang) => {
+
                 try {
                     const data = await Menu.get(name, lang);
+                    setState({
+                        items: data.items ? JSON.parse(data.items) : []
+                    });
                     form.setFieldsValue({
                         language: data.language,
                         name: data.name
-                    })
-                    setState({
-                        items: JSON.parse(data.items)
-                    })
+                    });
+                    initSortable();
                 } catch (e) {
                     console.warn(e);
                 }
+            }
+            const onChangeMenu = async (e) => {
+                const name = form.getFieldValue('name');
+                const lang = form.getFieldValue('language');
+                await getMenu(name, lang);
             }
             useEffect(async () => {
                 const {data} = await Archives.fetch({page: -1});
@@ -132,7 +140,6 @@
                     }
                 });
                 await getMenu(form.getFieldValue('name'), form.getFieldValue('language'));
-                initSortable();
             }, []);
             return (
                 <Form form={form} onFinish={submitForm} layout="vertical">
@@ -143,7 +150,7 @@
                                     initialValue="header"
                                     style={getStyles({marginBottom: 0})}
                                     name="name">
-                                    <Select>
+                                    <Select onChange={onChangeMenu}>
                                         <Select.Option value={`header`}>Header</Select.Option>
                                         <Select.Option value={`footer`}>Footer</Select.Option>
                                     </Select>
@@ -161,7 +168,7 @@
                                     label="Ngôn ngữ"
                                     name="language"
                                 >
-                                    <Select style={getStyles({width: '100%'})}>
+                                    <Select onChange={onChangeMenu} style={getStyles({width: '100%'})}>
                                         <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
                                         <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
                                     </Select>
@@ -209,7 +216,7 @@
                                     <Form.Item
                                         name="language"
                                     >
-                                        <Select defaultValue={LANG_VI}
+                                        <Select onChange={onChangeMenu} defaultValue={LANG_VI}
                                                 style={getStyles({width: '100%'})}>
                                             <Select.Option value={LANG_VI}>Tiếng Việt</Select.Option>
                                             <Select.Option value={LANG_EN}>Tiếng Anh</Select.Option>
@@ -218,7 +225,8 @@
                                     <Form.Item
                                         name={'name'}
                                     >
-                                        <Select defaultValue={`header`} style={getStyles({width: '100%'})}>
+                                        <Select onChange={onChangeMenu} defaultValue={`header`}
+                                                style={getStyles({width: '100%'})}>
                                             <Select.Option value={`header`}>Header</Select.Option>
                                             <Select.Option value={`footer`}>Footer</Select.Option>
                                         </Select>
