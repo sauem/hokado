@@ -12,21 +12,21 @@ use yii\widgets\ListView;
 ]) ?>
 <section class="portfolio-grid">
     <div class="container">
-<!--        <div class="row">-->
-<!--            <div class="col-sm-12 col-md-12 col-lg-6">-->
-<!--                <div class="heading mb-50">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <div class="divider divider-primary mr-30"></div>-->
-<!--                        <h2 class="heading__subtitle mb-0">-->
-<!--                            --><?//= Yii::t('app', 'products') ?>
-<!--                        </h2>-->
-<!--                    </div>-->
-<!--                    <h3 class="heading__title mb-0">-->
-<!--                        --><?//= Yii::t('app', 'product_items') ?>
-<!--                    </h3>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="row">-->
+        <!--            <div class="col-sm-12 col-md-12 col-lg-6">-->
+        <!--                <div class="heading mb-50">-->
+        <!--                    <div class="d-flex align-items-center">-->
+        <!--                        <div class="divider divider-primary mr-30"></div>-->
+        <!--                        <h2 class="heading__subtitle mb-0">-->
+        <!--                            --><? //= Yii::t('app', 'products') ?>
+        <!--                        </h2>-->
+        <!--                    </div>-->
+        <!--                    <h3 class="heading__title mb-0">-->
+        <!--                        --><? //= Yii::t('app', 'product_items') ?>
+        <!--                    </h3>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
         <div id="filtered-items-wrap" class="row">
 
@@ -37,6 +37,7 @@ use yii\widgets\ListView;
                 'viewParams' => [
                     'archive' => $model
                 ],
+                'options' => ['class' => 'row'],
                 'itemOptions' => [
                     'tag' => 'article',
                     'class' => 'col-12 col-md-4 mix',

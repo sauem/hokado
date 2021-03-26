@@ -55,7 +55,7 @@ class SiteController extends BaseController
             ->where([
                 'status' => Articles::STATUS_ACTIVE,
                 'language' => HelperFunction::getLanguage()
-            ])->limit(12)->orderBy('created_at DESC')->all();
+            ])->limit(6)->orderBy('created_at DESC')->all();
         $products = Products::find()
             ->where([
                 'status' => Articles::STATUS_ACTIVE,

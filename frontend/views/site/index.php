@@ -119,8 +119,8 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
                                     <div class="service__icon">
                                         <img src="<?= $product->avatar?>" />
                                     </div><!-- /.service__icon -->
-                                    <h4 class="service__title"><?= $product->name ?></h4>
-                                    <p class="service__desc"><?= $product->excerpt ?> </p>
+                                    <h4 class="service__title text-2"><?= $product->name ?></h4>
+                                    <p class="service__desc text-3"><?= $product->excerpt ?> </p>
                                     <a href="<?= HelperFunction::Link(PRODUCT, $product->slug, HelperFunction::fistArchive($product)) ?>"
                                        class="btn btn__secondary">
                                         <span><?= Yii::t('app', 'detail') ?></span>

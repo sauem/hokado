@@ -3,6 +3,81 @@
   .language .dropdown-toggle:after {
     right: -25px; }
 
+.service__icon {
+  overflow: hidden;
+  max-height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.portfolio__img {
+  max-height: 320px; }
+
+.text-1 {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 24px;
+  /* fallback */
+  max-height: 50px;
+  /* fallback */
+  -webkit-line-clamp: 1;
+  /* number of lines to show */
+  -webkit-box-orient: vertical; }
+
+.text-2 {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 24px;
+  /* fallback */
+  max-height: 50px;
+  /* fallback */
+  -webkit-line-clamp: 2;
+  /* number of lines to show */
+  -webkit-box-orient: vertical; }
+
+.text-3 {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 24px;
+  /* fallback */
+  max-height: 50px;
+  /* fallback */
+  -webkit-line-clamp: 3;
+  /* number of lines to show */
+  -webkit-box-orient: vertical; }
+
+.text-4 {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 24px;
+  /* fallback */
+  max-height: 50px;
+  /* fallback */
+  -webkit-line-clamp: 4;
+  /* number of lines to show */
+  -webkit-box-orient: vertical; }
+
+.text-5 {
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 24px;
+  /* fallback */
+  max-height: 50px;
+  /* fallback */
+  -webkit-line-clamp: 5;
+  /* number of lines to show */
+  -webkit-box-orient: vertical; }
+
 .service-item .service__content {
   padding: 15px; }
 
