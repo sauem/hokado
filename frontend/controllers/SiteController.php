@@ -357,8 +357,20 @@ class SiteController extends BaseController
 
     public function actionGuide()
     {
+        $searchModel = new ArticlesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, [
+            'language' => HelperFunction::getLanguage(),
+        ]);
+        $dataProvider->query->innerJoin('archives', 'archives.id = articles.archive_id')
+            ->filterWhere(['archives.slug' => GUIDE])
+            ->orFilterWhere(['archives.slug' => 'huong-dan']);
+
+        $products = Products::find()
+            ->orderBy('products.created_at DESC')
+            ->limit(12)->all();
         return $this->render('guide', [
-            'products' => [],
+            'products' => $products,
+            'dataProvider' => $dataProvider
         ]);
     }
 }

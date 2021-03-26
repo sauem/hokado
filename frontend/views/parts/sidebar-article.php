@@ -27,7 +27,7 @@ use common\helper\HelperFunction;
                             </a>
                         </div><!-- /.widget-post-img -->
                         <div class="widget-post__content">
-                            <h4 class="widget-post__title">
+                            <h4 class="widget-post__title text-2">
                                 <a href="<?= HelperFunction::Link(PRODUCT, $post->slug, $post->archive->slug) ?>">
                                     <?= $post->name ?>
                                 </a>

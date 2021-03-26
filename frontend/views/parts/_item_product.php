@@ -12,12 +12,12 @@ $firstArchive = $firstArchive->archive->slug;
         <img src="<?= $model->avatar ?>" alt="<?= $model->name ?>">
     </div>
     <div class="portfolio__content">
-        <h4 class="portfolio__title">
+        <h4 class="portfolio__title text-2">
             <a href="<?= HelperFunction::Link(PRODUCT, $model->slug, $firstArchive) ?>">
                 <?= $model->name ?>
             </a>
         </h4>
-        <p class="portfolio__desc">
+        <p class="portfolio__desc text-3">
             <?= $model->excerpt ?>
         </p>
         <a href="<?= HelperFunction::Link(PRODUCT, $model->slug, $firstArchive) ?>"

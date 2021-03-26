@@ -64,7 +64,7 @@ $this->params['header_type'] = 'light';
                             </div>
                             <div class="widget-nav__content">
                                 <span><?= Yii::t('app', 'prev',['type'  => 'Sản phẩm']) ?></span>
-                                <h5 class="fz-16 mb-0">
+                                <h5 class="fz-16 mb-0 text-2">
                                     <?= $prevProduct->name ?>
                                 </h5>
                             </div>
@@ -81,7 +81,7 @@ $this->params['header_type'] = 'light';
                             </div>
                             <div class="widget-nav__content">
                                 <span><?= Yii::t('app', 'next', ['type' => Yii::t('app', 'product')]) ?></span>
-                                <h5 class="fz-16 mb-0">
+                                <h5 class="fz-16 mb-0 text-2">
                                     <?= $nextProduct->name ?>
                                 </h5>
                             </div>

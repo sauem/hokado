@@ -52,7 +52,7 @@ $this->params['header_type'] = 'light';
                 <div class="widget-nav d-flex justify-content-between mb-40">
                     <?php if ($prevPost) {
                         ?>
-                        <a href="<?= HelperFunction::Link(BLOG, $prevPost->slug, $archive->slug) ?>"
+                        <a href="<?= HelperFunction::Link(BLOG, $prevPost->slug, $prevPost->archive->slug) ?>"
                            class="widget-nav__prev d-flex flex-wrap">
                             <div class="widget-nav__img">
                                 <div class="widget-nav__overlay"></div>
@@ -60,7 +60,7 @@ $this->params['header_type'] = 'light';
                             </div>
                             <div class="widget-nav__content">
                                 <span><?= Yii::t('app', 'prev', ['type' => Yii::t('app', 'article')]) ?></span>
-                                <h5 class="fz-16 mb-0">
+                                <h5 class="fz-16 mb-0 text-2">
                                     <?= $prevPost->name ?>
                                 </h5>
                             </div>
@@ -69,7 +69,7 @@ $this->params['header_type'] = 'light';
                     } ?>
                     <?php if ($nextPost) {
                         ?>
-                        <a href="<?= HelperFunction::Link(BLOG, $nextPost->slug) ?>"
+                        <a href="<?= HelperFunction::Link(BLOG, $nextPost->slug,$nextPost->archive->slug) ?>"
                            class="widget-nav__next d-flex flex-wrap">
                             <div class="widget-nav__img">
                                 <div class="widget-nav__overlay"></div>
@@ -77,7 +77,7 @@ $this->params['header_type'] = 'light';
                             </div>
                             <div class="widget-nav__content">
                                 <span><?= Yii::t('app', 'next', ['type' => Yii::t('app', 'product')]) ?></span>
-                                <h5 class="fz-16 mb-0">
+                                <h5 class="fz-16 mb-0 text-2">
                                     <?= $nextPost->name ?>
                                 </h5>
                             </div>
