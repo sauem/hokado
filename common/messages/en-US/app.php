@@ -29,6 +29,9 @@ return [
     'product_interest' => 'Products of interest',
     'time_expectation' => 'Time expectation',
     'export_country' => 'Export country',
-    'contact_preference' => 'Contact preference'
+    'contact_preference' => 'Contact preference',
+    'recent_product' => 'Recent products',
+    'recent_post' => 'Recent post',
+    'search' => 'Search'
 
 ];

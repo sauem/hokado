@@ -96,7 +96,7 @@ class HelperFunction
                     break;
             }
         }
-        return "/$type/$archive/$slug";
+        return "/$type/" . ($archive ? $archive . '/' : '' ). $slug;
     }
 
     public static function getMenu($name = 'header')
@@ -110,5 +110,10 @@ class HelperFunction
             }
         }
         return false;
+    }
+
+    public static function fistArchive($product)
+    {
+        return $product->firstArchive->archive->slug;
     }
 }

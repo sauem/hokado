@@ -38,12 +38,12 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
                                 </div><!-- /.portfolio-img -->
                                 <div class="portfolio__content">
                                     <h4 class="portfolio__title text-2">
-                                        <a href="<?= HelperFunction::Link(BLOG, $article->slug) ?>">
+                                        <a href="<?= HelperFunction::Link(BLOG, $article->slug, $article->archive->slug) ?>">
                                             <?= \yii\helpers\StringHelper::truncateWords($article->name, 20, '...') ?>
                                         </a>
                                     </h4>
                                     <p class="portfolio__desc text-4"><?= $article->excerpt ?></p>
-                                    <a href="<?= HelperFunction::Link(BLOG, $article->slug) ?>"
+                                    <a href="<?= HelperFunction::Link(BLOG, $article->slug, $article->archive->slug) ?>"
                                        class="btn btn__secondary btn__link">
                                         <span><?= Yii::t('app', 'read_more') ?></span>
                                         <i class="icon-arrow-right"></i>
@@ -117,11 +117,11 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
                             <div class="service-item">
                                 <div class="service__content">
                                     <div class="service__icon">
-                                        <i class="icon-server"></i>
+                                        <img src="<?= $product->avatar?>" />
                                     </div><!-- /.service__icon -->
                                     <h4 class="service__title"><?= $product->name ?></h4>
                                     <p class="service__desc"><?= $product->excerpt ?> </p>
-                                    <a href="<?= HelperFunction::Link(PRODUCT, $product->slug) ?>"
+                                    <a href="<?= HelperFunction::Link(PRODUCT, $product->slug, HelperFunction::fistArchive($product)) ?>"
                                        class="btn btn__secondary">
                                         <span><?= Yii::t('app', 'detail') ?></span>
                                         <i class="icon-arrow-right"></i>

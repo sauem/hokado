@@ -46,6 +46,10 @@ $this->params['header_type'] = 'light';
                         <div class="post__desc">
                             <?= $model->content ?>
                         </div>
+                        <a href="/<?= PRODUCT_AND_BRIEF ?>" class="btn btn__secondary btn__bordered btn__icon">
+                            <span><?= Yii::t('app', 'product_and_brief') ?></span>
+                            <i class="icon-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
                 <hr>
@@ -87,7 +91,8 @@ $this->params['header_type'] = 'light';
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <?= $this->render('../parts/sidebar-product', [
-                    'categories' => $categories
+                    'categories' => $categories,
+                    'relatedProducts' => $relatedProducts
                 ]) ?>
             </div>
         </div>

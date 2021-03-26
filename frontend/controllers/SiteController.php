@@ -295,12 +295,20 @@ class SiteController extends BaseController
             ->filterWhere(['language' => HelperFunction::getLanguage()])
             ->andFilterWhere(['IS', 'parent_id', new Expression('NULL')])
             ->all();
-
+        $relatedProducts = Products::find()
+            ->innerJoin('products_archive', 'products_archive.product_id = products.id')
+            ->innerJoin('archives', 'archives.id = products_archive.archive_id')
+            ->where(['archives.id' => $model->firstArchive->archive->id])
+            ->andFilterWhere(['products.language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['<>', 'products.id', $model->id])
+            ->orderBy('products.created_at DESC')
+            ->limit(4)->all();
         return $this->render('product-detail', [
             'model' => $model,
             'categories' => $categories,
             'nextProduct' => $nextProduct,
-            'prevProduct' => $prevProduct
+            'prevProduct' => $prevProduct,
+            'relatedProducts' => $relatedProducts
         ]);
     }
 
@@ -332,11 +340,18 @@ class SiteController extends BaseController
             ->andFilterWhere(['<', 'id', $model->id])
             ->orderBy('created_at DESC')
             ->one();
+        $relatedPosts = Articles::find()->filterWhere([
+            'archive_id' => $archiveModel->id,
+            'language' => HelperFunction::getLanguage()])
+            ->andFilterWhere(['<>', 'id', $model->id])
+            ->orderBy('created_at DESC')
+            ->limit(4)->all();
         return $this->render('blog-detail', [
             'model' => $model,
             'categories' => $categories,
             'nextPost' => $nextPost,
-            'prevPost' => $prevPost
+            'prevPost' => $prevPost,
+            'relatedPosts' => $relatedPosts
         ]);
     }
 

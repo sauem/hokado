@@ -28,15 +28,17 @@ $this->title = 'Products and brief';
             </div><!-- /.col-lg-6 -->
         </div>
 
-        <div id="filtered-items-wrap" class="row">
+        <div id="filtered-items-wrap">
 
             <?= ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemView' => '../parts/_item_product',
                 'emptyText' => 'No results.',
+                'options' => [
+                    'class' => 'row'
+                ],
                 'itemOptions' => [
-                    'tag' => 'article',
-                    'class' => 'col-sm-6 col-md-6 col-lg-4 mix',
+                    'class' => 'col-sm-6 col-md-4',
                 ],
                 'summary' => false,
                 'pager' => [
@@ -164,8 +166,8 @@ $this->title = 'Products and brief';
             </div><!-- /.col-xl-6 -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
                 <div class="contact-panel">
-                    <?= $this->render('../parts/form-request',[
-                            'model' => $contactForm
+                    <?= $this->render('../parts/form-request', [
+                        'model' => $contactForm
                     ]) ?>
                 </div>
             </div><!-- /.col-xl-6 -->

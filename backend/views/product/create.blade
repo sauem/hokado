@@ -15,7 +15,6 @@
             const [progress, setProgress] = useState(0);
             const onSubmit = async (data) => {
                 if (typeof data.id == "undefined") {
-                    alert(data.id)
                     await Products.create(data);
                 } else {
                     await Products.update(data);

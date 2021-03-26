@@ -86,8 +86,9 @@ $this->params['header_type'] = 'light';
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4">
-                <?= $this->render('../parts/sidebar-product', [
-                    'categories' => $categories
+                <?= $this->render('../parts/sidebar-article', [
+                    'categories' => $categories,
+                    'relatedPosts' => $relatedPosts
                 ]) ?>
             </div>
         </div>

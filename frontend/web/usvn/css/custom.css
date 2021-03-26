@@ -3,4 +3,7 @@
   .language .dropdown-toggle:after {
     right: -25px; }
 
+.service-item .service__content {
+  padding: 15px; }
+
 /*# sourceMappingURL=custom.css.map */

@@ -5,7 +5,7 @@ use common\helper\HelperFunction;
 ?>
 <aside class="sidebar">
     <div class="widget widget-search">
-        <h5 class="widget__title">Search</h5>
+        <h5 class="widget__title"><?= Yii::t('app', 'search') ?></h5>
         <div class="widget__content">
             <form class="widget__form-search">
                 <input type="text" class="form-control" placeholder="Search...">
@@ -13,47 +13,39 @@ use common\helper\HelperFunction;
             </form>
         </div><!-- /.widget-content -->
     </div><!-- /.widget-search -->
-    <div class="widget widget-posts">
-        <h5 class="widget__title">Recent Posts</h5>
-        <div class="widget__content">
-            <!-- post item #1 -->
-            <div class="widget-post-item d-flex align-items-center">
-                <div class="widget-post__img">
-                    <a href="#"><img src="/usvn/images/blog/grid/2.jpg" alt="thumb"></a>
-                </div><!-- /.widget-post-img -->
-                <div class="widget-post__content">
-                    <h4 class="widget-post__title"><a href="#">Succession Risks That Threaten Your
-                            Leadership</a></h4>
-                    <span class="widget-post__date">Sep 19, 2020</span>
-                </div><!-- /.widget-post-content -->
-            </div><!-- /.widget-post-item -->
-            <!-- post item #2 -->
-            <div class="widget-post-item d-flex align-items-center">
-                <div class="widget-post__img">
-                    <a href="#"><img src="/usvn/images/blog/grid/3.jpg" alt="thumb"></a>
-                </div><!-- /.widget-post-img -->
-                <div class="widget-post__content">
-                    <h4 class="widget-post__title"><a href="#">Do Employee Surveys Tell About
-                            Employee?</a></h4>
-                    <span class="widget-post__date">July 7, 2020</span>
-                </div><!-- /.widget-post-content -->
-            </div><!-- /.widget-post-item -->
-            <!-- post item #3 -->
-            <div class="widget-post-item d-flex align-items-center">
-                <div class="widget-post__img">
-                    <a href="#"><img src="/usvn/images/blog/grid/6.jpg" alt="thumb"></a>
-                </div><!-- /.widget-post-img -->
-                <div class="widget-post__content">
-                    <h4 class="widget-post__title"><a href="#">Succession Risks That Threaten Your
-                            Leadership</a></h4>
-                    <span class="widget-post__date">March 13, 2020</span>
-                </div><!-- /.widget-post-content -->
-            </div><!-- /.widget-post-item -->
-        </div><!-- /.widget-content -->
-    </div><!-- /.widget-posts -->
+    <?php if (isset($relatedProducts) && !empty($relatedProducts)) {
+        ?>
+        <div class="widget widget-posts">
+            <h5 class="widget__title"><?= Yii::t('app', 'recent_product') ?></h5>
+            <div class="widget__content">
+                <?php foreach ($relatedProducts as $product) {
+                    ?>
+                    <div class="widget-post-item d-flex align-items-center">
+                        <div class="widget-post__img">
+                            <a href="<?= HelperFunction::Link(PRODUCT, $product->slug, HelperFunction::fistArchive($product)) ?>">
+                                <img src="<?= $product->avatar ?>" alt="<?= $product->name ?>">
+                            </a>
+                        </div><!-- /.widget-post-img -->
+                        <div class="widget-post__content">
+                            <h4 class="widget-post__title">
+                                <a href="<?= HelperFunction::Link(PRODUCT, $product->slug, HelperFunction::fistArchive($product)) ?>">
+                                    <?= $product->name ?>
+                                </a>
+                            </h4>
+                            <span class="widget-post__date">
+                                <?= date('d/m/Y', $product->created_at) ?>
+                            </span>
+                        </div><!-- /.widget-post-content -->
+                    </div>
+                    <?php
+                } ?>
+            </div>
+        </div>
+        <?php
+    } ?>
     <?php if (isset($categories) && !empty($categories)) { ?>
         <div class="widget widget-categories">
-            <h5 class="widget__title"><?= Yii::t('app','category')?></h5>
+            <h5 class="widget__title"><?= Yii::t('app', 'category') ?></h5>
             <div class="widget-content">
                 <ul class="list-unstyled">
                     <?php foreach ($categories as $category) { ?>

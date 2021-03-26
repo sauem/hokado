@@ -29,5 +29,8 @@ return [
     'product_interest' => 'Sản phẩm quan tâm',
     'time_expectation' => 'Thời gian kì vọng (ngày)',
     'export_country' => 'Quốc gia xuất khẩu',
-    'contact_preference' => 'Phương thức hỗ trợ'
+    'contact_preference' => 'Phương thức hỗ trợ',
+    'recent_product' => 'Cùng danh mục',
+    'recent_post' => 'Cùng danh mục',
+    'search' => 'Tìm kiếm'
 ];
