@@ -82,7 +82,7 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <?= HelperFunction::setting('about_us',true)?>
+                <?= HelperFunction::setting('about_us', true) ?>
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -135,7 +135,7 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
             <div class="row">
                 <div class="col-12 btn-wrapper">
                     <a href="/<?= PRODUCT_AND_BRIEF ?>" class="btn btn__secondary btn__bordered btn__icon">
-                        <span><?= Yii::t('app','product_and_brief')?></span>
+                        <span><?= Yii::t('app', 'product_and_brief') ?></span>
                         <i class="icon-arrow-right"></i>
                     </a>
                 </div>
