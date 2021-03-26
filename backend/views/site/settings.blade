@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use dosamigos\tinymce\TinyMce;use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\helper\HelperFunction;
 ?>
@@ -17,22 +17,52 @@ use common\helper\HelperFunction;
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <?= $form->field($model, 'site_name')->label('Tên website')?>
-                            <?= $form->field($model, 'site_name_en')->label('Tên website (en)')?>
-                            <?= $form->field($model, 'site_description')->textarea()->label('Giới thiệu ngắn')?>
-                            <?= $form->field($model, 'site_description_en')->textarea()->label('Giới thiệu ngắn (en)')?>
-                            <?= $form->field($model, 'email')->label('Email')?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, 'address_1')->label('Địa chỉ 1')?>
-                            <?= $form->field($model, 'address_2')->label('Địa chỉ 2')?>
-                            <?= $form->field($model, 'address_1_en')->label('Địa chỉ 1 (en)')?>
-                            <?= $form->field($model, 'address_2_en')->label('Địa chỉ 2 (en)')?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, 'hotline_1')->label('Hotline 1')?>
-                            <?= $form->field($model, 'hotline_2')->label('Hotline 2')?>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?= $form->field($model, 'site_name')->label('Tên website')?>
+                                    <?= $form->field($model, 'site_name_en')->label('Tên website (en)')?>
+                                    <?= $form->field($model, 'site_description')->textarea()->label('Giới thiệu ngắn')?>
+                                    <?= $form->field($model, 'site_description_en')->textarea()->label('Giới thiệu ngắn (en)')?>
+                                    <?= $form->field($model, 'email')->label('Email')?>
+                                </div>
+                                <div class="col-md-3">
+                                    <?= $form->field($model, 'address_1')->label('Địa chỉ 1')?>
+                                    <?= $form->field($model, 'address_2')->label('Địa chỉ 2')?>
+                                    <?= $form->field($model, 'address_1_en')->label('Địa chỉ 1 (en)')?>
+                                    <?= $form->field($model, 'address_2_en')->label('Địa chỉ 2 (en)')?>
+                                </div>
+                                <div class="col-md-3">
+                                    <?= $form->field($model, 'hotline_1')->label('Hotline 1')?>
+                                    <?= $form->field($model, 'hotline_2')->label('Hotline 2')?>
+                                </div>
+                                <div class="col-12">
+                                    <?= $form->field($model, 'about_us')->widget(TinyMce::className(), [
+                                        'options' => ['rows' => 6],
+                                        'language' => 'es',
+                                        'clientOptions' => [
+                                            'plugins' => [
+                                                "advlist autolink lists link charmap print preview anchor",
+                                                "searchreplace visualblocks code fullscreen",
+                                                "insertdatetime media table contextmenu paste"
+                                            ],
+                                            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                                        ]
+                                    ])->label('Giới thiệu')?>
+                                    <?= $form->field($model, 'about_us_en')->widget(TinyMce::className(), [
+                                        'options' => ['rows' => 6],
+                                        'language' => 'es',
+                                        'clientOptions' => [
+                                            'plugins' => [
+                                                "advlist autolink lists link charmap print preview anchor",
+                                                "searchreplace visualblocks code fullscreen",
+                                                "insertdatetime media table contextmenu paste"
+                                            ],
+                                            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                                        ]
+                                    ])->label('Giới thiệu (en)')?>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label>Logo header</label>

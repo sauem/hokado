@@ -58,11 +58,16 @@ class ProductsArchive extends BaseModel
 
     /**
      * @param $data
+     * @param int $product_id
+     * @param bool $update
      * @throws BadRequestHttpException
      */
-    public static function saveItems($data)
+    public static function saveItems($data, $product_id = 0, $update = false)
     {
         try {
+            if ($update) {
+                ProductsArchive::deleteAll(['product_id' => $product_id]);
+            }
             Yii::$app->db->createCommand()->batchInsert(ProductsArchive::tableName(), [
                 'archive_id', 'product_id', 'created_at', 'updated_at'
             ], $data)->execute();
@@ -71,6 +76,10 @@ class ProductsArchive extends BaseModel
         }
     }
 
+    /**
+     * @param $obj_id
+     * @throws BadRequestHttpException
+     */
     static function removeRef($obj_id)
     {
         try {

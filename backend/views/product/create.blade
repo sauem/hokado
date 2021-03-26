@@ -4,19 +4,18 @@
         const initalState = {
             categories: [],
             attributes: [],
-            defaultArchives: [],
             loading: false,
             language: LANG_VI,
         }
         const App = () => {
             const [state, setState] = useState(initalState);
-            const [stateSelect, setStateSelect] = useState({});
+            const [checkedKeys, setCheckedKeys] = useState([]);
             const [form] = Form.useForm();
             const [defaultFileList, setDefaultFileList] = useState([]);
             const [progress, setProgress] = useState(0);
             const onSubmit = async (data) => {
-                console.log(data);
                 if (typeof data.id == "undefined") {
+                    alert(data.id)
                     await Products.create(data);
                 } else {
                     await Products.update(data);
@@ -39,13 +38,17 @@
 
                 if (id) {
                     const {data} = await Products.view(id);
-                    const {meta, archives} = data;
-                    initalState.defaultArchives = archives.map(item => {
+
+                    const {meta, media_id, archives} = data;
+
+                    let cats = archives.map(item => {
                         return item.archive_id;
                     });
-
+                    setCheckedKeys(cats);
                     form.setFieldsValue({
                         ...data,
+                        media_id: media_id,
+                        archive_id: cats,
                         meta_title: meta ? meta.meta_title : null,
                         meta_keyword: meta ? meta.meta_keyword : null,
                         meta_description: meta ? meta.meta_description : null
@@ -62,11 +65,11 @@
                 setState({
                     ...state,
                     ...{
-                        defaultArchives: initalState.defaultArchives,
                         categories: convertTreeSelect(res.data),
                         attributes: attr.data
                     }
                 });
+
             }, []);
             const setLanguage = (e) => {
                 setState({
@@ -110,20 +113,25 @@
                     onProgress({percent: (event.loaded / event.total) * 100});
                 }, MEDIA_TYPE_PRODUCT);
             }
-            const onSelectArchive = (selectedKeys, info) => {
+            const onSelectArchive = (checkedKeysValue, info) => {
+                setCheckedKeys(checkedKeysValue);
                 form.setFieldsValue({
-                    archive_id: selectedKeys
-                })
+                    archive_id: checkedKeysValue
+                });
             }
-            const selectAttribute = () => {
-            }
+
             return (
                 <div className="mb-5">
                     <Form onFinish={onSubmit} form={form} layout="vertical">
                         <Row gutter={[8, 0]}>
                             <Col md={18}>
                                 <Card title="Chi tiết">
-
+                                    <Form.Item
+                                        hidden
+                                        name={`id`}
+                                    >
+                                        <Input/>
+                                    </Form.Item>
                                     <Form.Item
                                         onChange={slugChange}
                                         label="Tên sản phẩm"
@@ -290,10 +298,9 @@
                                             rules={[{required: true, message: 'Danh mục bắt buộc', type: 'array'}]}
                                         >
                                             <Tree
-                                                selectedKeys={state.defaultArchives}
-                                                expandedKeys={state.defaultArchives}
-                                                checkedKeys={state.defaultArchives}
                                                 checkable
+                                                expandedKeys={checkedKeys}
+                                                checkedKeys={checkedKeys}
                                                 onCheck={onSelectArchive}
                                                 treeData={state.categories}
                                             />

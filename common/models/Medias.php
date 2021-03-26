@@ -81,7 +81,7 @@ class Medias extends BaseModel
             if ($model) {
                 $model->delete();
             }
-            $model = Medias::findOne($media_id);
+            $model = new Medias();
             $model->obj_id = $obj_id;
             $model->status = Medias::STATUS_USING;
             return $model->save();

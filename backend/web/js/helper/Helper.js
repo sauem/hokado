@@ -1,3 +1,8 @@
+Array.prototype.getColumn = (key => {
+    return this.map(item => {
+        return item[key];
+    });
+});
 const axiosCatch = (error) => {
     if (error.response) {
         // The request was made and the server responded with a status code
