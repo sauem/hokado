@@ -24,8 +24,8 @@ return [
             'class' => 'yii2mod\settings\components\Settings',
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
-            #'class' => 'yii\redis\Cache',
+            #'class' => 'yii\caching\FileCache',
+            'class' => 'yii\redis\Cache',
             'keyPrefix' => 'smileup_'
         ],
         'redis' => [
