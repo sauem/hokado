@@ -312,6 +312,12 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * @param $archive
+     * @param $slug
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionArticleDetail($archive, $slug)
     {
         $archiveModel = Archives::findOne(['slug' => $archive, 'language' => HelperFunction::getLanguage()]);
