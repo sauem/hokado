@@ -97,7 +97,6 @@ const LANGUAGES = [
 
 
 // Router API
-const BASE_URL = 'http://admin.hakota.local/';
 const URLS = {
     PRODUCT_INDEX: '/product',
     PRODUCT_CREATE: '/product/create',
