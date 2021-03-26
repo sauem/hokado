@@ -74,13 +74,15 @@ class Medias extends BaseModel
         $this->status = self::STATUS_TRASH;
     }
 
-    static function saveObj($media_id, $obj_id, $type = Medias::ARCHIVE_TYPE)
+    static function saveObj($media_id, $obj_id, $type = Medias::ARCHIVE_TYPE, $path = null, $update = false)
     {
         try {
-            $model = Medias::findOne(['obj_id' => $obj_id]);
-            if ($model) {
-                $model->delete();
+            if ($media_id) {
+                $model = Medias::findOne($media_id);
+                $model->obj_id = $obj_id;
+                return $model->save();
             }
+
             $model = new Medias();
             $model->obj_id = $obj_id;
             $model->status = Medias::STATUS_USING;

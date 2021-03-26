@@ -94,7 +94,7 @@ class ProductController extends BaseActiveFilterController
                 throw new BadRequestHttpException(HelperFunction::firstError($product));
             }
             //save avatar
-            Medias::saveObj($product->media_id, $product->id, Medias::PRODUCT_TYPE);
+            Medias::saveObj($product->media_id, $product->id, Medias::PRODUCT_TYPE, $product->avatar, $update = true);
             //save archive
             if ($archives) {
                 $archives = array_map(function ($archive) use ($product) {

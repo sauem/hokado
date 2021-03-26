@@ -53,7 +53,7 @@
                         meta_keyword: meta ? meta.meta_keyword : null,
                         meta_description: meta ? meta.meta_description : null
                     });
-                    typeof data.avatar !== 'undefined' ? setDefaultFileList([{
+                    data.avatar ? setDefaultFileList([{
                         uid: data.id,
                         name: data.name,
                         status: 'done',
