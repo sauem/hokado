@@ -9,7 +9,7 @@ use common\helper\HelperFunction;
         <p class="service__desc text-5">
             <?= $model->excerpt ?>
         </p>
-        <a href="<?= HelperFunction::Link(BLOG, $model->slug, $archive->slug) ?>" class="btn btn__secondary">
+        <a href="<?= HelperFunction::Link(BLOG, $model->slug, $model->archive->slug) ?>" class="btn btn__secondary">
             <span><?= Yii::t('app', 'read_more') ?></span>
             <i class="icon-arrow-right"></i>
         </a>
