@@ -7,6 +7,7 @@ use common\helper\HelperFunction;
 $this->title = HelperFunction::getLanguage() == 'vi' ?
     HelperFunction::setting('site_name') :
     HelperFunction::setting('site_name_en');
+Yii::$app->params['footer_type'] = 'light';
 ?>
 
 <!-- Services Section -->
@@ -136,7 +137,7 @@ $this->title = HelperFunction::getLanguage() == 'vi' ?
                             <div class="service-item">
                                 <div class="service__content">
                                     <div class="service__icon">
-                                        <img src="<?= $product->avatar?>" />
+                                        <img src="<?= $product->avatar ?>"/>
                                     </div><!-- /.service__icon -->
                                     <h4 class="service__title text-2"><?= $product->name ?></h4>
                                     <p class="service__desc text-3"><?= $product->excerpt ?> </p>

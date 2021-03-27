@@ -10,7 +10,7 @@ if ($menu) {
     $menuItems = Json::decode(ArrayHelper::getValue($menu, 'items'));
 }
 ?>
-<footer class="footer footer-dark">
+<footer class="footer footer-<?= isset(Yii::$app->params['footer_type']) == 'light' ? 'light' : 'dark' ?>">
     <div class="footer-primary">
         <div class="container">
             <div class="row">
@@ -32,7 +32,9 @@ if ($menu) {
                                         <?php if (!empty($childrens)) {
                                             foreach ($childrens as $children) {
                                                 ?>
-                                                <li><a href="<?= HelperFunction::Link($children['type'], $children) ?>"><?= $children['title'] ?></a></li>
+                                                <li>
+                                                    <a href="<?= HelperFunction::Link($children['type'], $children) ?>"><?= $children['title'] ?></a>
+                                                </li>
                                                 <?php
                                             }
                                         } ?>
