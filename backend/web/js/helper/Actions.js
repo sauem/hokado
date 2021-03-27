@@ -209,6 +209,39 @@ const Banners = {
         }
     }
 }
+const Contacts = {
+    update: async (contact) => {
+        try {
+            const {data} = await Server.put(ROUTE.CONTACT.UPDATE + `?id=${contact.id}`, contact).catch(axiosCatch);
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
+    fetch: async (params) => {
+        try {
+            const res = await Server.get(ROUTE.CONTACT.INDEX, {
+                params: {
+                    ...params,
+                    sort: '-created_at',
+                    "per-page": 20
+                }
+            }).catch(axiosCatch);
+            const {data, headers} = res;
+            const current = headers['x-pagination-current-page'],
+                totalPage = headers['x-pagination-page-count'],
+                pageSize = headers['x-pagination-per-page'],
+                total = headers['x-pagination-total-count'],
+                pagination = {
+                    total, current, pageSize, totalPage
+                };
+            return {data, pagination};
+        } catch (e) {
+            message.error(e.message);
+        }
+    }
+}
+
 const Attributes = {
     create: async (attr) => {
         try {
@@ -448,7 +481,7 @@ const Menu = {
             message.error(e.message);
         }
     },
-    get: async (name,language) => {
+    get: async (name, language) => {
         try {
             const {data} = await Server.get(ROUTE.MENU.DETAIL, {
                 params: {name, language}

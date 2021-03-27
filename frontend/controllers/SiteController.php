@@ -61,11 +61,13 @@ class SiteController extends BaseController
                 'status' => Articles::STATUS_ACTIVE,
                 'language' => HelperFunction::getLanguage()
             ])->limit(6)->orderBy('created_at DESC')->all();
+        $contactForm = new Contact();
         return $this->render('index', [
             'sliders' => $sliders,
             'categories' => $categories,
             'articles' => $articles,
-            'products' => $products
+            'products' => $products,
+            'contactForm' => $contactForm
         ]);
     }
 

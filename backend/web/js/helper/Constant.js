@@ -132,6 +132,13 @@ const ROUTE = {
         UPDATE: 'banner/update',
         DELETE: 'banner/delete'
     },
+    CONTACT: {
+        INDEX: 'contact/index',
+        CREATE: 'contact/create',
+        UPDATE: 'contact/update',
+        DELETE: 'contact/delete',
+        VIEW: 'contact/view'
+    },
     ARTICLE: {
         INDEX: 'article/index',
         CREATE: 'article/create',

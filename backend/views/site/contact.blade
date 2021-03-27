@@ -1,11 +1,79 @@
 @section('js_pos')
     <script type="text/babel">
         const App = () => {
+            const initalState = {
+                modalTitle: '',
+                modalVisible: '',
+                loading: false,
+                briefs: [],
+                uploading: false
+            };
+            const [state, setState] = useState(initalState);
+            const [form] = Form.useForm();
+            const updateSate = async (obj = {}, page = 1) => {
+                setState({
+                    ...state,
+                    ...{
+                        loading: true,
+                    }
+                });
+                const {data, pagination} = await Contacts.fetch(Object.assign({
+                    type: 'contact',
+                    page
+                }, obj));
+                setState({
+                    ...state,
+                    ...Object.assign({
+                        pagination,
+                        loading: false,
+                        modalVisible: false,
+                        briefs: data,
+                    }, obj)
+                });
+                form.resetFields();
+            }
+            useEffect(() => {
+                updateSate();
+            }, []);
             return (
-                <Card title="Danh sách liên hệ">
+                <div>
+                    <Card title={`Briefs request`}>
+                        <Spin spinning={state.loading}>
+                            <Table
+                                dataSource={state.briefs}
+                                rowKey={'id'}
+                                columns={[
+                                    {title: 'Tên', dataIndex: 'name'},
+                                    {
+                                        title: 'Email',
+                                        dataIndex: 'email',
+                                        render: email => <a href={`mailto:${email}`}>{email}</a>
+                                    },
+                                    {
+                                        title: 'Điện thoại',
+                                        dataIndex: 'phone',
+                                        render: phone => <a href={`mailto:${phone}`}>{phone}</a>
+                                    },
+                                    {title: 'Lời nhắn', dataIndex: 'message'},
+                                    {title: 'Trạng thái', dataIndex: 'status'},
+                                    {
+                                        title: 'Hành động', key: 'action', render: raw => {
+                                            return (
+                                                <div>
+                                                    <Button onClick={() => onUpdate(raw)} type="primary"
+                                                            className={`mr-1`} size={`small`}><i
+                                                        className="icon icon-edit"/></Button>
+                                                </div>
+                                            );
+                                        }
+                                    },
+                                ]}
+                            />
+                        </Spin>
+                    </Card>
+                </div>
 
-                </Card>
-            )
+            );
         }
     </script>
 @stop
