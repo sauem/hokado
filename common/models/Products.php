@@ -20,6 +20,7 @@ use yii\web\BadRequestHttpException;
  * @property float|null $default_price
  * @property float|null $default_sale_type
  * @property float|null $default_sale_price
+ * @property int|null $default_archive
  * @property int|null $created_at
  * @property int|null $updated_at
  */
@@ -45,7 +46,7 @@ class Products extends BaseModel
         return [
             [['content', 'attributes'], 'string'],
             [['default_price', 'default_sale_type', 'default_sale_price'], 'number'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at', 'default_archive'], 'integer'],
             [['name', 'slug', 'excerpt'], 'string', 'max' => 255],
             [['status', 'language'], 'string', 'max' => 50],
             [['slug'], 'unique'],
@@ -77,6 +78,7 @@ class Products extends BaseModel
             'language' => 'Ngôn ngữ',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'default_archive' => 'Danh mục mặc định'
         ];
     }
 
@@ -125,6 +127,13 @@ class Products extends BaseModel
         return $this->hasMany(ProductsArchive::className(), [
             'product_id' => 'id'
         ])->with('archive');
+    }
+
+    public function getDefaultArchive()
+    {
+        return $this->hasOne(Archives::className(), [
+            'id' => 'default_archive'
+        ]);
     }
 
     public function getFirstArchive()
