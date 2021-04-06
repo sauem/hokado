@@ -29,7 +29,6 @@ $activeAction = Yii::$app->controller->action->id;
 
                 <!-- Dropdown Link -->
                 <a href="javascript:void(0)" class="dt-avatar-wrapper text-body">
-                    <img class="dt-avatar" src="https://via.placeholder.com/150x150" alt="Domnic Harris">
                     <span class="dt-avatar-info">
 
                     </span>
@@ -39,11 +38,6 @@ $activeAction = Yii::$app->controller->action->id;
             <!-- /dropdown -->
 
             <ul class="dt-list dt-list-xl">
-                <li class="dt-list__item pl-5 pr-5">
-                    <a href="javascript:void(0)" class="dt-list__link">
-                        <i class="icon icon-xl icon-user-o icon-fw "></i>Account</a>
-                </li>
-
                 <li class="dt-list__item pl-5 pr-5">
                     <form method="POST" action="{{\yii\helpers\Url::toRoute(['logout'])}}">
                         <input name="_csrf" type="hidden" value="{{Yii::$app->request->csrfToken}}">

@@ -72,6 +72,16 @@ class HelperFunction
         return "/static$model->path";
     }
 
+    public static function Favicon()
+    {
+        $favicon = static::setting('favicon');
+        $model = Medias::findOne($favicon);
+        if ($model) {
+            return "/static/$model->path";
+        }
+        return '';
+    }
+
     public static function Language($lang = 'vi')
     {
         return \Yii::$app->language == $lang;
@@ -96,7 +106,7 @@ class HelperFunction
                     break;
             }
         }
-        return "/$type/" . ($archive ? $archive . '/' : '' ). $slug;
+        return "/$type/" . ($archive ? $archive . '/' : '') . $slug;
     }
 
     public static function getMenu($name = 'header')

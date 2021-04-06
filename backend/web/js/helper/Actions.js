@@ -218,6 +218,15 @@ const Contacts = {
             message.error(e.message);
         }
     },
+    delete: async (id) => {
+        try {
+            const {data} = await Server.delete(`${ROUTE.CONTACT.DELETE}?id=${id}`).catch(axiosCatch);
+            message.success('Xóa liên hệ thành công!');
+            return data;
+        } catch (e) {
+            message.error(e.message);
+        }
+    },
     fetch: async (params) => {
         try {
             const res = await Server.get(ROUTE.CONTACT.INDEX, {

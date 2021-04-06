@@ -1,11 +1,27 @@
 @section('js_pos')
     <script type="text/babel">
+        let st = {
+            'new': {
+                type: '',
+                label: 'Chờ xử lý'
+            },
+            'in_process': {
+                type: 'warning',
+                label: 'Đang xử lý'
+            },
+            'done': {
+                type: 'success',
+                label: 'Hoàn tất'
+            }
+        }
+
         const App = () => {
             const initalState = {
                 modalTitle: '',
                 modalVisible: '',
                 loading: false,
                 briefs: [],
+                current: {},
                 uploading: false
             };
             const [state, setState] = useState(initalState);
@@ -35,8 +51,77 @@
             useEffect(() => {
                 updateSate();
             }, []);
+            const onUpdate = item => {
+                setState({...state, current: item, modalVisible: true});
+                form.setFieldsValue(item);
+            }
+            const onDelete = async (id) => {
+                try {
+                    const res = await Contacts.delete(id);
+                    await updateSate();
+                    message.success('Cập nhật trạng thái thành công!');
+                } catch (e) {
+                    message.error(e.message);
+                }
+            }
+            const hideModal = () => setState({...state, modalVisible: false})
+            const updateStatus = async (data) => {
+                try {
+                    const res = await Contacts.update(data);
+                    await updateSate();
+                    setState({...state, modalVisible: false, current: {}});
+                    message.success('Cập nhật trạng thái thành công!');
+                } catch (e) {
+                    message.error(e.message);
+                }
+            }
             return (
                 <div>
+                    <Modal
+                        onCancel={hideModal}
+                        visible={state.modalVisible}
+                        footer={[
+                            <Button>Hủy</Button>,
+                            <Button htmlType="submit" form={`contact`}>Lưu</Button>,
+                        ]}
+                        title="Cập nhật trạng thái">
+                        <Form onFinish={updateStatus} id={`contact`} {...{
+                            labelAlign: 'left'
+                        }} form={form}>
+                            <Descriptions bordered column={1}>
+                                <Descriptions.Item label={`Họ tên`}>{state.current.name}</Descriptions.Item>
+                                <Descriptions.Item label={`Email`}>
+                                    <a href={`mailto:${state.current.email}`}>{state.current.email}</a>
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Số điện thoại`}>
+                                    <a href={`tel:${state.current.phone}`}>{state.current.phone}</a>
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Sản phẩm quan tâm`}>
+                                    {state.current.phone}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Thời gian kì vọng`}>
+                                    {state.current.phone}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Quốc gia xuất khẩu`}>
+                                    {state.current.phone}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Phương thức liên hệ`}>
+                                    {state.current.phone}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={`Trạng thái`}>
+                                    <Form.Item hidden name={`id`}><Input/></Form.Item>
+                                    <Form.Item
+                                        name={`status`}>
+                                        <Select>
+                                            <Select.Option value="new">Chưa xử lý</Select.Option>
+                                            <Select.Option value="in_process">Đang xử lý</Select.Option>
+                                            <Select.Option value="done">Hoàn tất</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </Descriptions.Item>
+                            </Descriptions>
+                        </Form>
+                    </Modal>
                     <Card title={`Briefs request`}>
                         <Spin spinning={state.loading}>
                             <Table
@@ -60,7 +145,14 @@
                                     {title: 'Thời gian kỳ vọng(ngày)', dataIndex: 'time_exp'},
                                     {title: 'Quốc gia xuất khẩu', dataIndex: 'export_country'},
                                     {title: 'Phương thức liên hệ', dataIndex: 'contact_pre'},
-                                    {title: 'Trạng thái', dataIndex: 'status'},
+                                    {
+                                        title: 'Trạng thái', dataIndex: 'status', key: 'status', render: stt => {
+                                            return (
+                                                <span
+                                                    className={`badge badge-pill badge-${st[stt].type}`}>{st[stt].label}</span>
+                                            )
+                                        }
+                                    },
                                     {
                                         title: 'Hành động', key: 'action', render: raw => {
                                             return (
@@ -68,6 +160,9 @@
                                                     <Button onClick={() => onUpdate(raw)} type="primary"
                                                             className={`mr-1`} size={`small`}><i
                                                         className="icon icon-edit"/></Button>
+                                                    <Button onClick={() => onDelete(raw.id)} type="danger"
+                                                            className={`mr-1`} size={`small`}><i
+                                                        className="icon icon-trash"/></Button>
                                                 </div>
                                             );
                                         }

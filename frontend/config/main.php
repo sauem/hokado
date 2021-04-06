@@ -28,11 +28,6 @@ return [
                 ],
             ],
         ],
-        'cache' => [
-            #'class' => 'yii\redis\Cache',
-            'class' => 'yii\caching\FileCache',
-            'keyPrefix' => 'usvn_'
-        ],
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => REDIS_HOST,
